@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EBS New Era Policies</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --navy: #0a0f2e;
+      --deep: #060b1f;
+      --gold: #f5c842;
+      --gold2: #e6b02a;
+      --white: #f0f4ff;
+      --soft: #c8d0f0;
+      --accent: #4fa3ff;
+      --red: #ff4d6d;
+      --green: #3ddc97;
+      --card: rgba(255,255,255,0.04);
+      --border: rgba(245,200,66,0.18);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--deep);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ─── STAR BACKGROUND ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 20% 15%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 75% 30%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 40% 70%, rgba(245,200,66,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 85% 60%, rgba(255,255,255,0.35) 0%, transparent 100%),
+        radial-gradient(1px 1px at 10% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 55% 45%, rgba(79,163,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 92% 85%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 30% 55%, rgba(255,255,255,0.25) 0%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── HERO ─── */
+    header {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 20px;
+      overflow: hidden;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0; right: 0;
+      height: 120px;
+      background: linear-gradient(to bottom, transparent, var(--deep));
+      pointer-events: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(ellipse, rgba(245,200,66,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-ring {
+      position: absolute;
+      width: 600px; height: 600px;
+      border: 1px solid rgba(245,200,66,0.08);
+      border-radius: 50%;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      animation: spin 40s linear infinite;
+    }
+    .hero-ring:nth-child(2) {
+      width: 800px; height: 800px;
+      border-color: rgba(79,163,255,0.05);
+      animation-duration: 60s;
+      animation-direction: reverse;
+    }
+
+    @keyframes spin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+
+    .logo-wrap {
+      position: relative;
+      z-index: 2;
+      margin-bottom: 28px;
+      animation: fadeUp 0.9s ease both;
+    }
+
+    .logo-wrap img {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 24px rgba(245,200,66,0.5));
+    }
+
+    .logo-placeholder {
+      width: 110px; height: 110px;
+      background: linear-gradient(135deg, var(--gold), var(--accent));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      color: var(--navy);
+      box-shadow: 0 0 40px rgba(245,200,66,0.4);
+      margin: 0 auto;
+    }
+
+    .era-badge {
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(245,200,66,0.1);
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      padding: 6px 18px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 22px;
+      animation: fadeUp 0.9s 0.1s ease both;
+    }
+
+    .era-badge span { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
+
+    h1 {
+      position: relative;
+      z-index: 2;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 12vw, 9rem);
+      line-height: 0.9;
+      letter-spacing: 0.04em;
+      animation: fadeUp 0.9s 0.2s ease both;
+    }
+
+    h1 .line1 { color: var(--white); display: block; }
+    h1 .line2 {
+      display: block;
+      background: linear-gradient(90deg, var(--gold), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .slogan {
+      position: relative;
+      z-index: 2;
+      margin-top: 24px;
+      font-size: clamp(1rem, 2.5vw, 1.35rem);
+      font-weight: 300;
+      color: var(--soft);
+      letter-spacing: 0.08em;
+      animation: fadeUp 0.9s 0.35s ease both;
+    }
+
+    .slogan strong {
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 40px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.72rem;
+      color: var(--soft);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      animation: fadeIn 1.5s 1s ease both;
+    }
+
+    .scroll-line {
+      width: 1px; height: 50px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollDown 2s ease-in-out infinite;
+    }
+    @keyframes scrollDown {
+      0%,100%{transform:scaleY(1);opacity:1}
+      50%{transform:scaleY(0.6);opacity:0.5}
+    }
+
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(30px); }
+      to { opacity:1; transform:translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity:0; } to { opacity:1; }
+    }
+
+    /* ─── SECTION ─── */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 90px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--border), transparent);
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      line-height: 1;
+      letter-spacing: 0.04em;
+      margin-bottom: 50px;
+      color: var(--white);
+    }
+    .section-title span { color: var(--gold); }
+
+    /* ─── VIDEO SECTION ─── */
+    .video-section {
+      position: relative;
+      z-index: 1;
+      padding: 0 20px 90px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .video-label {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .video-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--border), transparent);
+    }
+
+    .video-wrapper {
+      position: relative;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid rgba(245,200,66,0.2);
+      box-shadow: 0 0 60px rgba(245,200,66,0.08), 0 30px 80px rgba(0,0,0,0.5);
+    }
+
+    .video-wrapper::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 22px;
+      background: linear-gradient(to bottom, transparent 60%, rgba(6,11,31,0.6) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .video-wrapper video {
+      width: 100%;
+      display: block;
+      border-radius: 22px;
+    }
+
+    .video-caption {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--soft);
+      font-weight: 300;
+      letter-spacing: 0.04em;
+    }
+    .video-caption strong { color: var(--gold); font-weight: 600; }
+
+    /* ─── POLICY GRID ─── */
+    .policy-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .policy-card {
+      position: relative;
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 20px;
+      padding: 32px 28px;
+      overflow: hidden;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+    }
+
+    .policy-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--border);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.4), 0 0 0 1px var(--border);
+    }
+
+    .policy-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--card-accent, linear-gradient(90deg, var(--gold), var(--accent)));
+      border-radius: 20px 20px 0 0;
+    }
+
+    .card-glow {
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 150px; height: 150px;
+      border-radius: 50%;
+      background: var(--card-glow, rgba(245,200,66,0.06));
+      pointer-events: none;
+    }
+
+    .card-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      background: var(--icon-bg, rgba(245,200,66,0.12));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+    }
+
+    .card-tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: var(--tag-bg, rgba(245,200,66,0.1));
+      color: var(--tag-color, var(--gold));
+      margin-bottom: 14px;
+    }
+
+    .card-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.65rem;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+      color: var(--white);
+      line-height: 1.1;
+    }
+
+    .card-desc {
+      font-size: 0.9rem;
+      line-height: 1.65;
+      color: var(--soft);
+      font-weight: 300;
+    }
+
+    .card-detail {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      font-size: 0.83rem;
+      color: var(--accent);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ─── E-SPORTS ─── */
+    .esports-section {
+      padding: 90px 20px;
+      background: linear-gradient(180deg, transparent 0%, rgba(79,163,255,0.04) 50%, transparent 100%);
+    }
+
+    .esports-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px;
+      margin-top: 36px;
+    }
+
+    .game-card {
+      background: rgba(79,163,255,0.06);
+      border: 1px solid rgba(79,163,255,0.15);
+      border-radius: 16px;
+      padding: 24px 20px;
+      text-align: center;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .game-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(79,163,255,0.15);
+    }
+
+    .game-emoji { font-size: 2.4rem; display: block; margin-bottom: 12px; }
+    .game-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.06em; color: var(--white); }
+    .game-slots { font-size: 0.78rem; color: var(--accent); margin-top: 6px; font-weight: 600; }
+
+    .esports-values {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 36px;
+    }
+    .value-pill {
+      background: rgba(61,220,151,0.1);
+      border: 1px solid rgba(61,220,151,0.2);
+      border-radius: 40px;
+      padding: 8px 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--green);
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── DIVIDER ─── */
+    .gold-divider {
+      max-width: 1200px;
+      margin: 0 auto;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 60px 20px;
+      color: rgba(200,208,240,0.4);
+      font-size: 0.82rem;
+      letter-spacing: 0.05em;
+    }
+
+    footer .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.1em;
+      background: linear-gradient(90deg, var(--gold), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media(max-width:640px){
+      .policy-grid { grid-template-columns: 1fr; }
+      .games-grid { grid-template-columns: repeat(2,1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<header>
+  <div class="hero-glow"></div>
+  <div class="hero-ring"></div>
+  <div class="hero-ring"></div>
+
+  <div class="logo-wrap">
+    <img src="logo.png" alt="EBS Logo" onerror="this.style.display='none'; document.getElementById('logo-placeholder').style.display='flex';">
+    <div id="logo-placeholder" class="logo-placeholder" style="display:none;">EBS</div>
+  </div>
+
+  <div class="era-badge"><span></span> 2026 – 2027 Academic Year</div>
+
+  <h1>
+    <span class="line1">EBS</span>
+    <span class="line2">New Era</span>
+  </h1>
+
+  <p class="slogan"><strong>Progress Starts Here</strong> &nbsp;·&nbsp; Student Life, Reimagined</p>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Explore Policies
+  </div>
+</header>
+
+<!-- VIDEO INTRODUCTION -->
+<div class="video-section">
+  <div class="video-label">🎬 Introduction</div>
+  <div class="video-wrapper">
+    <video controls playsinline preload="metadata" poster="">
+      <source src="introduction.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <p class="video-caption"><strong>EBS New Era</strong> — Official Introduction Video · 2026–2027</p>
+</div>
+
+<!-- POLICIES -->
+<section>
+  <div class="section-label">🎯 Student Engagement Policies</div>
+  <h2 class="section-title">What's <span>New</span> at EBS</h2>
+
+  <div class="policy-grid">
+
+    <!-- Dance Connect -->
+    <div class="policy-card" style="--card-accent: linear-gradient(90deg,#ff6eb4,#ff4d6d); --card-glow: rgba(255,77,109,0.07); --icon-bg: rgba(255,109,180,0.12); --tag-bg: rgba(255,77,109,0.1); --tag-color:#ff6eb4;">
+      <div class="card-glow"></div>
+      <div class="card-icon">💃</div>
+      <div class="card-tag">Every Tuesday</div>
+      <div class="card-title">EBS Dance Connect</div>
+      <p class="card-desc">Students and teachers come together to film fun, school-appropriate TikTok dance videos during break or activity time at the library.</p>
+      <div class="card-detail">📍 Library &nbsp;·&nbsp; Break / Activity Time</div>
+    </div>
+
+    <!-- Lunch Football -->
+    <div class="policy-card" style="--card-accent: linear-gradient(90deg,#3ddc97,#00b894); --card-glow: rgba(61,220,151,0.07); --icon-bg: rgba(61,220,151,0.12); --tag-bg: rgba(61,220,151,0.1); --tag-color:#3ddc97;">
+      <div class="card-glow"></div>
+      <div class="card-icon">⚽</div>
+      <div class="card-tag">Every Thursday</div>
+      <div class="card-title">EBS Lunch Football</div>
+      <p class="card-desc">A weekly lunchtime football session for students to play, relax, and compete in friendly matches — complete with a live leaderboard!</p>
+      <div class="card-detail">🏆 Leaderboard &nbsp;·&nbsp; Lunchtime</div>
+    </div>
+
+    <!-- International Lunch -->
+    <div class="policy-card" style="--card-accent: linear-gradient(90deg,#f5c842,#e6b02a); --card-glow: rgba(245,200,66,0.07); --icon-bg: rgba(245,200,66,0.12); --tag-bg: rgba(245,200,66,0.1); --tag-color:#f5c842;">
+      <div class="card-glow"></div>
+      <div class="card-icon">🌏</div>
+      <div class="card-tag">Every Friday</div>
+      <div class="card-title">Friday International Lunch Voting</div>
+      <p class="card-desc">Students vote for special weekly lunch themes — Korean, Japanese, Western, Thai, and more — making lunchtime a global adventure.</p>
+      <div class="card-detail">🗳️ Student Vote &nbsp;·&nbsp; Lunchtime</div>
+    </div>
+
+    <!-- Talent Showcase -->
+    <div class="policy-card" style="--card-accent: linear-gradient(90deg,#b980ff,#7c4dff); --card-glow: rgba(185,128,255,0.07); --icon-bg: rgba(185,128,255,0.12); --tag-bg: rgba(185,128,255,0.1); --tag-color:#b980ff;">
+      <div class="card-glow"></div>
+      <div class="card-icon">🌟</div>
+      <div class="card-tag">Special Events</div>
+      <div class="card-title">Talent Showcase Tuesday</div>
+      <p class="card-desc">A performance stage for every student — singing, dancing, instruments, art, poetry, and more. Your talent deserves the spotlight.</p>
+      <div class="card-detail">🎤 Open to All Talents</div>
+    </div>
+
+    <!-- Feedback QR -->
+    <div class="policy-card" style="--card-accent: linear-gradient(90deg,#4fa3ff,#0984e3); --card-glow: rgba(79,163,255,0.07); --icon-bg: rgba(79,163,255,0.12); --tag-bg: rgba(79,163,255,0.1); --tag-color:#4fa3ff;">
+      <div class="card-glow"></div>
+      <div class="card-icon">📱</div>
+      <div class="card-tag">Always Open</div>
+      <div class="card-title">Student Feedback QR System</div>
+      <p class="card-desc">QR codes placed around school let students instantly submit ideas, activity requests, suggestions, or improvement feedback via quick online forms.</p>
+      <div class="card-detail">📌 Info Room &amp; Common Areas</div>
+    </div>
+
+    <!-- Subject Highlight -->
+    <div class="policy-card" style="--card-accent: linear-gradient(90deg,#fd9644,#e67e22); --card-glow: rgba(253,150,68,0.07); --icon-bg: rgba(253,150,68,0.12); --tag-bg: rgba(253,150,68,0.1); --tag-color:#fd9644;">
+      <div class="card-glow"></div>
+      <div class="card-icon">📚</div>
+      <div class="card-tag">Weekly</div>
+      <div class="card-title">EBS Subject Progress Highlight</div>
+      <p class="card-desc">Subject teachers recognise one student per week for outstanding effort, improvement, or contribution — celebrating progress in every classroom.</p>
+      <div class="card-detail">✨ 1 Student Per Class Per Week</div>
+    </div>
+
+    <!-- Music Choice -->
+    <div class="policy-card" style="--card-accent: linear-gradient(90deg,#ff6eb4,#b980ff); --card-glow: rgba(185,128,255,0.07); --icon-bg: rgba(185,128,255,0.12); --tag-bg: rgba(255,110,180,0.1); --tag-color:#ff6eb4;">
+      <div class="card-glow"></div>
+      <div class="card-icon">🎵</div>
+      <div class="card-tag">Vote Anytime</div>
+      <div class="card-title">EBS Music Choice</div>
+      <p class="card-desc">Students vote on playlists and music for lunch, events, and sports activities — making every school experience more vibrant and interactive.</p>
+      <div class="card-detail">🎶 Lunch · Events · Sports</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- E-SPORTS -->
+<div class="esports-section">
+  <div class="esports-inner">
+    <div class="section-label">🎮 Competitive Gaming</div>
+    <h2 class="section-title">E-Sport <span>Launch</span></h2>
+    <p style="color:var(--soft); font-size:0.98rem; line-height:1.7; max-width:640px; font-weight:300; margin-bottom:8px;">
+      Every <strong style="color:var(--accent)">Monday &amp; Wednesday</strong> — promoting teamwork, strategy, leadership, and positive competition through organised gaming. Students must demonstrate good behaviour, teamwork, and sportsmanship in weekly matches and school tournaments.
+    </p>
+
+    <div class="games-grid">
+      <div class="game-card">
+        <span class="game-emoji">🟥</span>
+        <div class="game-name">Roblox Rivals</div>
+        <div class="game-slots">3 students / class / week</div>
+      </div>
+      <div class="game-card">
+        <span class="game-emoji">🔥</span>
+        <div class="game-name">Free Fire</div>
+        <div class="game-slots">2 students / class / week</div>
+      </div>
+      <div class="game-card">
+        <span class="game-emoji">⚽</span>
+        <div class="game-name">E-Football</div>
+        <div class="game-slots">Weekly matches</div>
+      </div>
+      <div class="game-card">
+        <span class="game-emoji">🌟</span>
+        <div class="game-name">Brawl Stars</div>
+        <div class="game-slots">Weekly matches</div>
+      </div>
+      <div class="game-card">
+        <span class="game-emoji">👑</span>
+        <div class="game-name">Clash Royale</div>
+        <div class="game-slots">Weekly matches</div>
+      </div>
+    </div>
+
+    <div class="esports-values">
+      <div class="value-pill">🤝 Teamwork</div>
+      <div class="value-pill">🧠 Strategy</div>
+      <div class="value-pill">🏅 Leadership</div>
+      <div class="value-pill">🎖️ Sportsmanship</div>
+      <div class="value-pill">🏆 Positive Competition</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">EBS New Era</div>
+  <p style="margin-bottom:6px;">Progress Starts Here</p>
+  <p style="font-size:0.75rem;">© 2026 – 2027 EBS · All Policies Subject to School Guidelines</p>
+</footer>
+
+</body>
+</html>
