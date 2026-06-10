@@ -722,6 +722,48 @@
       color: var(--red);
     }
 
+    /* ─── FULLSCREEN MODE ─── */
+    .music-float:fullscreen,
+    .music-float:-webkit-full-screen {
+      width: 100vw;
+      height: 100vh;
+      border-radius: 0;
+      border: none;
+      bottom: 0;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .music-float:fullscreen .music-float-header,
+    .music-float:-webkit-full-screen .music-float-header {
+      border-radius: 0;
+    }
+
+    .music-float:fullscreen .music-float-body,
+    .music-float:-webkit-full-screen .music-float-body {
+      flex: 1;
+      aspect-ratio: unset;
+    }
+
+    .music-float:fullscreen .music-controls,
+    .music-float:-webkit-full-screen .music-controls {
+      padding: 12px 24px;
+      gap: 12px;
+    }
+
+    .music-float:fullscreen .music-controls .music-btn svg,
+    .music-float:-webkit-full-screen .music-controls .music-btn svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .music-float:fullscreen .music-controls .music-play-btn svg,
+    .music-float:-webkit-full-screen .music-controls .music-play-btn svg {
+      width: 28px;
+      height: 28px;
+    }
+
     @media(max-width:480px){
       .music-float {
         width: 280px;
@@ -960,7 +1002,8 @@
     </div>
     <!-- Fullscreen -->
     <button class="music-btn" id="btnFullscreen" aria-label="Fullscreen">
-      <svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+      <svg id="iconEnterFS" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+      <svg id="iconExitFS" viewBox="0 0 24 24" style="display:none"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>
     </button>
   </div>
   <div class="music-status-text" id="musicStatus">🎶 Click play to start the vibe</div>
@@ -1070,14 +1113,28 @@
     }
   });
 
-  // Fullscreen
+  // Fullscreen - apply to the entire widget so controls stay visible
   document.getElementById('btnFullscreen').addEventListener('click', function(e) {
     e.stopPropagation();
-    var iframe = document.getElementById('ytPlayer');
-    if (iframe.requestFullscreen) iframe.requestFullscreen();
-    else if (iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen();
-    else if (iframe.msRequestFullscreen) iframe.msRequestFullscreen();
+    var widget = document.getElementById('musicFloat');
+    if (document.fullscreenElement || document.webkitFullscreenElement) {
+      if (document.exitFullscreen) document.exitFullscreen();
+      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+    } else {
+      if (widget.requestFullscreen) widget.requestFullscreen();
+      else if (widget.webkitRequestFullscreen) widget.webkitRequestFullscreen();
+      else if (widget.msRequestFullscreen) widget.msRequestFullscreen();
+    }
   });
+
+  // Update fullscreen icon on change
+  document.addEventListener('fullscreenchange', updateFSIcon);
+  document.addEventListener('webkitfullscreenchange', updateFSIcon);
+  function updateFSIcon() {
+    var isFS = !!(document.fullscreenElement || document.webkitFullscreenElement);
+    document.getElementById('iconEnterFS').style.display = isFS ? 'none' : 'block';
+    document.getElementById('iconExitFS').style.display = isFS ? 'block' : 'none';
+  }
 
   // Toggle collapse
   document.getElementById('musicHeader').addEventListener('click', function() {
