@@ -989,7 +989,7 @@
   </div>
   <div class="music-float-body">
     <iframe id="ytPlayer"
-      src="https://www.youtube.com/embed/32NgURSxXbU?enablejsapi=1&loop=1&playlist=32NgURSxXbU&rel=0&modestbranding=1&controls=0&showinfo=0&iv_load_policy=3"
+      src="https://www.youtube.com/embed/32NgURSxXbU?enablejsapi=1&loop=1&playlist=32NgURSxXbU&rel=0&modestbranding=1&controls=0&showinfo=0&iv_load_policy=3&vq=hd1080"
       allow="autoplay; encrypted-media; fullscreen"
       allowfullscreen>
     </iframe>
@@ -1042,6 +1042,7 @@
 
   function onBgPlayerReady() {
     bgPlayer.setVolume(80);
+    bgPlayer.setPlaybackQuality('hd1080');
   }
 
   function onBgPlayerStateChange(event) {
@@ -1142,6 +1143,9 @@
     var isFS = !!(document.fullscreenElement || document.webkitFullscreenElement);
     document.getElementById('iconEnterFS').style.display = isFS ? 'none' : 'block';
     document.getElementById('iconExitFS').style.display = isFS ? 'block' : 'none';
+    if (isFS && bgPlayer && typeof bgPlayer.setPlaybackQuality === 'function') {
+      bgPlayer.setPlaybackQuality('hd1080');
+    }
   }
 
   // Toggle collapse
