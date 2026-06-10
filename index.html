@@ -779,6 +779,180 @@
         right: 12px;
       }
     }
+
+    /* ─── SCHEDULE MODAL ─── */
+    .schedule-btn {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      z-index: 9998;
+      background: rgba(10,15,46,0.92);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(245,200,66,0.25);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5), 0 0 20px rgba(245,200,66,0.1);
+      color: var(--white);
+      padding: 12px 20px;
+      border-radius: 40px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    .schedule-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 0 30px rgba(245,200,66,0.2);
+      background: rgba(15,22,60,0.95);
+    }
+    .schedule-btn .icon {
+      font-size: 1.2rem;
+    }
+
+    .schedule-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: rgba(6,11,31,0.8);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      padding: 20px;
+    }
+    .schedule-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .schedule-content {
+      background: linear-gradient(145deg, rgba(16,24,60,0.95), rgba(10,15,46,0.95));
+      border: 1px solid var(--border);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.8), 0 0 40px rgba(245,200,66,0.15);
+      border-radius: 24px;
+      width: 100%;
+      max-width: 500px;
+      padding: 36px 30px;
+      transform: translateY(30px) scale(0.95);
+      transition: transform 0.4s cubic-bezier(.4,0,.2,1);
+      position: relative;
+    }
+    .schedule-modal.open .schedule-content {
+      transform: translateY(0) scale(1);
+    }
+
+    .schedule-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      color: var(--white);
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .schedule-close:hover {
+      background: rgba(255,77,109,0.2);
+      border-color: rgba(255,77,109,0.4);
+      color: var(--red);
+      transform: rotate(90deg);
+    }
+
+    .schedule-title {
+      font-family: 'Bebas Neue', Impact, sans-serif;
+      font-size: 2.2rem;
+      color: var(--gold);
+      margin-bottom: 6px;
+      letter-spacing: 0.05em;
+    }
+    .schedule-subtitle {
+      font-size: 0.9rem;
+      color: var(--soft);
+      margin-bottom: 24px;
+    }
+
+    .schedule-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .schedule-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 14px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+    .schedule-item:hover {
+      background: rgba(255,255,255,0.06);
+    }
+    .schedule-date {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .schedule-loc {
+      font-size: 0.95rem;
+      color: var(--white);
+      font-weight: 400;
+      line-height: 1.4;
+    }
+    .schedule-tag {
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+    }
+    .tag-today {
+      background: rgba(61,220,151,0.2);
+      color: var(--green);
+      border: 1px solid rgba(61,220,151,0.4);
+    }
+    .tag-tomorrow {
+      background: rgba(245,200,66,0.2);
+      color: var(--gold);
+      border: 1px solid rgba(245,200,66,0.4);
+    }
+
+    @media(max-width:480px){
+      .schedule-btn {
+        bottom: 12px;
+        left: 12px;
+        padding: 10px 16px;
+        font-size: 0.8rem;
+      }
+    }
+      .music-float {
+        width: 280px;
+        bottom: 12px;
+        right: 12px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1198,6 +1372,77 @@
       }
     });
   }
+</script>
+
+<!-- SCHEDULE SYSTEM -->
+<button class="schedule-btn" id="openScheduleBtn">
+  <span class="icon">🗓️</span> Campaign Schedule
+</button>
+
+<div class="schedule-modal" id="scheduleModal">
+  <div class="schedule-content">
+    <button class="schedule-close" id="closeScheduleBtn">×</button>
+    <div class="schedule-title">Party 61 Schedule</div>
+    <div class="schedule-subtitle">EBS New Era Campaign Locations</div>
+    <ul class="schedule-list" id="scheduleList">
+      <!-- Injected via JS -->
+    </ul>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // Campaign schedule for Party 61
+    const scheduleData = [
+      { dateStr: '2026-06-02', displayDate: '2 Jun 26', location: 'Location 1: Under the Primary School Building' },
+      { dateStr: '2026-06-05', displayDate: '5 Jun 26', location: 'Location 3: Drive Area (Field)' },
+      { dateStr: '2026-06-09', displayDate: '9 Jun 26', location: 'Location 2: Under the Drive Building' },
+      { dateStr: '2026-06-10', displayDate: '10 Jun 26', location: 'Location 1: Under the Primary School Building' },
+      { dateStr: '2026-06-16', displayDate: '16 Jun 26', location: 'Location 3: Drive Area (Field)' },
+      { dateStr: '2026-06-17', displayDate: '17 Jun 26', location: 'Location 2: Under the Drive Building' }
+    ];
+
+    const listEl = document.getElementById('scheduleList');
+    
+    // Calculate today and tomorrow dates
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    scheduleData.forEach(item => {
+      // Parse schedule date
+      const parts = item.dateStr.split('-');
+      const itemDate = new Date(parts[0], parts[1] - 1, parts[2]);
+      itemDate.setHours(0,0,0,0);
+
+      let tagHtml = '';
+      if (itemDate.getTime() === today.getTime()) {
+        tagHtml = '<span class="schedule-tag tag-today">(Today)</span>';
+      } else if (itemDate.getTime() === tomorrow.getTime()) {
+        tagHtml = '<span class="schedule-tag tag-tomorrow">(Tomorrow)</span>';
+      }
+
+      const li = document.createElement('li');
+      li.className = 'schedule-item';
+      li.innerHTML = `
+        <div class="schedule-date">📅 ${item.displayDate} ${tagHtml}</div>
+        <div class="schedule-loc">📍 ${item.location}</div>
+      `;
+      listEl.appendChild(li);
+    });
+
+    // Modal Logic
+    const modal = document.getElementById('scheduleModal');
+    const openBtn = document.getElementById('openScheduleBtn');
+    const closeBtn = document.getElementById('closeScheduleBtn');
+
+    openBtn.addEventListener('click', () => modal.classList.add('open'));
+    closeBtn.addEventListener('click', () => modal.classList.remove('open'));
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('open');
+    });
+  })();
 </script>
 
 </body>
