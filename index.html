@@ -609,31 +609,122 @@
       width: 100%;
       aspect-ratio: 16/9;
       overflow: hidden;
+      background: #000;
     }
 
     .music-float-body iframe {
       width: 100%;
       height: 100%;
       border: none;
+      pointer-events: none;
     }
 
-    .music-float-status {
-      padding: 8px 14px;
-      font-size: 0.72rem;
+    /* ─── CUSTOM CONTROLS ─── */
+    .music-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      background: rgba(6,11,31,0.95);
+      border-top: 1px solid rgba(245,200,66,0.1);
+    }
+
+    .music-btn {
+      background: none;
+      border: none;
+      color: var(--soft);
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s, background 0.2s;
+      font-size: 1rem;
+      line-height: 1;
+    }
+    .music-btn:hover {
+      color: var(--gold);
+      background: rgba(245,200,66,0.1);
+    }
+    .music-btn.active {
+      color: var(--gold);
+    }
+
+    .music-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    .music-play-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .music-vol-wrap {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .music-vol-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      flex: 1;
+      height: 4px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.12);
+      outline: none;
+      cursor: pointer;
+      min-width: 50px;
+    }
+    .music-vol-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--gold);
+      cursor: pointer;
+      box-shadow: 0 0 6px rgba(245,200,66,0.4);
+      transition: transform 0.15s;
+    }
+    .music-vol-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.3);
+    }
+    .music-vol-slider::-moz-range-thumb {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--gold);
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 0 6px rgba(245,200,66,0.4);
+    }
+
+    .music-status-text {
+      padding: 5px 12px;
+      font-size: 0.7rem;
       color: var(--soft);
       background: rgba(0,0,0,0.3);
       text-align: center;
       letter-spacing: 0.06em;
       transition: color 0.3s;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .music-float-status.paused-by-video {
+    .music-status-text.paused-by-video {
       color: var(--red);
     }
 
     @media(max-width:480px){
       .music-float {
-        width: 260px;
+        width: 280px;
         bottom: 12px;
         right: 12px;
       }
@@ -830,12 +921,31 @@
   </div>
   <div class="music-float-body">
     <iframe id="ytPlayer"
-      src="https://www.youtube.com/embed/32NgURSxXbU?enablejsapi=1&loop=1&playlist=32NgURSxXbU&rel=0&modestbranding=1"
-      allow="autoplay; encrypted-media"
+      src="https://www.youtube.com/embed/32NgURSxXbU?enablejsapi=1&loop=1&playlist=32NgURSxXbU&rel=0&modestbranding=1&controls=0&showinfo=0&iv_load_policy=3"
+      allow="autoplay; encrypted-media; fullscreen"
       allowfullscreen>
     </iframe>
   </div>
-  <div class="music-float-status" id="musicStatus">🎶 Click play to start the vibe</div>
+  <div class="music-controls">
+    <!-- Play/Pause -->
+    <button class="music-btn music-play-btn" id="btnPlay" aria-label="Play">
+      <svg id="iconPlay" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+      <svg id="iconPause" viewBox="0 0 24 24" style="display:none"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg>
+    </button>
+    <!-- Volume -->
+    <div class="music-vol-wrap">
+      <button class="music-btn" id="btnMute" aria-label="Mute">
+        <svg id="iconVol" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path id="volWave" d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+        <svg id="iconMute" viewBox="0 0 24 24" style="display:none"><path d="M3 9v6h4l5 5V4L7 9H3z"/><line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="2"/><line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="2"/></svg>
+      </button>
+      <input type="range" class="music-vol-slider" id="volSlider" min="0" max="100" value="80">
+    </div>
+    <!-- Fullscreen -->
+    <button class="music-btn" id="btnFullscreen" aria-label="Fullscreen">
+      <svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+    </button>
+  </div>
+  <div class="music-status-text" id="musicStatus">🎶 Click play to start the vibe</div>
 </div>
 
 <!-- YouTube IFrame API -->
@@ -849,27 +959,40 @@
   var bgPlayer;
   var bgWasPlaying = false;
   var pausedByIntroVideo = false;
+  var isMuted = false;
+  var lastVolume = 80;
 
   function onYouTubeIframeAPIReady() {
     bgPlayer = new YT.Player('ytPlayer', {
       events: {
+        'onReady': onBgPlayerReady,
         'onStateChange': onBgPlayerStateChange
       }
     });
   }
 
+  function onBgPlayerReady() {
+    bgPlayer.setVolume(80);
+  }
+
   function onBgPlayerStateChange(event) {
     var eq = document.getElementById('musicEq');
     var status = document.getElementById('musicStatus');
+    var iconPlay = document.getElementById('iconPlay');
+    var iconPause = document.getElementById('iconPause');
 
     if (event.data === YT.PlayerState.PLAYING) {
       eq.classList.remove('paused');
+      iconPlay.style.display = 'none';
+      iconPause.style.display = 'block';
       if (!pausedByIntroVideo) {
         status.textContent = '🎶 Now playing...';
         status.classList.remove('paused-by-video');
       }
     } else {
       eq.classList.add('paused');
+      iconPlay.style.display = 'block';
+      iconPause.style.display = 'none';
       if (event.data === YT.PlayerState.PAUSED && !pausedByIntroVideo) {
         status.textContent = '⏸ Paused';
         status.classList.remove('paused-by-video');
@@ -877,9 +1000,75 @@
     }
   }
 
+  // Play / Pause
+  document.getElementById('btnPlay').addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (!bgPlayer || typeof bgPlayer.getPlayerState !== 'function') return;
+    var state = bgPlayer.getPlayerState();
+    if (state === YT.PlayerState.PLAYING) {
+      bgPlayer.pauseVideo();
+    } else {
+      bgPlayer.playVideo();
+    }
+  });
+
+  // Volume slider
+  document.getElementById('volSlider').addEventListener('input', function(e) {
+    e.stopPropagation();
+    if (!bgPlayer || typeof bgPlayer.setVolume !== 'function') return;
+    var vol = parseInt(this.value);
+    bgPlayer.setVolume(vol);
+    lastVolume = vol;
+    if (vol === 0) {
+      bgPlayer.mute();
+      isMuted = true;
+      document.getElementById('iconVol').style.display = 'none';
+      document.getElementById('iconMute').style.display = 'block';
+    } else {
+      if (isMuted) { bgPlayer.unMute(); isMuted = false; }
+      document.getElementById('iconVol').style.display = 'block';
+      document.getElementById('iconMute').style.display = 'none';
+    }
+  });
+
+  // Mute toggle
+  document.getElementById('btnMute').addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (!bgPlayer || typeof bgPlayer.mute !== 'function') return;
+    if (isMuted) {
+      bgPlayer.unMute();
+      isMuted = false;
+      document.getElementById('iconVol').style.display = 'block';
+      document.getElementById('iconMute').style.display = 'none';
+      document.getElementById('volSlider').value = lastVolume || 80;
+      bgPlayer.setVolume(lastVolume || 80);
+    } else {
+      lastVolume = bgPlayer.getVolume();
+      bgPlayer.mute();
+      isMuted = true;
+      document.getElementById('iconVol').style.display = 'none';
+      document.getElementById('iconMute').style.display = 'block';
+      document.getElementById('volSlider').value = 0;
+    }
+  });
+
+  // Fullscreen
+  document.getElementById('btnFullscreen').addEventListener('click', function(e) {
+    e.stopPropagation();
+    var iframe = document.getElementById('ytPlayer');
+    if (iframe.requestFullscreen) iframe.requestFullscreen();
+    else if (iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen();
+    else if (iframe.msRequestFullscreen) iframe.msRequestFullscreen();
+  });
+
   // Toggle collapse
   document.getElementById('musicHeader').addEventListener('click', function() {
     document.getElementById('musicFloat').classList.toggle('collapsed');
+  });
+
+  // Prevent controls from triggering collapse
+  document.querySelector('.music-controls').addEventListener('click', function(e) {
+    e.stopPropagation();
   });
 
   // Introduction video integration
