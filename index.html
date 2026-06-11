@@ -1488,18 +1488,15 @@
 </div>
 
 <script>
-  (function() {
+  (async function() {
     // Campaign schedule for Party 61
-    const scheduleData = [
-      { dateStr: '2026-06-02', displayDate: '2 Jun 26', location: 'Location 1: Under the Primary School Building<br><span style="font-size:0.88em; opacity:0.8; margin-top:2px; display:inline-block;">ใต้อาคารเรียนประถม</span>' },
-      { dateStr: '2026-06-05', displayDate: '5 Jun 26', location: 'Location 3: Drive Area (Field)<br><span style="font-size:0.88em; opacity:0.8; margin-top:2px; display:inline-block;">บริเวณลานไดรฟ์ (สนาม)</span>' },
-      { dateStr: '2026-06-09', displayDate: '9 Jun 26', location: 'Location 2: Under the Drive Building<br><span style="font-size:0.88em; opacity:0.8; margin-top:2px; display:inline-block;">ใต้อาคารไดรฟ์</span>' },
-      { dateStr: '2026-06-10', displayDate: '10 Jun 26', location: 'Location 1: Under the Primary School Building<br><span style="font-size:0.88em; opacity:0.8; margin-top:2px; display:inline-block;">ใต้อาคารเรียนประถม</span>' },
-      { dateStr: '2026-06-11', displayDate: '11 Jun 26', location: '🎤 Debate Day<br><span style="font-size:0.88em; opacity:0.8; margin-top:2px; display:inline-block;">วันดีเบต</span>' },
-      { dateStr: '2026-06-16', displayDate: '16 Jun 26', location: 'Location 3: Drive Area (Field)<br><span style="font-size:0.88em; opacity:0.8; margin-top:2px; display:inline-block;">บริเวณลานไดรฟ์ (สนาม)</span>' },
-      { dateStr: '2026-06-17', displayDate: '17 Jun 26', location: 'Location 2: Under the Drive Building<br><span style="font-size:0.88em; opacity:0.8; margin-top:2px; display:inline-block;">ใต้อาคารไดรฟ์</span>' },
-      { dateStr: '2026-06-18', displayDate: '18 Jun 26', location: '🏆 Finale Debate<br><span style="font-size:0.88em; opacity:0.8; margin-top:2px; display:inline-block;">ดีเบตรอบสุดท้าย</span>' }
-    ];
+    let scheduleData = [];
+    try {
+      const response = await fetch('table.json');
+      scheduleData = await response.json();
+    } catch (e) {
+      console.error('Failed to fetch schedule data:', e);
+    }
 
     const listEl = document.getElementById('scheduleList');
     
