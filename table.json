@@ -2,41 +2,95 @@
   {
     "dateStr": "2026-06-02",
     "displayDate": "2 Jun 26",
-    "location": "Location 1: Under the Primary School Building<br><span style=\"font-size:0.88em; opacity:0.8; margin-top:2px; display:inline-block;\">ใต้อาคารเรียนประถม</span>"
+    "location": "Location 1: Under the Primary School Building",
+    "locationThai": "ใต้อาคารเรียนประถม",
+    "group": "Party 61: EBS New Era"
+  },
+  {
+    "dateStr": "2026-06-04",
+    "displayDate": "4 Jun 26",
+    "location": "วันดีเบต",
+    "locationThai": "วันดีเบต",
+    "group": "Party 61: EBS New Era",
+    "isSpecialEvent": true
   },
   {
     "dateStr": "2026-06-05",
     "displayDate": "5 Jun 26",
-    "location": "Location 3: Drive Area (Field)<br><span style=\"font-size:0.88em; opacity:0.8; margin-top:2px; display:inline-block;\">บริเวณลานไดรฟ์ (สนาม)</span>"
+    "location": "พายเนื้อที่ K3",
+    "locationThai": "พายเนื้อที่ K3",
+    "group": "Party 61: EBS New Era"
   },
   {
     "dateStr": "2026-06-09",
     "displayDate": "9 Jun 26",
-    "location": "Location 2: Under the Drive Building<br><span style=\"font-size:0.88em; opacity:0.8; margin-top:2px; display:inline-block;\">ใต้อาคารไดรฟ์</span>"
+    "location": "Location 3: Drive Area (Field)",
+    "locationThai": "บริเวณลานไดรฟ์ (สนาม)",
+    "group": "Party 61: EBS New Era"
   },
   {
     "dateStr": "2026-06-10",
     "displayDate": "10 Jun 26",
-    "location": "Location 1: Under the Primary School Building<br><span style=\"font-size:0.88em; opacity:0.8; margin-top:2px; display:inline-block;\">ใต้อาคารเรียนประถม</span>"
+    "location": "Location 2: Under the Drive Building",
+    "locationThai": "ใต้อาคารไดรฟ์",
+    "group": "Party 61: EBS New Era"
   },
   {
     "dateStr": "2026-06-11",
     "displayDate": "11 Jun 26",
-    "location": "🎤 Debate Day<br><span style=\"font-size:0.88em; opacity:0.8; margin-top:2px; display:inline-block;\">วันดีเบต</span>"
+    "location": "🎤 Debate Day",
+    "locationThai": "วันดีเบต",
+    "group": "Party 61: EBS New Era",
+    "isSpecialEvent": true
+  },
+  {
+    "dateStr": "2026-06-12",
+    "displayDate": "12 Jun 26",
+    "location": "พายเนื้อที่ K3",
+    "locationThai": "พายเนื้อที่ K3",
+    "group": "Party 61: EBS New Era"
   },
   {
     "dateStr": "2026-06-16",
     "displayDate": "16 Jun 26",
-    "location": "Location 3: Drive Area (Field)<br><span style=\"font-size:0.88em; opacity:0.8; margin-top:2px; display:inline-block;\">บริเวณลานไดรฟ์ (สนาม)</span>"
+    "location": "Location 1: Under the Primary School Building",
+    "locationThai": "ใต้อาคารเรียนประถม",
+    "group": "Party 61: EBS New Era"
   },
   {
     "dateStr": "2026-06-17",
     "displayDate": "17 Jun 26",
-    "location": "Location 2: Under the Drive Building<br><span style=\"font-size:0.88em; opacity:0.8; margin-top:2px; display:inline-block;\">ใต้อาคารไดรฟ์</span>"
+    "location": "Location 3: Drive Area (Field)",
+    "locationThai": "บริเวณลานไดรฟ์ (สนาม)",
+    "group": "Party 61: EBS New Era"
   },
   {
     "dateStr": "2026-06-18",
     "displayDate": "18 Jun 26",
-    "location": "🏆 Finale Debate<br><span style=\"font-size:0.88em; opacity:0.8; margin-top:2px; display:inline-block;\">ดีเบตรอบสุดท้าย</span>"
+    "location": "🏆 Finale Debate",
+    "locationThai": "ดีเบตรอบสุดท้าย",
+    "group": "Party 61: EBS New Era",
+    "isSpecialEvent": true
+  },
+  {
+    "dateStr": "2026-06-19",
+    "displayDate": "19 Jun 26",
+    "location": "พายเนื้อที่ K3",
+    "locationThai": "พายเนื้อที่ K3",
+    "group": "Party 61: EBS New Era"
+  },
+  {
+    "dateStr": "2026-06-22",
+    "displayDate": "22 Jun 26",
+    "location": "Location 2: Under the Drive Building",
+    "locationThai": "ใต้อาคารไดรฟ์",
+    "group": "Party 61: EBS New Era"
+  },
+  {
+    "dateStr": "2026-06-23",
+    "displayDate": "23 Jun 26",
+    "location": "Location 1: Under the Primary School Building",
+    "locationThai": "ใต้อาคารเรียนประถม",
+    "group": "Party 61: EBS New Era"
   }
 ]
