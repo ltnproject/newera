@@ -408,6 +408,70 @@
         .error-state a { color: var(--accent-orange); text-decoration: none; font-weight: 600; }
         .error-state a:hover { text-decoration: underline; }
 
+        /* ==================== TABS ==================== */
+        .tab-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 32px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 6px;
+            width: fit-content;
+        }
+
+        .tab-btn {
+            padding: 10px 28px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            color: var(--text-muted);
+            background: transparent;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--accent-orange) 0%, #ff7a00 100%);
+            color: white;
+            box-shadow: 0 4px 14px rgba(255, 140, 0, 0.35);
+        }
+
+        .tab-btn:not(.active):hover {
+            background: rgba(255,255,255,0.07);
+            color: var(--text-light);
+        }
+
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        /* ==================== IFRAME PANEL ==================== */
+        .sheet-iframe-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .sheet-iframe-card h2 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-light);
+        }
+
+        .sheet-iframe-card iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 10px;
+            background: white;
+        }
+
         /* ==================== RESPONSIVE ==================== */
         @media (max-width: 768px) {
             .header { flex-direction: column; align-items: flex-start; }
@@ -416,6 +480,7 @@
             .stats-grid, .charts-section { grid-template-columns: 1fr; }
             .chart-container { height: 250px; }
             .login-card { padding: 40px 24px; }
+            .sheet-iframe-card iframe { height: 400px; }
         }
     </style>
 </head>
@@ -460,61 +525,78 @@
             </div>
         </div>
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-label">Total Votes</div>
-                <div class="stat-value" id="totalVotes">0</div>
-                <div class="stat-subtitle">responses collected</div>
+        <!-- TAB BAR -->
+        <div class="tab-bar">
+            <button class="tab-btn active" id="tabBtnCharts" onclick="switchTab('charts')">📊 Dashboard</button>
+            <button class="tab-btn" id="tabBtnSheet" onclick="switchTab('sheet')">📋 Raw Sheet</button>
+        </div>
+
+        <!-- TAB: CHARTS / DASHBOARD -->
+        <div class="tab-panel active" id="tabCharts">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Votes</div>
+                    <div class="stat-value" id="totalVotes">0</div>
+                    <div class="stat-subtitle">responses collected</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Lunch Choices</div>
+                    <div class="stat-value" id="choiceCount">0</div>
+                    <div class="stat-subtitle">options available</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Most Popular</div>
+                    <div class="stat-value" id="mostPopular" style="font-size: 20px;">--</div>
+                    <div class="stat-subtitle" id="mostPopularVotes">-- votes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Participation</div>
+                    <div class="stat-value" id="participation">--</div>
+                    <div class="stat-subtitle">engagement status</div>
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-label">Lunch Choices</div>
-                <div class="stat-value" id="choiceCount">0</div>
-                <div class="stat-subtitle">options available</div>
+
+            <div class="charts-section">
+                <div class="chart-card">
+                    <h3 class="chart-title">Vote Distribution</h3>
+                    <div class="chart-container">
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3 class="chart-title">Vote Breakdown</h3>
+                    <div class="chart-container">
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-label">Most Popular</div>
-                <div class="stat-value" id="mostPopular" style="font-size: 20px;">--</div>
-                <div class="stat-subtitle" id="mostPopularVotes">-- votes</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Participation</div>
-                <div class="stat-value" id="participation">--</div>
-                <div class="stat-subtitle">engagement status</div>
+
+            <div class="leaderboard-section">
+                <h2 class="leaderboard-title">🏆 Lunch Ranking</h2>
+                <div class="leaderboard-list" id="leaderboardList">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <span>Loading real-time results...</span>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="charts-section">
-            <div class="chart-card">
-                <h3 class="chart-title">Vote Distribution</h3>
-                <div class="chart-container">
-                    <canvas id="barChart"></canvas>
-                </div>
-            </div>
-            <div class="chart-card">
-                <h3 class="chart-title">Vote Breakdown</h3>
-                <div class="chart-container">
-                    <canvas id="pieChart"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <div class="leaderboard-section">
-            <h2 class="leaderboard-title">🏆 Lunch Ranking</h2>
-            <div class="leaderboard-list" id="leaderboardList">
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <span>Loading real-time results...</span>
-                </div>
+        <!-- TAB: RAW SHEET -->
+        <div class="tab-panel" id="tabSheet">
+            <div class="sheet-iframe-card">
+                <h2>📋 Raw Voting Data</h2>
+                <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTWXCbBcF1GvozreA4fHEyCgOhVywRMatW0kY324kDU3YwtGik9IcLstpf9Fi1pFaCn2C0caAmCeRdM/pubhtml?widget=true&amp;headers=false" title="New Era Lunch Voting Raw Data"></iframe>
             </div>
         </div>
     </div>
 
     <script>
         const CORRECT_PASSWORD = 'NewEraLunchVoting';
-        const SHEET_ID = '1XJM_UO8z7riumC8OjoqltZt_Qf2PZ7pev5HvOKioF4A';
-        const SHEET_GID = '1361575636';
-        // Using Google Sheets JSON API endpoint (no API key required for public sheets)
-        const SHEET_API_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&gid=${SHEET_GID}`;
+        // Google Sheet published key
+        const SHEET_PUBLISH_KEY = '2PACX-1vTWXCbBcF1GvozreA4fHEyCgOhVywRMatW0kY324kDU3YwtGik9IcLstpf9Fi1pFaCn2C0caAmCeRdM';
+        // JSONP URL — uses responseHandler callback to bypass CORS (works from file:// too)
+        const SHEET_JSONP_URL = `https://docs.google.com/spreadsheets/d/e/${SHEET_PUBLISH_KEY}/gviz/tq?tqx=responseHandler:handleSheetData`;
         
         let chartInstances = { bar: null, pie: null };
 
@@ -570,31 +652,30 @@
             window.refreshInterval = setInterval(fetchVotingData, 30000);
         }
 
-        async function fetchVotingData() {
+        // JSONP callback — Google calls this function with the sheet data
+        function handleSheetData(data) {
             try {
-                // Using Google Visualization API Query Language (works with public sheets)
-                const response = await fetch(SHEET_API_URL);
-                const text = await response.text();
-                
-                // Parse the response (Google returns JSONP-like format)
-                const jsonMatch = text.match(/\{[\s\S]*\}/);
-                if (!jsonMatch) throw new Error('Invalid response format');
-                
-                const data = JSON.parse(jsonMatch[0]);
-                
-                if (!data.table || !data.table.rows) {
+                if (!data || !data.table || !data.table.rows) {
                     showError('No data available yet. Please ensure votes have been submitted.');
                     return;
+                }
+
+                // Find vote column — look for header containing "lunch" or "vote", fallback to column 1
+                let voteColIndex = 1;
+                if (data.table.cols) {
+                    const idx = data.table.cols.findIndex(c =>
+                        c.label && (c.label.toLowerCase().includes('lunch') || c.label.toLowerCase().includes('vote'))
+                    );
+                    if (idx !== -1) voteColIndex = idx;
                 }
 
                 const voteCounts = {};
                 let totalVotes = 0;
 
-                // Column 1 (index 1) is "This Week's Lunch Vote"
                 data.table.rows.forEach(row => {
-                    if (row.c && row.c[1] && row.c[1].v) {
-                        const vote = row.c[1].v.toString().trim();
-                        if (vote && vote !== "") {
+                    if (row.c && row.c[voteColIndex] && row.c[voteColIndex].v) {
+                        const vote = row.c[voteColIndex].v.toString().trim();
+                        if (vote) {
                             voteCounts[vote] = (voteCounts[vote] || 0) + 1;
                             totalVotes++;
                         }
@@ -613,9 +694,26 @@
                 updateDashboard(sortedOptions, totalVotes);
                 updateTimestamp();
             } catch (error) {
-                console.error('Error fetching data:', error);
-                showError(`Unable to fetch data: ${error.message}. Please ensure the Google Sheet is properly shared and contains voting data.`);
+                console.error('Error processing data:', error);
+                showError(`Error processing data: ${error.message}`);
             }
+        }
+
+        // Load data via JSONP (script tag injection — no CORS issues)
+        function fetchVotingData() {
+            // Remove any previous script tag
+            const old = document.getElementById('sheetDataScript');
+            if (old) old.remove();
+
+            const script = document.createElement('script');
+            script.id = 'sheetDataScript';
+            // Add cache-buster to force fresh data
+            script.src = SHEET_JSONP_URL + '&_=' + Date.now();
+            script.onerror = () => {
+                console.error('Error loading sheet data via JSONP');
+                showError('Unable to load data. Please check your internet connection and that the Google Sheet is published.');
+            };
+            document.body.appendChild(script);
         }
 
         function updateDashboard(options, totalVotes) {
@@ -719,6 +817,16 @@
 
         function showError(message) {
             document.getElementById('leaderboardList').innerHTML = `<div class="error-state">${message}</div>`;
+        }
+
+        function switchTab(tab) {
+            const tabs = ['charts', 'sheet'];
+            tabs.forEach(t => {
+                document.getElementById(`tab${t.charAt(0).toUpperCase() + t.slice(1)}`).classList.remove('active');
+                document.getElementById(`tabBtn${t.charAt(0).toUpperCase() + t.slice(1)}`).classList.remove('active');
+            });
+            document.getElementById(`tab${tab.charAt(0).toUpperCase() + tab.slice(1)}`).classList.add('active');
+            document.getElementById(`tabBtn${tab.charAt(0).toUpperCase() + tab.slice(1)}`).classList.add('active');
         }
     </script>
 </body>
