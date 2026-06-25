@@ -593,11 +593,9 @@
 
     <script>
         const CORRECT_PASSWORD = 'NewEraLunchVoting';
-        // Google Sheet published key
-        const SHEET_PUBLISH_KEY = '2PACX-1vTWXCbBcF1GvozreA4fHEyCgOhVywRMatW0kY324kDU3YwtGik9IcLstpf9Fi1pFaCn2C0caAmCeRdM';
-        // JSONP URL — uses responseHandler callback to bypass CORS (works from file:// too)
-        const SHEET_JSONP_URL = `https://docs.google.com/spreadsheets/d/e/${SHEET_PUBLISH_KEY}/gviz/tq?tqx=responseHandler:handleSheetData`;
-        
+        // Google Sheet published CSV URL (works on GitHub Pages / any HTTPS host)
+        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTWXCbBcF1GvozreA4fHEyCgOhVywRMatW0kY324kDU3YwtGik9IcLstpf9Fi1pFaCn2C0caAmCeRdM/pub?output=csv';
+
         let chartInstances = { bar: null, pie: null };
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -652,35 +650,57 @@
             window.refreshInterval = setInterval(fetchVotingData, 30000);
         }
 
-        // JSONP callback — Google calls this function with the sheet data
-        function handleSheetData(data) {
+        // Minimal CSV parser — handles quoted fields with embedded commas/newlines
+        function parseCSV(text) {
+            const rows = [];
+            let row = [], field = '', inQuotes = false;
+            for (let i = 0; i < text.length; i++) {
+                const ch = text[i], next = text[i + 1];
+                if (inQuotes) {
+                    if (ch === '"' && next === '"') { field += '"'; i++; }
+                    else if (ch === '"') { inQuotes = false; }
+                    else { field += ch; }
+                } else {
+                    if (ch === '"') { inQuotes = true; }
+                    else if (ch === ',') { row.push(field); field = ''; }
+                    else if (ch === '\n' || (ch === '\r' && next === '\n')) {
+                        row.push(field); field = '';
+                        rows.push(row); row = [];
+                        if (ch === '\r') i++;
+                    } else { field += ch; }
+                }
+            }
+            if (field || row.length) { row.push(field); rows.push(row); }
+            return rows;
+        }
+
+        async function fetchVotingData() {
             try {
-                if (!data || !data.table || !data.table.rows) {
+                const response = await fetch(SHEET_CSV_URL + '&_=' + Date.now());
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const text = await response.text();
+
+                const rows = parseCSV(text);
+                if (rows.length < 2) {
                     showError('No data available yet. Please ensure votes have been submitted.');
                     return;
                 }
 
-                // Find vote column — look for header containing "lunch" or "vote", fallback to column 1
-                let voteColIndex = 1;
-                if (data.table.cols) {
-                    const idx = data.table.cols.findIndex(c =>
-                        c.label && (c.label.toLowerCase().includes('lunch') || c.label.toLowerCase().includes('vote'))
-                    );
-                    if (idx !== -1) voteColIndex = idx;
-                }
+                // Row 0 = headers — find the vote/lunch column, fallback to column 1
+                const headers = rows[0].map(h => h.trim().toLowerCase());
+                let voteColIndex = headers.findIndex(h => h.includes('lunch') || h.includes('vote'));
+                if (voteColIndex === -1) voteColIndex = 1;
 
                 const voteCounts = {};
                 let totalVotes = 0;
 
-                data.table.rows.forEach(row => {
-                    if (row.c && row.c[voteColIndex] && row.c[voteColIndex].v) {
-                        const vote = row.c[voteColIndex].v.toString().trim();
-                        if (vote) {
-                            voteCounts[vote] = (voteCounts[vote] || 0) + 1;
-                            totalVotes++;
-                        }
+                for (let i = 1; i < rows.length; i++) {
+                    const vote = rows[i][voteColIndex] ? rows[i][voteColIndex].trim() : '';
+                    if (vote) {
+                        voteCounts[vote] = (voteCounts[vote] || 0) + 1;
+                        totalVotes++;
                     }
-                });
+                }
 
                 const sortedOptions = Object.entries(voteCounts)
                     .map(([name, votes]) => ({ name, votes }))
@@ -694,26 +714,9 @@
                 updateDashboard(sortedOptions, totalVotes);
                 updateTimestamp();
             } catch (error) {
-                console.error('Error processing data:', error);
-                showError(`Error processing data: ${error.message}`);
+                console.error('Error fetching data:', error);
+                showError(`Unable to load data: ${error.message}`);
             }
-        }
-
-        // Load data via JSONP (script tag injection — no CORS issues)
-        function fetchVotingData() {
-            // Remove any previous script tag
-            const old = document.getElementById('sheetDataScript');
-            if (old) old.remove();
-
-            const script = document.createElement('script');
-            script.id = 'sheetDataScript';
-            // Add cache-buster to force fresh data
-            script.src = SHEET_JSONP_URL + '&_=' + Date.now();
-            script.onerror = () => {
-                console.error('Error loading sheet data via JSONP');
-                showError('Unable to load data. Please check your internet connection and that the Google Sheet is published.');
-            };
-            document.body.appendChild(script);
         }
 
         function updateDashboard(options, totalVotes) {
