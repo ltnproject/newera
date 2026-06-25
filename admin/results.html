@@ -45,12 +45,8 @@
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .login-card {
@@ -66,14 +62,8 @@
         }
 
         @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .login-logo {
@@ -135,10 +125,6 @@
             box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
         }
 
-        .form-input::placeholder {
-            color: var(--text-muted);
-        }
-
         .login-btn {
             width: 100%;
             padding: 14px;
@@ -156,10 +142,6 @@
         .login-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 12px 28px rgba(255, 140, 0, 0.4);
-        }
-
-        .login-btn:active {
-            transform: translateY(0);
         }
 
         .error-message {
@@ -407,153 +389,33 @@
             min-width: 40px;
         }
 
-        .rank-badge.gold {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-        }
+        .rank-badge.gold { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); }
+        .rank-badge.silver { background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%); color: #374151; }
+        .rank-badge.bronze { background: linear-gradient(135deg, #fb923c 0%, #f97316 100%); }
 
-        .rank-badge.silver {
-            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
-            color: #374151;
-        }
-
-        .rank-badge.bronze {
-            background: linear-gradient(135deg, #fb923c 0%, #f97316 100%);
-        }
-
-        .rank-info h3 {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .rank-info p {
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-
-        .rank-votes {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--accent-orange);
-            min-width: 60px;
-            text-align: right;
-        }
-
-        .rank-percentage {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
+        .rank-info h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+        .rank-info p { font-size: 13px; color: var(--text-muted); }
+        .rank-votes { font-size: 18px; font-weight: 700; color: var(--accent-orange); min-width: 60px; text-align: right; }
+        .rank-percentage { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
 
         /* ==================== LOADING STATE ==================== */
-        .loading {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 200px;
-            gap: 12px;
-        }
-
-        .spinner {
-            width: 24px;
-            height: 24px;
-            border: 3px solid rgba(255, 140, 0, 0.2);
-            border-top-color: var(--accent-orange);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        .loading { display: flex; align-items: center; justify-content: center; min-height: 200px; gap: 12px; }
+        .spinner { width: 24px; height: 24px; border: 3px solid rgba(255, 140, 0, 0.2); border-top-color: var(--accent-orange); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         /* ==================== ERROR STATE ==================== */
-        .error-state {
-            background: rgba(248, 113, 113, 0.1);
-            border: 1px solid rgba(248, 113, 113, 0.3);
-            border-radius: 12px;
-            padding: 20px;
-            color: #fca5a5;
-            text-align: center;
-        }
+        .error-state { background: rgba(248, 113, 113, 0.1); border: 1px solid rgba(248, 113, 113, 0.3); border-radius: 12px; padding: 20px; color: #fca5a5; text-align: center; line-height: 1.6; }
+        .error-state a { color: var(--accent-orange); text-decoration: none; font-weight: 600; }
+        .error-state a:hover { text-decoration: underline; }
 
         /* ==================== RESPONSIVE ==================== */
         @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .header-right {
-                width: 100%;
-                justify-content: space-between;
-            }
-
-            .header-info h1 {
-                font-size: 24px;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .charts-section {
-                grid-template-columns: 1fr;
-            }
-
-            .chart-container {
-                height: 250px;
-            }
-
-            .login-card {
-                padding: 40px 24px;
-            }
-
-            .login-title {
-                font-size: 24px;
-            }
-
-            .stat-value {
-                font-size: 28px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 0;
-            }
-
-            .dashboard {
-                padding: 12px;
-            }
-
-            .login-card {
-                border-radius: 16px;
-                padding: 32px 20px;
-            }
-
-            .header-logo {
-                width: 50px;
-                height: 50px;
-            }
-
-            .header-info h1 {
-                font-size: 20px;
-            }
-
-            .stat-value {
-                font-size: 24px;
-            }
-
-            .leaderboard-item {
-                padding: 12px;
-            }
-
-            .rank-badge {
-                width: 36px;
-                height: 36px;
-                font-size: 14px;
-            }
+            .header { flex-direction: column; align-items: flex-start; }
+            .header-right { width: 100%; justify-content: space-between; }
+            .header-info h1 { font-size: 24px; }
+            .stats-grid, .charts-section { grid-template-columns: 1fr; }
+            .chart-container { height: 250px; }
+            .login-card { padding: 40px 24px; }
         }
     </style>
 </head>
@@ -598,7 +460,6 @@
             </div>
         </div>
 
-        <!-- STATS CARDS -->
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-label">Total Votes</div>
@@ -617,12 +478,11 @@
             </div>
             <div class="stat-card">
                 <div class="stat-label">Participation</div>
-                <div class="stat-value" id="participation">0%</div>
-                <div class="stat-subtitle">engagement rate</div>
+                <div class="stat-value" id="participation">--</div>
+                <div class="stat-subtitle">engagement status</div>
             </div>
         </div>
 
-        <!-- CHARTS -->
         <div class="charts-section">
             <div class="chart-card">
                 <h3 class="chart-title">Vote Distribution</h3>
@@ -638,13 +498,12 @@
             </div>
         </div>
 
-        <!-- LEADERBOARD -->
         <div class="leaderboard-section">
             <h2 class="leaderboard-title">🏆 Lunch Ranking</h2>
             <div class="leaderboard-list" id="leaderboardList">
                 <div class="loading">
                     <div class="spinner"></div>
-                    <span>Loading results...</span>
+                    <span>Loading real-time results...</span>
                 </div>
             </div>
         </div>
@@ -652,23 +511,19 @@
 
     <script>
         const CORRECT_PASSWORD = 'NewEraLunchVoting';
-        const FORM_ID = '1FAIpQLSd46p3DWXbx8tejeIXYa-9z3UWJdPdqzrLw7wIz-yHxBBQ14A';
-        const SHEET_URL = `https://docs.google.com/forms/d/e/${FORM_ID}/formResponse`;
+        const SHEET_ID = '1XJM_UO8z7riumC8OjoqltZt_Qf2PZ7pev5HvOKioF4A';
+        const SHEET_GID = '1361575636';
+        // Using Google Sheets JSON API endpoint (no API key required for public sheets)
+        const SHEET_API_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&gid=${SHEET_GID}`;
         
-        let chartInstances = {
-            bar: null,
-            pie: null
-        };
+        let chartInstances = { bar: null, pie: null };
 
-        // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
             checkAuthentication();
         });
 
-        // Check if user is already authenticated
         function checkAuthentication() {
-            const isAuthenticated = localStorage.getItem('newEraLunchVotingAuth') === 'true';
-            if (isAuthenticated) {
+            if (localStorage.getItem('newEraLunchVotingAuth') === 'true') {
                 showDashboard();
                 startDataRefresh();
             } else {
@@ -676,12 +531,10 @@
             }
         }
 
-        // Handle login
         function handleLogin(event) {
             event.preventDefault();
             const password = document.getElementById('passwordInput').value;
             const errorMessage = document.getElementById('errorMessage');
-
             if (password === CORRECT_PASSWORD) {
                 localStorage.setItem('newEraLunchVotingAuth', 'true');
                 errorMessage.style.display = 'none';
@@ -694,71 +547,78 @@
             }
         }
 
-        // Handle logout
         function handleLogout() {
             localStorage.removeItem('newEraLunchVotingAuth');
             clearInterval(window.refreshInterval);
             showLoginPage();
         }
 
-        // Show login page
         function showLoginPage() {
             document.getElementById('loginContainer').style.display = 'flex';
             document.getElementById('dashboard').classList.remove('active');
             document.getElementById('passwordInput').focus();
         }
 
-        // Show dashboard
         function showDashboard() {
             document.getElementById('loginContainer').style.display = 'none';
             document.getElementById('dashboard').classList.add('active');
             fetchVotingData();
         }
 
-        // Start auto-refresh every 30 seconds
         function startDataRefresh() {
             fetchVotingData();
             window.refreshInterval = setInterval(fetchVotingData, 30000);
         }
 
-        // Fetch voting data from Google Sheets
         async function fetchVotingData() {
             try {
-                // For demo purposes, we'll use sample data
-                // In production, you would fetch from Google Sheets API
-                const sampleData = generateSampleData();
-                updateDashboard(sampleData);
+                // Using Google Visualization API Query Language (works with public sheets)
+                const response = await fetch(SHEET_API_URL);
+                const text = await response.text();
+                
+                // Parse the response (Google returns JSONP-like format)
+                const jsonMatch = text.match(/\{[\s\S]*\}/);
+                if (!jsonMatch) throw new Error('Invalid response format');
+                
+                const data = JSON.parse(jsonMatch[0]);
+                
+                if (!data.table || !data.table.rows) {
+                    showError('No data available yet. Please ensure votes have been submitted.');
+                    return;
+                }
+
+                const voteCounts = {};
+                let totalVotes = 0;
+
+                // Column 1 (index 1) is "This Week's Lunch Vote"
+                data.table.rows.forEach(row => {
+                    if (row.c && row.c[1] && row.c[1].v) {
+                        const vote = row.c[1].v.toString().trim();
+                        if (vote && vote !== "") {
+                            voteCounts[vote] = (voteCounts[vote] || 0) + 1;
+                            totalVotes++;
+                        }
+                    }
+                });
+
+                const sortedOptions = Object.entries(voteCounts)
+                    .map(([name, votes]) => ({ name, votes }))
+                    .sort((a, b) => b.votes - a.votes);
+
+                if (sortedOptions.length === 0) {
+                    showError('No votes recorded yet. Check back soon!');
+                    return;
+                }
+
+                updateDashboard(sortedOptions, totalVotes);
                 updateTimestamp();
             } catch (error) {
                 console.error('Error fetching data:', error);
-                showError('Unable to fetch voting data. Please try again.');
+                showError(`Unable to fetch data: ${error.message}. Please ensure the Google Sheet is properly shared and contains voting data.`);
             }
         }
 
-        // Generate sample data for demonstration
-        function generateSampleData() {
-            const lunchOptions = [
-                { name: 'Korean', votes: Math.floor(Math.random() * 50) + 20 },
-                { name: 'Japanese', votes: Math.floor(Math.random() * 50) + 20 },
-                { name: 'Western', votes: Math.floor(Math.random() * 50) + 20 },
-                { name: 'Thai', votes: Math.floor(Math.random() * 50) + 20 },
-                { name: 'Italian', votes: Math.floor(Math.random() * 50) + 20 }
-            ];
-
-            // Sort by votes descending
-            lunchOptions.sort((a, b) => b.votes - a.votes);
-
-            return {
-                options: lunchOptions,
-                totalVotes: lunchOptions.reduce((sum, opt) => sum + opt.votes, 0)
-            };
-        }
-
-        // Update dashboard with data
-        function updateDashboard(data) {
-            const { options, totalVotes } = data;
-
-            // Update stats
+        function updateDashboard(options, totalVotes) {
             document.getElementById('totalVotes').textContent = totalVotes;
             document.getElementById('choiceCount').textContent = options.length;
 
@@ -766,36 +626,20 @@
                 const mostPopular = options[0];
                 document.getElementById('mostPopular').textContent = mostPopular.name;
                 document.getElementById('mostPopularVotes').textContent = `${mostPopular.votes} votes`;
+                document.getElementById('participation').textContent = totalVotes > 0 ? 'Active ✓' : 'Pending';
             }
 
-            // Update participation (mock calculation)
-            const participation = Math.min(100, Math.round((totalVotes / 150) * 100));
-            document.getElementById('participation').textContent = participation + '%';
-
-            // Update charts
             updateCharts(options, totalVotes);
-
-            // Update leaderboard
             updateLeaderboard(options, totalVotes);
         }
 
-        // Update charts
         function updateCharts(options, totalVotes) {
             const labels = options.map(opt => opt.name);
             const votes = options.map(opt => opt.votes);
-            const colors = [
-                '#ff8c00',
-                '#ffb84d',
-                '#ff7a00',
-                '#ffa500',
-                '#ff9500'
-            ];
+            const colors = ['#ff8c00', '#ffb84d', '#ff7a00', '#ffa500', '#ff9500', '#ffd700', '#ff4500'];
 
-            // Bar Chart
             const barCtx = document.getElementById('barChart').getContext('2d');
-            if (chartInstances.bar) {
-                chartInstances.bar.destroy();
-            }
+            if (chartInstances.bar) chartInstances.bar.destroy();
             chartInstances.bar = new Chart(barCtx, {
                 type: 'bar',
                 data: {
@@ -804,54 +648,22 @@
                         label: 'Votes',
                         data: votes,
                         backgroundColor: colors,
-                        borderRadius: 8,
-                        borderSkipped: false,
-                        hoverBackgroundColor: colors.map(c => c + 'dd')
+                        borderRadius: 8
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
+                    plugins: { legend: { display: false } },
                     scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.05)',
-                                drawBorder: false
-                            },
-                            ticks: {
-                                color: 'rgba(255, 255, 255, 0.7)',
-                                font: {
-                                    size: 12
-                                }
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: false,
-                                drawBorder: false
-                            },
-                            ticks: {
-                                color: 'rgba(255, 255, 255, 0.7)',
-                                font: {
-                                    size: 12
-                                }
-                            }
-                        }
+                        y: { beginAtZero: true, grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: 'rgba(255, 255, 255, 0.7)' } },
+                        x: { grid: { display: false }, ticks: { color: 'rgba(255, 255, 255, 0.7)' } }
                     }
                 }
             });
 
-            // Pie Chart
             const pieCtx = document.getElementById('pieChart').getContext('2d');
-            if (chartInstances.pie) {
-                chartInstances.pie.destroy();
-            }
+            if (chartInstances.pie) chartInstances.pie.destroy();
             chartInstances.pie = new Chart(pieCtx, {
                 type: 'doughnut',
                 data: {
@@ -860,56 +672,35 @@
                         data: votes,
                         backgroundColor: colors,
                         borderColor: 'rgba(26, 42, 74, 0.8)',
-                        borderWidth: 2,
-                        hoverBorderColor: '#ff8c00',
-                        hoverBorderWidth: 3
+                        borderWidth: 2
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                color: 'rgba(255, 255, 255, 0.8)',
-                                font: {
-                                    size: 12
-                                },
-                                padding: 15,
-                                usePointStyle: true
-                            }
-                        }
+                        legend: { position: 'bottom', labels: { color: 'rgba(255, 255, 255, 0.8)', usePointStyle: true } }
                     }
                 }
             });
         }
 
-        // Update leaderboard
         function updateLeaderboard(options, totalVotes) {
-            const leaderboardList = document.getElementById('leaderboardList');
-            leaderboardList.innerHTML = '';
-
+            const list = document.getElementById('leaderboardList');
+            list.innerHTML = '';
             const medals = ['🥇', '🥈', '🥉'];
-
             options.forEach((option, index) => {
-                const percentage = ((option.votes / totalVotes) * 100).toFixed(1);
+                const percentage = totalVotes > 0 ? ((option.votes / totalVotes) * 100).toFixed(1) : 0;
                 const item = document.createElement('div');
                 item.className = 'leaderboard-item';
-
-                let badgeClass = '';
-                if (index === 0) badgeClass = 'gold';
-                else if (index === 1) badgeClass = 'silver';
-                else if (index === 2) badgeClass = 'bronze';
-
+                let badgeClass = index === 0 ? 'gold' : index === 1 ? 'silver' : index === 2 ? 'bronze' : '';
                 const medal = index < 3 ? medals[index] : (index + 1);
-
                 item.innerHTML = `
                     <div class="leaderboard-rank">
                         <div class="rank-badge ${badgeClass}">${medal}</div>
                         <div class="rank-info">
                             <h3>${option.name}</h3>
-                            <p>#${index + 1} Choice</p>
+                            <p>Rank #${index + 1}</p>
                         </div>
                     </div>
                     <div>
@@ -917,26 +708,17 @@
                         <div class="rank-percentage">${percentage}%</div>
                     </div>
                 `;
-
-                leaderboardList.appendChild(item);
+                list.appendChild(item);
             });
         }
 
-        // Update timestamp
         function updateTimestamp() {
             const now = new Date();
-            const timeString = now.toLocaleTimeString('en-US', {
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-            document.getElementById('lastUpdated').textContent = timeString;
+            document.getElementById('lastUpdated').textContent = now.toLocaleTimeString();
         }
 
-        // Show error message
         function showError(message) {
-            const leaderboardList = document.getElementById('leaderboardList');
-            leaderboardList.innerHTML = `<div class="error-state">${message}</div>`;
+            document.getElementById('leaderboardList').innerHTML = `<div class="error-state">${message}</div>`;
         }
     </script>
 </body>
