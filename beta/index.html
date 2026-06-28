@@ -404,10 +404,13 @@
 
     .video-wrapper {
       position: relative;
+      width: 100%;
+      padding-top: 56.25%; /* 16:9 ratio */
       border-radius: 22px;
       overflow: hidden;
       border: 1px solid rgba(245,200,66,0.2);
       box-shadow: 0 0 60px rgba(245,200,66,0.08), 0 30px 80px rgba(0,0,0,0.5);
+      
     }
 
     .video-wrapper::before {
@@ -419,11 +422,14 @@
       pointer-events: none;
       z-index: 1;
     }
-
-    .video-wrapper video {
+    
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
-      display: block;
-      border-radius: 22px;
+      height: 100%;
+      border: 0;
     }
 
     .video-caption {
