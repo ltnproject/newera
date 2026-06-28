@@ -16,7 +16,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏫</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
   <style>
     /* Fallback fonts while Google Fonts loads (or if blocked) */
     @font-face {
@@ -26,7 +26,7 @@
       src: local('Bebas Neue'), local('BebasNeue');
     }
   </style>
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
   <style>
     :root {
       --navy: #0a0f2e;
@@ -40,6 +40,84 @@
       --green: #3ddc97;
       --card: rgba(255,255,255,0.04);
       --border: rgba(245,200,66,0.18);
+      
+      --float-bg: rgba(10,15,46,0.92);
+      --float-border: rgba(245,200,66,0.25);
+      --float-text: #f0f4ff;
+      
+      --modal-bg: rgba(6,11,31,0.8);
+      --modal-content-bg: linear-gradient(145deg, rgba(16,24,60,0.95), rgba(10,15,46,0.95));
+      --modal-close-bg: rgba(255,255,255,0.05);
+      --modal-close-border: rgba(255,255,255,0.1);
+      
+      --schedule-card: rgba(255,255,255,0.03);
+      --schedule-card-border: rgba(255,255,255,0.05);
+    }
+    [data-theme="light"] {
+      --navy: #0a0f2e;
+      --deep: #f8fafc;
+      --gold: #b27a00; /* Darker gold for light mode to meet contrast guidelines */
+      --gold2: #8f6200;
+      --white: #0f172a; /* Dark text */
+      --soft: #475569;  /* Muted text */
+      --accent: #1d4ed8; /* Darker blue for light mode */
+      --red: #dc2626;
+      --green: #15803d;
+      --card: rgba(255,255,255,0.7);
+      --border: rgba(15, 23, 42, 0.08);
+      
+      --float-bg: rgba(255, 255, 255, 0.92);
+      --float-border: rgba(15, 23, 42, 0.12);
+      --float-text: #0f172a;
+      
+      --modal-bg: rgba(15, 23, 42, 0.4);
+      --modal-content-bg: linear-gradient(145deg, #ffffff, #f8fafc);
+      --modal-close-bg: rgba(0,0,0,0.05);
+      --modal-close-border: rgba(0,0,0,0.1);
+      
+      --schedule-card: rgba(0, 0, 0, 0.02);
+      --schedule-card-border: rgba(0, 0, 0, 0.05);
+    }
+
+    .top-controls {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .theme-toggle,
+    .lang-toggle {
+      background: var(--float-bg);
+      border: 1px solid var(--float-border);
+      color: var(--float-text);
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: transform 0.3s, background 0.3s, border-color 0.3s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      font-family: 'Outfit', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .lang-toggle {
+      width: 54px;
+      border-radius: 40px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+    .theme-toggle:hover,
+    .lang-toggle:hover {
+      transform: scale(1.1);
+      background: var(--float-bg);
+      filter: brightness(0.95);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -51,6 +129,18 @@
       background: var(--deep);
       color: var(--white);
       overflow-x: hidden;
+    }
+    html[lang="th"] body,
+    html[lang="th"] button {
+      font-family: 'Noto Sans Thai', 'Outfit', 'Segoe UI', Tahoma, sans-serif;
+    }
+    html[lang="th"] h1,
+    html[lang="th"] .section-title,
+    html[lang="th"] .card-title,
+    html[lang="th"] .game-name,
+    html[lang="th"] .footer-logo,
+    html[lang="th"] .logo-placeholder {
+      font-family: 'Bebas Neue', Impact, 'Arial Narrow', 'Noto Sans Thai', sans-serif;
     }
 
     /* ─── STAR BACKGROUND ─── */
@@ -69,6 +159,10 @@
         radial-gradient(1px 1px at 30% 55%, rgba(255,255,255,0.25) 0%, transparent 100%);
       pointer-events: none;
       z-index: 0;
+    }
+    [data-theme="light"] body::before {
+      opacity: 0.2;
+      filter: invert(1);
     }
 
     /* ─── HERO ─── */
@@ -167,9 +261,12 @@
       color: var(--gold);
       margin-bottom: 22px;
       animation: fadeUp 0.9s 0.1s ease both;
+      max-width: calc(100vw - 48px);
+      white-space: nowrap;
     }
 
-    .era-badge span { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; animation: pulse 2s infinite; }
+    .era-badge .badge-dot { flex: 0 0 6px; width: 6px; height: 6px; background: var(--gold); border-radius: 50%; animation: pulse 2s infinite; }
+    .era-badge [data-i18n="eraBadge"] { display: inline-block; min-width: max-content; }
     @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
 
     h1 {
@@ -208,8 +305,9 @@
     }
 
     .hero-scroll {
-      position: absolute;
-      bottom: 40px;
+      position: relative;
+      margin-top: 50px;
+      margin-bottom: 20px;
       z-index: 2;
       display: flex;
       flex-direction: column;
@@ -306,10 +404,13 @@
 
     .video-wrapper {
       position: relative;
+      width: 100%;
+      padding-top: 56.25%; /* 16:9 ratio */
       border-radius: 22px;
       overflow: hidden;
       border: 1px solid rgba(245,200,66,0.2);
       box-shadow: 0 0 60px rgba(245,200,66,0.08), 0 30px 80px rgba(0,0,0,0.5);
+      
     }
 
     .video-wrapper::before {
@@ -321,11 +422,14 @@
       pointer-events: none;
       z-index: 1;
     }
-
-    .video-wrapper video {
+    
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
-      display: block;
-      border-radius: 22px;
+      height: 100%;
+      border: 0;
     }
 
     .video-caption {
@@ -432,6 +536,104 @@
       gap: 8px;
     }
 
+    /* ─── LUNCH VOTING ─── */
+    .lunch-voting-section {
+      position: relative;
+      z-index: 1;
+      padding: 70px 20px 90px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .lunch-voting-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .lunch-voting-panel {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(245,200,66,0.24);
+      border-radius: 20px;
+      background:
+        linear-gradient(135deg, rgba(245,200,66,0.13), rgba(79,163,255,0.08)),
+        var(--card);
+      padding: clamp(24px, 4vw, 36px);
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      align-items: flex-start;
+      box-shadow: 0 24px 70px rgba(0,0,0,0.2);
+    }
+
+    .lunch-voting-panel::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--accent));
+    }
+
+    .lunch-voting-copy {
+      position: relative;
+      z-index: 1;
+    }
+
+    .lunch-voting-kicker {
+      color: var(--gold);
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .lunch-voting-title {
+      font-family: 'Bebas Neue', Impact, 'Arial Narrow', sans-serif;
+      font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+      line-height: 1.05;
+      letter-spacing: 0.04em;
+      color: var(--white);
+      margin-bottom: 14px;
+    }
+
+    .lunch-voting-desc {
+      color: var(--soft);
+      font-size: 0.98rem;
+      line-height: 1.7;
+      max-width: 650px;
+      font-weight: 300;
+    }
+
+    .lunch-voting-btn {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 50px;
+      padding: 0 24px;
+      border-radius: 40px;
+      border: 1px solid rgba(245,200,66,0.38);
+      background: linear-gradient(135deg, var(--gold), var(--gold2));
+      color: var(--navy);
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 0.92rem;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      box-shadow: 0 14px 34px rgba(245,200,66,0.18);
+      transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+    }
+
+    .lunch-voting-btn:hover {
+      transform: translateY(-3px);
+      filter: brightness(1.04);
+      box-shadow: 0 18px 44px rgba(245,200,66,0.25);
+    }
+
     /* ─── E-SPORTS ─── */
     .esports-section {
       padding: 90px 20px;
@@ -523,270 +725,13 @@
     }
 
     /* ─── RESPONSIVE ─── */
+    @media(max-width:768px){
+      .lunch-voting-row { grid-template-columns: 1fr; }
+    }
     @media(max-width:640px){
       .policy-grid { grid-template-columns: 1fr; }
       .games-grid { grid-template-columns: repeat(2,1fr); }
-    }
-
-    /* ─── FLOATING MUSIC PLAYER ─── */
-    .music-float {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid rgba(245,200,66,0.25);
-      box-shadow: 0 8px 40px rgba(0,0,0,0.6), 0 0 30px rgba(245,200,66,0.08);
-      background: rgba(10,15,46,0.92);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      transition: transform 0.4s cubic-bezier(.4,0,.2,1), opacity 0.4s ease;
-      transform: translateY(0);
-      opacity: 1;
-      width: 320px;
-    }
-
-    .music-float.collapsed {
-      transform: translateY(calc(100% - 46px));
-    }
-
-    .music-float-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 14px;
-      background: rgba(245,200,66,0.08);
-      border-bottom: 1px solid rgba(245,200,66,0.12);
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .music-float-header:hover {
-      background: rgba(245,200,66,0.14);
-    }
-
-    .music-float-title {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--gold);
-    }
-
-    .music-float-title .music-eq {
-      display: flex;
-      align-items: flex-end;
-      gap: 2px;
-      height: 14px;
-    }
-
-    .music-eq span {
-      display: block;
-      width: 3px;
-      background: var(--gold);
-      border-radius: 2px;
-      animation: eqBar 0.8s ease-in-out infinite alternate;
-    }
-    .music-eq span:nth-child(1) { height: 6px; animation-delay: 0s; }
-    .music-eq span:nth-child(2) { height: 12px; animation-delay: 0.15s; }
-    .music-eq span:nth-child(3) { height: 8px; animation-delay: 0.3s; }
-    .music-eq span:nth-child(4) { height: 14px; animation-delay: 0.1s; }
-
-    .music-eq.paused span {
-      animation: none;
-      height: 3px !important;
-    }
-
-    @keyframes eqBar {
-      0% { height: 4px; }
-      100% { height: 14px; }
-    }
-
-    .music-float-toggle {
-      background: none;
-      border: none;
-      color: var(--soft);
-      font-size: 1.1rem;
-      cursor: pointer;
-      padding: 2px 4px;
-      transition: transform 0.3s ease, color 0.2s;
-      line-height: 1;
-    }
-    .music-float-toggle:hover { color: var(--gold); }
-    .music-float.collapsed .music-float-toggle { transform: rotate(180deg); }
-
-    .music-float-body {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16/9;
-      overflow: hidden;
-      background: #000;
-    }
-
-    .music-float-body iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      pointer-events: none;
-    }
-
-    /* ─── CUSTOM CONTROLS ─── */
-    .music-controls {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 12px;
-      background: rgba(6,11,31,0.95);
-      border-top: 1px solid rgba(245,200,66,0.1);
-    }
-
-    .music-btn {
-      background: none;
-      border: none;
-      color: var(--soft);
-      cursor: pointer;
-      padding: 6px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: color 0.2s, background 0.2s;
-      font-size: 1rem;
-      line-height: 1;
-    }
-    .music-btn:hover {
-      color: var(--gold);
-      background: rgba(245,200,66,0.1);
-    }
-    .music-btn.active {
-      color: var(--gold);
-    }
-
-    .music-btn svg {
-      width: 18px;
-      height: 18px;
-      fill: currentColor;
-    }
-
-    .music-play-btn svg {
-      width: 20px;
-      height: 20px;
-    }
-
-    .music-vol-wrap {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      flex: 1;
-      min-width: 0;
-    }
-
-    .music-vol-slider {
-      -webkit-appearance: none;
-      appearance: none;
-      flex: 1;
-      height: 4px;
-      border-radius: 4px;
-      background: rgba(255,255,255,0.12);
-      outline: none;
-      cursor: pointer;
-      min-width: 50px;
-    }
-    .music-vol-slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--gold);
-      cursor: pointer;
-      box-shadow: 0 0 6px rgba(245,200,66,0.4);
-      transition: transform 0.15s;
-    }
-    .music-vol-slider::-webkit-slider-thumb:hover {
-      transform: scale(1.3);
-    }
-    .music-vol-slider::-moz-range-thumb {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--gold);
-      cursor: pointer;
-      border: none;
-      box-shadow: 0 0 6px rgba(245,200,66,0.4);
-    }
-
-    .music-status-text {
-      padding: 5px 12px;
-      font-size: 0.7rem;
-      color: var(--soft);
-      background: rgba(0,0,0,0.3);
-      text-align: center;
-      letter-spacing: 0.06em;
-      transition: color 0.3s;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .music-status-text.paused-by-video {
-      color: var(--red);
-    }
-
-    /* ─── FULLSCREEN MODE ─── */
-    .music-float:fullscreen,
-    .music-float:-webkit-full-screen {
-      width: 100vw;
-      height: 100vh;
-      border-radius: 0;
-      border: none;
-      bottom: 0;
-      right: 0;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .music-float:fullscreen .music-float-header,
-    .music-float:-webkit-full-screen .music-float-header {
-      border-radius: 0;
-    }
-
-    .music-float:fullscreen .music-float-body,
-    .music-float:-webkit-full-screen .music-float-body {
-      flex: 1;
-      aspect-ratio: unset;
-    }
-
-    .music-float:fullscreen .music-controls,
-    .music-float:-webkit-full-screen .music-controls {
-      padding: 12px 24px;
-      gap: 12px;
-    }
-
-    .music-float:fullscreen .music-controls .music-btn svg,
-    .music-float:-webkit-full-screen .music-controls .music-btn svg {
-      width: 24px;
-      height: 24px;
-    }
-
-    .music-float:fullscreen .music-controls .music-play-btn svg,
-    .music-float:-webkit-full-screen .music-controls .music-play-btn svg {
-      width: 28px;
-      height: 28px;
-    }
-
-    @media(max-width:480px){
-      .music-float {
-        width: 280px;
-        bottom: 12px;
-        right: 12px;
-      }
+      .lunch-voting-btn { width: 100%; }
     }
 
     /* ─── SCHEDULE & PATCH MODALS ─── */
@@ -802,12 +747,12 @@
     }
 
     .schedule-btn, .patch-btn {
-      background: rgba(10,15,46,0.92);
+      background: var(--float-bg);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
-      border: 1px solid rgba(245,200,66,0.25);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.5), 0 0 20px rgba(245,200,66,0.1);
-      color: var(--white);
+      border: 1px solid var(--float-border);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.15), 0 0 20px rgba(245,200,66,0.05);
+      color: var(--float-text);
       padding: 12px 20px;
       border-radius: 40px;
       font-family: 'Outfit', sans-serif;
@@ -829,8 +774,8 @@
     }
     .schedule-btn:hover {
       transform: translateY(-3px);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 0 30px rgba(245,200,66,0.2);
-      background: rgba(15,22,60,0.95);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.25), 0 0 30px rgba(245,200,66,0.1);
+      filter: brightness(0.95);
     }
     .schedule-btn .icon {
       font-size: 1.2rem;
@@ -840,7 +785,7 @@
       position: fixed;
       inset: 0;
       z-index: 10000;
-      background: rgba(6,11,31,0.8);
+      background: var(--modal-bg);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       display: flex;
@@ -857,9 +802,9 @@
     }
 
     .schedule-content {
-      background: linear-gradient(145deg, rgba(16,24,60,0.95), rgba(10,15,46,0.95));
+      background: var(--modal-content-bg);
       border: 1px solid var(--border);
-      box-shadow: 0 30px 80px rgba(0,0,0,0.8), 0 0 40px rgba(245,200,66,0.15);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.3), 0 0 40px rgba(245,200,66,0.05);
       border-radius: 24px;
       width: 100%;
       max-width: 500px;
@@ -874,7 +819,7 @@
       width: 6px;
     }
     .schedule-content::-webkit-scrollbar-track {
-      background: rgba(0,0,0,0.2);
+      background: rgba(0,0,0,0.05);
       border-radius: 10px;
     }
     .schedule-content::-webkit-scrollbar-thumb {
@@ -892,8 +837,8 @@
       position: absolute;
       top: 20px;
       right: 20px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
+      background: var(--modal-close-bg);
+      border: 1px solid var(--modal-close-border);
       width: 36px;
       height: 36px;
       border-radius: 50%;
@@ -932,8 +877,8 @@
       gap: 12px;
     }
     .schedule-item {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.05);
+      background: var(--schedule-card);
+      border: 1px solid var(--schedule-card-border);
       border-radius: 12px;
       padding: 14px 18px;
       display: flex;
@@ -943,6 +888,9 @@
     }
     .schedule-item:hover {
       background: rgba(255,255,255,0.06);
+    }
+    [data-theme="light"] .schedule-item:hover {
+      background: rgba(0,0,0,0.04);
     }
     .schedule-date {
       font-size: 0.8rem;
@@ -992,18 +940,24 @@
         padding: 6px 12px;
         font-size: 0.75rem;
       }
-      .music-float {
-        width: 280px;
-        bottom: 12px;
-        right: 12px;
-      }
     }
   </style>
 </head>
 <body>
+<script>
+  // Apply theme immediately to prevent flash
+  if (localStorage.getItem('theme') === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+  document.documentElement.setAttribute('lang', 'en');
+</script>
 
 <!-- HERO -->
 <header>
+  <div class="top-controls">
+    <button id="langToggle" class="lang-toggle" aria-label="Switch language">TH</button>
+    <button id="themeToggle" class="theme-toggle" aria-label="Toggle Light/Dark Mode">☀️</button>
+  </div>
   <div class="hero-glow"></div>
   <div class="hero-ring"></div>
   <div class="hero-ring"></div>
@@ -1013,7 +967,7 @@
     <div id="logo-placeholder" class="logo-placeholder" style="display:none;">EBS</div>
   </div>
 
-  <div class="era-badge"><span></span> 2026 – 2027 Academic Year</div>
+  <div class="era-badge"><span class="badge-dot"></span> <span data-i18n="eraBadge">2026 – 2027 Academic Year</span></div>
 
   <h1>
     <span class="line1">EBS</span>
@@ -1021,30 +975,39 @@
     <span class="line3">61</span>
   </h1>
 
-  <p class="slogan"><strong>Progress Starts Here</strong> &nbsp;·&nbsp; Student Life, Reimagined</p>
+  <p class="slogan" style="margin-bottom:8px;"><strong data-i18n="progress">Progress Starts Here</strong> &nbsp;·&nbsp; <span data-i18n="studentLife">Student Life, Reimagined</span></p>
+  <p class="slogan" style="margin-top:0; color:var(--gold); font-size:1.25rem; font-weight:700; letter-spacing:0.05em;" data-i18n="voteThanks">🎉 Incredibly Grateful for Over 550+ Votes! 🎉</p>
+  <p class="slogan" style="margin-top:6px; font-size:1rem; opacity:0.9; max-width:600px; margin-left:auto; margin-right:auto; line-height:1.4;" data-i18n="trustThanks">A heartfelt thank you to all teachers, students, and staff for placing your trust in us.</p>
 
   <div class="hero-scroll">
     <div class="scroll-line"></div>
-    Explore Policies
+    <span data-i18n="explorePolicies">Explore Policies</span>
   </div>
 </header>
 
 <!-- VIDEO INTRODUCTION -->
 <div class="video-section">
-  <div class="video-label">🎬 Introduction</div>
+  <div class="video-label" data-i18n="introLabel">🎬 The New Era Begins</div>
+
   <div class="video-wrapper">
-    <video controls playsinline preload="metadata" poster="">
-      <source src="https://drk.qzz.io/newera/introduction.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
+    <iframe src="https://www.youtube.com/embed/Z4lC7W4bVFA?start=6&vq=hd1080&rel=0&modestbranding=1&iv_load_policy=3&cc_load_policy=0"
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen>
+    </iframe>
   </div>
-  <p class="video-caption"><strong>EBS New Era</strong> — Official Introduction Video · 2026–2027</p>
+
+  <p class="video-caption">
+    <strong>EBS New Era</strong>
+    <span data-i18n="videoCaption">— Official Introduction Video · 2026–2027</span>
+  </p>
 </div>
 
 <!-- POLICIES -->
 <section>
-  <div class="section-label">🎯 Student Engagement Policies</div>
-  <h2 class="section-title">What's <span>New</span> at EBS</h2>
+  <div class="section-label" data-i18n="policiesLabel">🎯 Student Engagement Policies</div>
+  <h2 class="section-title"><span data-i18n="whats">What's</span> <span data-i18n="newWord">New</span> <span data-i18n="atEbs">at EBS</span></h2>
 
   <div class="policy-grid">
 
@@ -1052,72 +1015,97 @@
     <div class="policy-card" style="--card-accent: linear-gradient(90deg,#ff6eb4,#ff4d6d); --card-glow: rgba(255,77,109,0.07); --icon-bg: rgba(255,109,180,0.12); --tag-bg: rgba(255,77,109,0.1); --tag-color:#ff6eb4;">
       <div class="card-glow"></div>
       <div class="card-icon">💃</div>
-      <div class="card-tag">Every Tuesday</div>
+      <div class="card-tag" data-i18n="danceTag">Every Tuesday</div>
       <div class="card-title">EBS Dance Connect</div>
-      <p class="card-desc">Students and teachers come together to film fun, school-appropriate TikTok dance videos during break or activity time at the library.</p>
-      <div class="card-detail">📍 Library &nbsp;·&nbsp; Break / Activity Time</div>
+      <p class="card-desc" data-i18n="danceDesc">Students and teachers come together to film fun, school-appropriate TikTok dance videos during break or activity time at the library.</p>
+      <div class="card-detail" data-i18n="danceDetail">📍 Library &nbsp;·&nbsp; Break / Activity Time</div>
     </div>
 
     <!-- Lunch Football -->
     <div class="policy-card" style="--card-accent: linear-gradient(90deg,#3ddc97,#00b894); --card-glow: rgba(61,220,151,0.07); --icon-bg: rgba(61,220,151,0.12); --tag-bg: rgba(61,220,151,0.1); --tag-color:#3ddc97;">
       <div class="card-glow"></div>
       <div class="card-icon">⚽</div>
-      <div class="card-tag">Every Thursday</div>
+      <div class="card-tag" data-i18n="footballTag">Every Thursday</div>
       <div class="card-title">EBS Lunch Football</div>
-      <p class="card-desc">A weekly lunchtime football session for students to play, relax, and compete in friendly matches — complete with a live leaderboard!</p>
-      <div class="card-detail">🏆 Leaderboard &nbsp;·&nbsp; Lunchtime</div>
+      <p class="card-desc" data-i18n="footballDesc">A weekly lunchtime football session for students to play, relax, and compete in friendly matches — complete with a live leaderboard!</p>
+      <div class="card-detail" data-i18n="footballDetail">🏆 Leaderboard &nbsp;·&nbsp; Lunchtime</div>
     </div>
 
     <!-- International Lunch -->
     <div class="policy-card" style="--card-accent: linear-gradient(90deg,#f5c842,#e6b02a); --card-glow: rgba(245,200,66,0.07); --icon-bg: rgba(245,200,66,0.12); --tag-bg: rgba(245,200,66,0.1); --tag-color:#f5c842;">
       <div class="card-glow"></div>
       <div class="card-icon">🌏</div>
-      <div class="card-tag">Every Friday</div>
+      <div class="card-tag" data-i18n="lunchTag">Every Friday</div>
       <div class="card-title">Friday International Lunch Voting</div>
-      <p class="card-desc">Students vote for special weekly lunch themes — Korean, Japanese, Western, Thai, and more — making lunchtime a global adventure.</p>
-      <div class="card-detail">🗳️ Student Vote &nbsp;·&nbsp; Lunchtime</div>
+      <p class="card-desc" data-i18n="lunchDesc">Students vote for special weekly lunch themes — Korean, Japanese, Western, Thai, and more — making lunchtime a global adventure.</p>
+      <div class="card-detail" data-i18n="lunchDetail">🗳️ Student Vote &nbsp;·&nbsp; Lunchtime</div>
     </div>
 
     <!-- Talent Showcase -->
     <div class="policy-card" style="--card-accent: linear-gradient(90deg,#b980ff,#7c4dff); --card-glow: rgba(185,128,255,0.07); --icon-bg: rgba(185,128,255,0.12); --tag-bg: rgba(185,128,255,0.1); --tag-color:#b980ff;">
       <div class="card-glow"></div>
       <div class="card-icon">🌟</div>
-      <div class="card-tag">Special Events</div>
+      <div class="card-tag" data-i18n="talentTag">Special Events</div>
       <div class="card-title">Talent Showcase Tuesday</div>
-      <p class="card-desc">A performance stage for every student — singing, dancing, instruments, art, poetry, and more. Your talent deserves the spotlight.</p>
-      <div class="card-detail">🎤 Open to All Talents</div>
+      <p class="card-desc" data-i18n="talentDesc">A performance stage for every student — singing, dancing, instruments, art, poetry, and more. Your talent deserves the spotlight.</p>
+      <div class="card-detail" data-i18n="talentDetail">🎤 Open to All Talents</div>
     </div>
 
     <!-- Feedback QR -->
     <div class="policy-card" style="--card-accent: linear-gradient(90deg,#4fa3ff,#0984e3); --card-glow: rgba(79,163,255,0.07); --icon-bg: rgba(79,163,255,0.12); --tag-bg: rgba(79,163,255,0.1); --tag-color:#4fa3ff;">
       <div class="card-glow"></div>
       <div class="card-icon">📱</div>
-      <div class="card-tag">Always Open</div>
+      <div class="card-tag" data-i18n="feedbackTag">Always Open</div>
       <div class="card-title">Student Feedback QR System</div>
-      <p class="card-desc">QR codes placed around school let students instantly submit ideas, activity requests, suggestions, or improvement feedback via quick online forms.</p>
-      <div class="card-detail">📌 Info Room &amp; Common Areas</div>
+      <p class="card-desc" data-i18n="feedbackDesc">QR codes placed around school let students instantly submit ideas, activity requests, suggestions, or improvement feedback via quick online forms.</p>
+      <div class="card-detail" data-i18n="feedbackDetail">📌 Info Room &amp; Common Areas</div>
     </div>
 
     <!-- Subject Highlight -->
     <div class="policy-card" style="--card-accent: linear-gradient(90deg,#fd9644,#e67e22); --card-glow: rgba(253,150,68,0.07); --icon-bg: rgba(253,150,68,0.12); --tag-bg: rgba(253,150,68,0.1); --tag-color:#fd9644;">
       <div class="card-glow"></div>
       <div class="card-icon">📚</div>
-      <div class="card-tag">Weekly</div>
+      <div class="card-tag" data-i18n="subjectTag">Weekly</div>
       <div class="card-title">EBS Subject Progress Highlight</div>
-      <p class="card-desc">Subject teachers recognise one student per week for outstanding effort, improvement, or contribution — celebrating progress in every classroom.</p>
-      <div class="card-detail">✨ 1 Student Per Class Per Week</div>
+      <p class="card-desc" data-i18n="subjectDesc">Subject teachers recognise one student per week for outstanding effort, improvement, or contribution — celebrating progress in every classroom.</p>
+      <div class="card-detail" data-i18n="subjectDetail">✨ 1 Student Per Class Per Week</div>
     </div>
 
     <!-- Music Choice -->
     <div class="policy-card" style="--card-accent: linear-gradient(90deg,#ff6eb4,#b980ff); --card-glow: rgba(185,128,255,0.07); --icon-bg: rgba(185,128,255,0.12); --tag-bg: rgba(255,110,180,0.1); --tag-color:#ff6eb4;">
       <div class="card-glow"></div>
       <div class="card-icon">🎵</div>
-      <div class="card-tag">Vote Anytime</div>
+      <div class="card-tag" data-i18n="musicTag">Vote Anytime</div>
       <div class="card-title">EBS Music Choice</div>
-      <p class="card-desc">Students vote on playlists and music for lunch, events, and sports activities — making every school experience more vibrant and interactive.</p>
-      <div class="card-detail">🎶 Lunch · Events · Sports</div>
+      <p class="card-desc" data-i18n="musicDesc">Students vote on playlists and music for lunch, events, and sports activities — making every school experience more vibrant and interactive.</p>
+      <div class="card-detail" data-i18n="musicDetail">🎶 Lunch · Events · Sports</div>
     </div>
 
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- LUNCH VOTING + FEEDBACK FORM -->
+<section class="lunch-voting-section" aria-label="Lunch voting and feedback form">
+  <div class="lunch-voting-row">
+    <div class="lunch-voting-panel">
+      <div class="lunch-voting-copy">
+        <div class="lunch-voting-kicker" data-i18n="lunchVotingKicker">🍱 Lunch Voting</div>
+        <h2 class="lunch-voting-title" id="lunchVotingTitle">New Era Lunch Voting</h2>
+        <p class="lunch-voting-desc" data-i18n="lunchVotingDesc">Cast your vote for the next lunch theme and help decide what shows up on the Friday international lunch menu.</p>
+      </div>
+      <a class="lunch-voting-btn" href="https://drk.qzz.io/newera/voting.html" data-i18n="lunchVotingButton">Vote Now →</a>
+    </div>
+
+    <div class="lunch-voting-panel">
+      <div class="lunch-voting-copy">
+        <div class="lunch-voting-kicker" data-i18n="feedbackFormKicker">💬 Feedback Form</div>
+        <h2 class="lunch-voting-title" id="feedbackFormTitle">New Era Feedback Form</h2>
+        <p class="lunch-voting-desc" data-i18n="feedbackFormDesc">Got an idea, a request, or something on your mind? Tell us — your feedback helps shape what's next for EBS New Era.</p>
+      </div>
+      <a class="lunch-voting-btn" href="https://drk.qzz.io/newera/feedback.html" data-i18n="feedbackFormButton">Give Feedback →</a>
+    </div>
   </div>
 </section>
 
@@ -1126,12 +1114,12 @@
 <!-- E-SPORTS -->
 <div class="esports-section">
   <div class="esports-inner">
-    <div class="section-label">🎮 Competitive Gaming</div>
-    <h2 class="section-title">E-Sport <span>Launch</span></h2>
-    <p style="color:var(--soft); font-size:0.98rem; line-height:1.7; max-width:640px; font-weight:300; margin-bottom:8px;">
+    <div class="section-label" data-i18n="esportsLabel">🎮 Competitive Gaming</div>
+    <h2 class="section-title"><span data-i18n="esportsTitle">E-Sport</span> <span data-i18n="launchWord">Launch</span></h2>
+    <p style="color:var(--soft); font-size:0.98rem; line-height:1.7; max-width:640px; font-weight:300; margin-bottom:8px;" data-i18n="esportsDesc">
       Every <strong style="color:var(--accent)">Monday &amp; Wednesday</strong> — promoting teamwork, strategy, leadership, and positive competition through organised gaming. Students must demonstrate good behaviour, teamwork, and sportsmanship in weekly matches and school tournaments.
     </p>
-    <p style="margin-top:12px; margin-bottom:6px; display:inline-flex; align-items:center; gap:8px; background:rgba(79,163,255,0.1); border:1px solid rgba(79,163,255,0.2); border-radius:40px; padding:8px 20px; font-size:0.88rem; font-weight:600; color:var(--accent); letter-spacing:0.04em;">
+    <p style="margin-top:12px; margin-bottom:6px; display:inline-flex; align-items:center; gap:8px; background:rgba(79,163,255,0.1); border:1px solid rgba(79,163,255,0.2); border-radius:40px; padding:8px 20px; font-size:0.88rem; font-weight:600; color:var(--accent); letter-spacing:0.04em;" data-i18n="ipadNote">
       📱 School provides iPads for all E-Sport activities
     </p>
 
@@ -1139,296 +1127,94 @@
       <div class="game-card">
         <img src="roblox.png" alt="Roblox" class="game-icon">
         <div class="game-name">Roblox Rivals</div>
-        <div class="game-slots">Weekly matches</div>
+        <div class="game-slots" data-i18n="weeklyMatches">Weekly matches</div>
       </div>
       <div class="game-card">
         <img src="free_fire.png" alt="Free Fire" class="game-icon">
         <div class="game-name">Free Fire</div>
-        <div class="game-slots">Weekly matches</div>
+        <div class="game-slots" data-i18n="weeklyMatches">Weekly matches</div>
       </div>
       <div class="game-card">
         <img src="rov.png" alt="ROV" class="game-icon">
         <div class="game-name">ROV</div>
-        <div class="game-slots">Weekly matches</div>
+        <div class="game-slots" data-i18n="weeklyMatches">Weekly matches</div>
       </div>
       <div class="game-card">
         <img src="fc_mobile.png" alt="FC Mobile" class="game-icon">
         <div class="game-name">FC Mobile</div>
-        <div class="game-slots">Weekly matches</div>
+        <div class="game-slots" data-i18n="weeklyMatches">Weekly matches</div>
       </div>
       <div class="game-card">
         <img src="efootball.png" alt="E-Football" class="game-icon">
         <div class="game-name">E-Football</div>
-        <div class="game-slots">Weekly matches</div>
+        <div class="game-slots" data-i18n="weeklyMatches">Weekly matches</div>
       </div>
       <div class="game-card">
         <img src="clash_royale.png" alt="Clash Royale" class="game-icon">
         <div class="game-name">Clash Royale</div>
-        <div class="game-slots">Weekly matches</div>
+        <div class="game-slots" data-i18n="weeklyMatches">Weekly matches</div>
       </div>
       <div class="game-card">
         <img src="brawl_stars.png" alt="Brawl Stars" class="game-icon">
         <div class="game-name">Brawl Stars</div>
-        <div class="game-slots">Weekly matches</div>
+        <div class="game-slots" data-i18n="weeklyMatches">Weekly matches</div>
       </div>
       <div class="game-card">
         <img src="minecraft.png" alt="Minecraft PvP" class="game-icon">
         <div class="game-name">Minecraft PvP</div>
-        <div class="game-slots">Weekly matches</div>
+        <div class="game-slots" data-i18n="weeklyMatches">Weekly matches</div>
       </div>
     </div>
 
     <div class="esports-values">
-      <div class="value-pill">🤝 Teamwork</div>
-      <div class="value-pill">🧠 Strategy</div>
-      <div class="value-pill">🏅 Leadership</div>
-      <div class="value-pill">🎖️ Sportsmanship</div>
-      <div class="value-pill">🏆 Positive Competition</div>
+      <div class="value-pill" data-i18n="teamwork">🤝 Teamwork</div>
+      <div class="value-pill" data-i18n="strategy">🧠 Strategy</div>
+      <div class="value-pill" data-i18n="leadershipPill">🏅 Leadership</div>
+      <div class="value-pill" data-i18n="sportsmanship">🎖️ Sportsmanship</div>
+      <div class="value-pill" data-i18n="positiveCompetition">🏆 Positive Competition</div>
     </div>
   </div>
 </div>
+
+<!-- MEMBERS SECTION -->
+<section style="padding:60px 20px; text-align:center;">
+  <div class="section-label" style="justify-content:center;" data-i18n="teamLabel">🤝 Our Team</div>
+  <h2 class="section-title"><span data-i18n="teamThanks">Thank You To Our</span> <span data-i18n="membersWord">Members</span></h2>
+  
+  <div style="display:flex; flex-direction:column; gap:24px; max-width:800px; margin:0 auto;">
+    
+    <div style="background:var(--card); border:1px solid rgba(255,255,255,0.07); border-radius:16px; padding:20px;">
+      <h3 style="color:var(--gold); font-size:1.2rem; margin-bottom:8px;" data-i18n="leadershipTitle">Leadership</h3>
+      <p style="color:var(--white); font-size:1.05rem;"><strong>Jacob</strong> <span data-i18n="leaderRole">(Leader)</span><br><strong>Tawan</strong> &amp; <strong>Tida</strong> <span data-i18n="coleadersRole">(Co-Leaders)</span></p>
+    </div>
+
+    <div style="background:var(--card); border:1px solid rgba(255,255,255,0.07); border-radius:16px; padding:20px;">
+      <h3 style="color:var(--accent); font-size:1.2rem; margin-bottom:8px;" data-i18n="g6Student">G6 Student</h3>
+      <p style="color:var(--white); font-size:1.05rem;">Jaonaay, Tara, Wiengping, Piangjai, Pampam, Jeanna</p>
+    </div>
+
+    <div style="background:var(--card); border:1px solid rgba(255,255,255,0.07); border-radius:16px; padding:20px;">
+      <h3 style="color:var(--green); font-size:1.2rem; margin-bottom:8px;" data-i18n="g5Student">G5 Student</h3>
+      <p style="color:var(--white); font-size:1.05rem;">Perlaa, Preme, Pat, Meekhun</p>
+    </div>
+
+  </div>
+</section>
+
+<div class="gold-divider"></div>
 
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">EBS New Era</div>
-  <p style="margin-bottom:6px;">Progress Starts Here</p>
-  <p style="font-size:0.75rem;">© 2026 – 2027 EBS · All Policies Subject to School Guidelines</p>
+  <p style="margin-bottom:6px;" data-i18n="progress">Progress Starts Here</p>
+  <p style="font-size:0.75rem;" data-i18n="footerNote">© 2026 – 2027 EBS · All Policies Subject to School Guidelines</p>
 </footer>
-
-<!-- FLOATING MUSIC PLAYER -->
-<div class="music-float" id="musicFloat">
-  <div class="music-float-header" id="musicHeader">
-    <div class="music-float-title">
-      <div class="music-eq" id="musicEq">
-        <span></span><span></span><span></span><span></span>
-      </div>
-      🎵 Background Music
-    </div>
-    <button class="music-float-toggle" id="musicToggle" aria-label="Toggle music player">▼</button>
-  </div>
-  <div class="music-float-body">
-    <iframe id="ytPlayer"
-      src="https://www.youtube.com/embed/32NgURSxXbU?enablejsapi=1&loop=1&playlist=32NgURSxXbU&rel=0&modestbranding=1&controls=0&showinfo=0&iv_load_policy=3&vq=hd1080"
-      allow="autoplay; encrypted-media; fullscreen"
-      allowfullscreen>
-    </iframe>
-  </div>
-  <div class="music-controls">
-    <!-- Play/Pause -->
-    <button class="music-btn music-play-btn" id="btnPlay" aria-label="Play">
-      <svg id="iconPlay" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-      <svg id="iconPause" viewBox="0 0 24 24" style="display:none"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg>
-    </button>
-    <!-- Volume -->
-    <div class="music-vol-wrap">
-      <button class="music-btn" id="btnMute" aria-label="Mute">
-        <svg id="iconVol" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path id="volWave" d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
-        <svg id="iconMute" viewBox="0 0 24 24" style="display:none"><path d="M3 9v6h4l5 5V4L7 9H3z"/><line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="2"/><line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="2"/></svg>
-      </button>
-      <input type="range" class="music-vol-slider" id="volSlider" min="0" max="100" value="80">
-    </div>
-    <!-- Fullscreen -->
-    <button class="music-btn" id="btnFullscreen" aria-label="Fullscreen">
-      <svg id="iconEnterFS" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
-      <svg id="iconExitFS" viewBox="0 0 24 24" style="display:none"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>
-    </button>
-  </div>
-  <div class="music-status-text" id="musicStatus">🎶 Click play to start the vibe</div>
-</div>
-
-<!-- YouTube IFrame API -->
-<script>
-  // Load YouTube IFrame API
-  var tag = document.createElement('script');
-  tag.src = 'https://www.youtube.com/iframe_api';
-  var firstScriptTag = document.getElementsByTagName('script')[0];
-  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-  var bgPlayer;
-  var bgWasPlaying = false;
-  var pausedByIntroVideo = false;
-  var isMuted = false;
-  var lastVolume = 80;
-
-  function onYouTubeIframeAPIReady() {
-    bgPlayer = new YT.Player('ytPlayer', {
-      events: {
-        'onReady': onBgPlayerReady,
-        'onStateChange': onBgPlayerStateChange
-      }
-    });
-  }
-
-  function onBgPlayerReady() {
-    bgPlayer.setVolume(80);
-    bgPlayer.setPlaybackQuality('hd1080');
-  }
-
-  function onBgPlayerStateChange(event) {
-    var eq = document.getElementById('musicEq');
-    var status = document.getElementById('musicStatus');
-    var iconPlay = document.getElementById('iconPlay');
-    var iconPause = document.getElementById('iconPause');
-
-    if (event.data === YT.PlayerState.PLAYING) {
-      eq.classList.remove('paused');
-      iconPlay.style.display = 'none';
-      iconPause.style.display = 'block';
-      if (!pausedByIntroVideo) {
-        status.textContent = '🎶 Now playing...';
-        status.classList.remove('paused-by-video');
-      }
-    } else {
-      eq.classList.add('paused');
-      iconPlay.style.display = 'block';
-      iconPause.style.display = 'none';
-      if (event.data === YT.PlayerState.PAUSED && !pausedByIntroVideo) {
-        status.textContent = '⏸ Paused';
-        status.classList.remove('paused-by-video');
-      }
-    }
-  }
-
-  // Play / Pause
-  document.getElementById('btnPlay').addEventListener('click', function(e) {
-    e.stopPropagation();
-    if (!bgPlayer || typeof bgPlayer.getPlayerState !== 'function') return;
-    var state = bgPlayer.getPlayerState();
-    if (state === YT.PlayerState.PLAYING) {
-      bgPlayer.pauseVideo();
-    } else {
-      bgPlayer.playVideo();
-    }
-  });
-
-  // Volume slider
-  document.getElementById('volSlider').addEventListener('input', function(e) {
-    e.stopPropagation();
-    if (!bgPlayer || typeof bgPlayer.setVolume !== 'function') return;
-    var vol = parseInt(this.value);
-    bgPlayer.setVolume(vol);
-    lastVolume = vol;
-    if (vol === 0) {
-      bgPlayer.mute();
-      isMuted = true;
-      document.getElementById('iconVol').style.display = 'none';
-      document.getElementById('iconMute').style.display = 'block';
-    } else {
-      if (isMuted) { bgPlayer.unMute(); isMuted = false; }
-      document.getElementById('iconVol').style.display = 'block';
-      document.getElementById('iconMute').style.display = 'none';
-    }
-  });
-
-  // Mute toggle
-  document.getElementById('btnMute').addEventListener('click', function(e) {
-    e.stopPropagation();
-    if (!bgPlayer || typeof bgPlayer.mute !== 'function') return;
-    if (isMuted) {
-      bgPlayer.unMute();
-      isMuted = false;
-      document.getElementById('iconVol').style.display = 'block';
-      document.getElementById('iconMute').style.display = 'none';
-      document.getElementById('volSlider').value = lastVolume || 80;
-      bgPlayer.setVolume(lastVolume || 80);
-    } else {
-      lastVolume = bgPlayer.getVolume();
-      bgPlayer.mute();
-      isMuted = true;
-      document.getElementById('iconVol').style.display = 'none';
-      document.getElementById('iconMute').style.display = 'block';
-      document.getElementById('volSlider').value = 0;
-    }
-  });
-
-  // Fullscreen - apply to the entire widget so controls stay visible
-  document.getElementById('btnFullscreen').addEventListener('click', function(e) {
-    e.stopPropagation();
-    var widget = document.getElementById('musicFloat');
-    if (document.fullscreenElement || document.webkitFullscreenElement) {
-      if (document.exitFullscreen) document.exitFullscreen();
-      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-    } else {
-      if (widget.requestFullscreen) widget.requestFullscreen();
-      else if (widget.webkitRequestFullscreen) widget.webkitRequestFullscreen();
-      else if (widget.msRequestFullscreen) widget.msRequestFullscreen();
-    }
-  });
-
-  // Update fullscreen icon on change
-  document.addEventListener('fullscreenchange', updateFSIcon);
-  document.addEventListener('webkitfullscreenchange', updateFSIcon);
-  function updateFSIcon() {
-    var isFS = !!(document.fullscreenElement || document.webkitFullscreenElement);
-    document.getElementById('iconEnterFS').style.display = isFS ? 'none' : 'block';
-    document.getElementById('iconExitFS').style.display = isFS ? 'block' : 'none';
-    if (isFS && bgPlayer && typeof bgPlayer.setPlaybackQuality === 'function') {
-      bgPlayer.setPlaybackQuality('hd1080');
-    }
-  }
-
-  // Toggle collapse
-  document.getElementById('musicHeader').addEventListener('click', function() {
-    document.getElementById('musicFloat').classList.toggle('collapsed');
-  });
-
-  // Prevent controls from triggering collapse
-  document.querySelector('.music-controls').addEventListener('click', function(e) {
-    e.stopPropagation();
-  });
-
-  // Introduction video integration
-  var introVideo = document.querySelector('.video-wrapper video');
-
-  if (introVideo) {
-    introVideo.addEventListener('play', function() {
-      if (bgPlayer && typeof bgPlayer.getPlayerState === 'function') {
-        var state = bgPlayer.getPlayerState();
-        if (state === YT.PlayerState.PLAYING) {
-          bgWasPlaying = true;
-          bgPlayer.pauseVideo();
-          pausedByIntroVideo = true;
-          var status = document.getElementById('musicStatus');
-          status.textContent = '⏸ Paused — intro video is playing';
-          status.classList.add('paused-by-video');
-        }
-      }
-    });
-
-    introVideo.addEventListener('pause', function() {
-      if (bgWasPlaying && pausedByIntroVideo && bgPlayer) {
-        bgPlayer.playVideo();
-        pausedByIntroVideo = false;
-        bgWasPlaying = false;
-        var status = document.getElementById('musicStatus');
-        status.textContent = '🎶 Now playing...';
-        status.classList.remove('paused-by-video');
-      }
-    });
-
-    introVideo.addEventListener('ended', function() {
-      if (bgWasPlaying && pausedByIntroVideo && bgPlayer) {
-        bgPlayer.playVideo();
-        pausedByIntroVideo = false;
-        bgWasPlaying = false;
-        var status = document.getElementById('musicStatus');
-        status.textContent = '🎶 Now playing...';
-        status.classList.remove('paused-by-video');
-      }
-    });
-  }
-</script>
 
 <!-- FLOATING LEFT ACTIONS -->
 <div class="floating-left">
-  <!-- PATCH NOTES SYSTEM -->
-  <button class="patch-btn" id="openPatchBtn">
-    <span class="icon">✨</span> Patch Notes (v8)
-  </button>
-
   <!-- SCHEDULE SYSTEM -->
   <button class="schedule-btn" id="openScheduleBtn">
-    <span class="icon">🗓️</span> Campaign Schedule
+    <span class="icon">🗓️</span> <span data-i18n="scheduleButton">Policy Schedule</span>
   </button>
 </div>
 
@@ -1436,100 +1222,254 @@
 <div class="schedule-modal" id="scheduleModal">
   <div class="schedule-content">
     <button class="schedule-close" id="closeScheduleBtn">×</button>
-    <div class="schedule-title">Party 61 Schedule</div>
-    <div class="schedule-subtitle">EBS New Era Campaign Locations</div>
+    <div class="schedule-title" data-i18n="scheduleTitle">Policy Schedule</div>
+    <div class="schedule-subtitle" data-i18n="scheduleSubtitle">EBS New Era Implementation Timeline</div>
     <ul class="schedule-list" id="scheduleList">
-      <!-- Injected via JS -->
-    </ul>
-  </div>
-</div>
-
-<!-- PATCH NOTES MODAL -->
-<div class="schedule-modal" id="patchModal">
-  <div class="schedule-content">
-    <button class="schedule-close" id="closePatchBtn">×</button>
-    <div class="schedule-title">Update History</div>
-    <div class="schedule-subtitle">EBS New Era Platform Patch Notes</div>
-    <ul class="schedule-list">
       <li class="schedule-item">
-        <div class="schedule-date" style="color:var(--accent)">v9.0 - Corrected Event Schedule</div>
-        <div class="schedule-loc">Correct Spelling Mistake and Event Schedule</div>
+        <div class="schedule-date" data-i18n="scheduleMonWed">📅 Monday & Wednesday</div>
+        <div class="schedule-loc">📍 E-Sport Launch</div>
       </li>
       <li class="schedule-item">
-        <div class="schedule-date">v8.0 - Mobile Scaling & Patch Notes</div>
-        <div class="schedule-loc">Fixed vertical scrolling layout for mobiles and added patch history log.</div>
+        <div class="schedule-date" data-i18n="scheduleTue">📅 Tuesday</div>
+        <div class="schedule-loc">📍 EBS Dance Connect & Talent Showcase</div>
       </li>
       <li class="schedule-item">
-        <div class="schedule-date">v7.0 - Schedule System & Translations</div>
-        <div class="schedule-loc">Added auto-opening bilingual Campaign Schedule pop-up for Party 61.</div>
+        <div class="schedule-date" data-i18n="scheduleTueMarket">📅 Tuesday Morning</div>
+        <div class="schedule-loc">📍 Tuesday Market</div>
       </li>
       <li class="schedule-item">
-        <div class="schedule-date">v6.0 - Fullscreen & Link Previews</div>
-        <div class="schedule-loc">Added custom social media link preview tags and fixed music player fullscreen mode.</div>
+        <div class="schedule-date" data-i18n="scheduleThu">📅 Thursday</div>
+        <div class="schedule-loc">📍 EBS Lunch Football</div>
       </li>
       <li class="schedule-item">
-        <div class="schedule-date">v5.0 - E-Sports Expansion</div>
-        <div class="schedule-loc">Expanded to 8 separate games with official Play Store HD icons & iPad support badge.</div>
+        <div class="schedule-date" data-i18n="scheduleFri">📅 Friday</div>
+        <div class="schedule-loc">📍 Friday International Lunch Voting</div>
       </li>
       <li class="schedule-item">
-        <div class="schedule-date">v4.0 - Custom Player Controls</div>
-        <div class="schedule-loc">Replaced default YouTube controls with a custom glassmorphism UI.</div>
+        <div class="schedule-date" data-i18n="scheduleFriAfternoon">📅 Friday Afternoon</div>
+        <div class="schedule-loc">📍 Music Day for Performing</div>
       </li>
       <li class="schedule-item">
-        <div class="schedule-date">v3.0 - YouTube Embed Fixes</div>
-        <div class="schedule-loc">Fixed iframe API Error 153 for unlisted videos and forced HD 1080p playback.</div>
-      </li>
-      <li class="schedule-item">
-        <div class="schedule-date">v2.0 - Background Music Player</div>
-        <div class="schedule-loc">Added floating music player with smart auto-pause when intro video plays.</div>
-      </li>
-      <li class="schedule-item">
-        <div class="schedule-date">v1.0 - Initial Launch</div>
-        <div class="schedule-loc">Official launch of the EBS New Era 61 Policies website.</div>
+        <div class="schedule-date" data-i18n="scheduleWeekly">✨ Weekly / Always Open</div>
+        <div class="schedule-loc">📍 Feedback QR, Subject Highlight, Music Choice</div>
       </li>
     </ul>
   </div>
 </div>
 
 <script>
-  (async function() {
-    // Campaign schedule for Party 61
-    let scheduleData = [];
-    try {
-      const response = await fetch('table.json');
-      scheduleData = await response.json();
-    } catch (e) {
-      console.error('Failed to fetch schedule data:', e);
-    }
-
-    const listEl = document.getElementById('scheduleList');
-    
-    // Calculate today and tomorrow dates
-    const today = new Date();
-    today.setHours(0,0,0,0);
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-
-    scheduleData.forEach(item => {
-      // Parse schedule date
-      const parts = item.dateStr.split('-');
-      const itemDate = new Date(parts[0], parts[1] - 1, parts[2]);
-      itemDate.setHours(0,0,0,0);
-
-      let tagHtml = '';
-      if (itemDate.getTime() === today.getTime()) {
-        tagHtml = '<span class="schedule-tag tag-today">(Today / วันนี้)</span>';
-      } else if (itemDate.getTime() === tomorrow.getTime()) {
-        tagHtml = '<span class="schedule-tag tag-tomorrow">(Tomorrow / พรุ่งนี้)</span>';
+  (function() {
+    const translations = {
+      en: {
+        eraBadge: '2026 – 2027 Academic Year',
+        progress: 'Progress Starts Here',
+        studentLife: 'Student Life, Reimagined',
+        voteThanks: '🎉 Incredibly Grateful for Over 550+ Votes! 🎉',
+        trustThanks: 'A heartfelt thank you to all teachers, students, and staff for placing your trust in us.',
+        explorePolicies: 'Explore Policies',
+        introLabel: '🎬 The New Era Begins',
+        videoUnsupported: 'Your browser does not support the video tag.',
+        videoCaption: '— Official Introduction Video · 2026–2027',
+        policiesLabel: '🎯 Student Engagement Policies',
+        whats: "What's",
+        newWord: 'New',
+        atEbs: 'at EBS',
+        danceTag: 'Every Tuesday',
+        danceTitle: 'EBS Dance Connect',
+        danceDesc: 'Students and teachers come together to film fun, school-appropriate TikTok dance videos during break or activity time at the library.',
+        danceDetail: '📍 Library &nbsp;·&nbsp; Break / Activity Time',
+        footballTag: 'Every Thursday',
+        footballTitle: 'EBS Lunch Football',
+        footballDesc: 'A weekly lunchtime football session for students to play, relax, and compete in friendly matches — complete with a live leaderboard!',
+        footballDetail: '🏆 Leaderboard &nbsp;·&nbsp; Lunchtime',
+        lunchTag: 'Every Friday',
+        lunchTitle: 'Friday International Lunch Voting',
+        lunchDesc: 'Students vote for special weekly lunch themes — Korean, Japanese, Western, Thai, and more — making lunchtime a global adventure.',
+        lunchDetail: '🗳️ Student Vote &nbsp;·&nbsp; Lunchtime',
+        talentTag: 'Special Events',
+        talentTitle: 'Talent Showcase Tuesday',
+        talentDesc: 'A performance stage for every student — singing, dancing, instruments, art, poetry, and more. Your talent deserves the spotlight.',
+        talentDetail: '🎤 Open to All Talents',
+        feedbackTag: 'Always Open',
+        feedbackTitle: 'Student Feedback QR System',
+        feedbackDesc: 'QR codes placed around school let students instantly submit ideas, activity requests, suggestions, or improvement feedback via quick online forms.',
+        feedbackDetail: '📌 Info Room &amp; Common Areas',
+        subjectTag: 'Weekly',
+        subjectTitle: 'EBS Subject Progress Highlight',
+        subjectDesc: 'Subject teachers recognise one student per week for outstanding effort, improvement, or contribution — celebrating progress in every classroom.',
+        subjectDetail: '✨ 1 Student Per Class Per Week',
+        musicTag: 'Vote Anytime',
+        musicTitle: 'EBS Music Choice',
+        musicDesc: 'Students vote on playlists and music for lunch, events, and sports activities — making every school experience more vibrant and interactive.',
+        musicDetail: '🎶 Lunch · Events · Sports',
+        lunchVotingKicker: '🍱 Lunch Voting',
+        lunchVotingDesc: 'Cast your vote for the next lunch theme and help decide what shows up on the Friday international lunch menu.',
+        lunchVotingButton: 'Vote Now →',
+        feedbackFormKicker: '💬 Feedback Form',
+        feedbackFormDesc: "Got an idea, a request, or something on your mind? Tell us — your feedback helps shape what's next for EBS New Era.",
+        feedbackFormButton: 'Give Feedback →',
+        esportsLabel: '🎮 Competitive Gaming',
+        esportsTitle: 'E-Sport',
+        launchWord: 'Launch',
+        esportsDesc: 'Every <strong style="color:var(--accent)">Monday &amp; Wednesday</strong> — promoting teamwork, strategy, leadership, and positive competition through organised gaming. Students must demonstrate good behaviour, teamwork, and sportsmanship in weekly matches and school tournaments.',
+        ipadNote: '📱 School provides iPads for all E-Sport activities',
+        weeklyMatches: 'Weekly matches',
+        teamwork: '🤝 Teamwork',
+        strategy: '🧠 Strategy',
+        leadershipPill: '🏅 Leadership',
+        sportsmanship: '🎖️ Sportsmanship',
+        positiveCompetition: '🏆 Positive Competition',
+        teamLabel: '🤝 Our Team',
+        teamThanks: 'Thank You To Our',
+        membersWord: 'Members',
+        leadershipTitle: 'Leadership',
+        leaderRole: '(Leader)',
+        coleadersRole: '(Co-Leaders)',
+        g6Student: 'G6 Student',
+        g5Student: 'G5 Student',
+        footerNote: '© 2026 – 2027 EBS · All Policies Subject to School Guidelines',
+        scheduleButton: 'Policy Schedule',
+        scheduleTitle: 'Policy Schedule',
+        scheduleSubtitle: 'EBS New Era Implementation Timeline',
+        scheduleMonWed: '📅 Monday & Wednesday',
+        scheduleEsport: '📍 E-Sport Launch',
+        scheduleTue: '📅 Tuesday',
+        scheduleDanceTalent: '📍 EBS Dance Connect & Talent Showcase',
+        scheduleTueMarket: '📅 Tuesday Morning',
+        scheduleTueMarketItem: '📍 Tuesday Market',
+        scheduleThu: '📅 Thursday',
+        scheduleFootball: '📍 EBS Lunch Football',
+        scheduleFri: '📅 Friday',
+        scheduleLunch: '📍 Friday International Lunch Voting',
+        scheduleFriAfternoon: '📅 Friday Afternoon',
+        scheduleMusicDay: '📍 Music Day for Performing',
+        scheduleWeekly: '✨ Weekly / Always Open',
+        scheduleWeeklyItems: '📍 Feedback QR, Subject Highlight, Music Choice'
+      },
+      th: {
+        eraBadge: 'ปีการศึกษา 2026 – 2027',
+        progress: 'ความก้าวหน้าเริ่มต้นที่นี่',
+        studentLife: 'ชีวิตนักเรียนในรูปแบบใหม่',
+        voteThanks: '🎉 ขอบคุณอย่างยิ่งสำหรับคะแนนโหวตกว่า 550 คะแนน! 🎉',
+        trustThanks: 'ขอขอบคุณคุณครู นักเรียน และบุคลากรทุกคนจากใจจริงที่ไว้วางใจพวกเรา',
+        explorePolicies: 'ดูนโยบาย',
+        introLabel: '🎬 The New Era Begins',
+        videoUnsupported: 'เบราว์เซอร์ของคุณไม่รองรับวิดีโอ',
+        videoCaption: '— วิดีโอแนะนำอย่างเป็นทางการ · 2026–2027',
+        policiesLabel: '🎯 นโยบายส่งเสริมการมีส่วนร่วมของนักเรียน',
+        whats: 'มีอะไร',
+        newWord: 'ใหม่',
+        atEbs: 'ที่ EBS',
+        danceTag: 'ทุกวันอังคาร',
+        danceTitle: 'EBS Dance Connect',
+        danceDesc: 'นักเรียนและคุณครูมาร่วมถ่ายวิดีโอเต้น TikTok ที่สนุกและเหมาะสมกับโรงเรียนในช่วงพักหรือเวลาทำกิจกรรมที่ห้องสมุด',
+        danceDetail: '📍 ห้องสมุด &nbsp;·&nbsp; ช่วงพัก / เวลากิจกรรม',
+        footballTag: 'ทุกวันพฤหัสบดี',
+        footballTitle: 'EBS Lunch Football',
+        footballDesc: 'กิจกรรมฟุตบอลช่วงพักกลางวันประจำสัปดาห์ ให้นักเรียนได้เล่น พักผ่อน และแข่งขันแบบเป็นมิตร พร้อมตารางคะแนนสด',
+        footballDetail: '🏆 ตารางคะแนน &nbsp;·&nbsp; พักกลางวัน',
+        lunchTag: 'ทุกวันศุกร์',
+        lunchTitle: 'โหวตอาหารกลางวันนานาชาติวันศุกร์',
+        lunchDesc: 'นักเรียนร่วมโหวตธีมอาหารกลางวันพิเศษประจำสัปดาห์ เช่น เกาหลี ญี่ปุ่น ตะวันตก ไทย และอื่น ๆ เพื่อให้มื้อกลางวันเป็นการผจญภัยระดับโลก',
+        lunchDetail: '🗳️ นักเรียนโหวต &nbsp;·&nbsp; พักกลางวัน',
+        talentTag: 'กิจกรรมพิเศษ',
+        talentTitle: 'Talent Showcase Tuesday',
+        talentDesc: 'เวทีการแสดงสำหรับนักเรียนทุกคน ทั้งร้องเพลง เต้น เล่นดนตรี ศิลปะ กวีนิพนธ์ และอื่น ๆ ความสามารถของคุณควรได้เปล่งประกาย',
+        talentDetail: '🎤 เปิดรับทุกความสามารถ',
+        feedbackTag: 'เปิดรับเสมอ',
+        feedbackTitle: 'ระบบ QR รับฟังความคิดเห็นนักเรียน',
+        feedbackDesc: 'QR Code รอบโรงเรียนช่วยให้นักเรียนส่งไอเดีย คำขอกิจกรรม ข้อเสนอแนะ หรือความคิดเห็นเพื่อพัฒนาโรงเรียนได้ทันทีผ่านแบบฟอร์มออนไลน์',
+        feedbackDetail: '📌 ห้องประชาสัมพันธ์และพื้นที่ส่วนกลาง',
+        subjectTag: 'รายสัปดาห์',
+        subjectTitle: 'EBS Subject Progress Highlight',
+        subjectDesc: 'คุณครูแต่ละวิชายกย่องนักเรียนหนึ่งคนต่อสัปดาห์สำหรับความพยายาม พัฒนาการ หรือการมีส่วนร่วมที่โดดเด่น เพื่อเฉลิมฉลองความก้าวหน้าในทุกห้องเรียน',
+        subjectDetail: '✨ 1 คนต่อห้องต่อสัปดาห์',
+        musicTag: 'โหวตได้ทุกเวลา',
+        musicTitle: 'EBS Music Choice',
+        musicDesc: 'นักเรียนร่วมโหวตเพลย์ลิสต์และเพลงสำหรับมื้อกลางวัน กิจกรรม และกีฬา เพื่อให้ทุกประสบการณ์ในโรงเรียนสดใสและมีส่วนร่วมมากขึ้น',
+        musicDetail: '🎶 พักกลางวัน · กิจกรรม · กีฬา',
+        lunchVotingKicker: '🍱 โหวตอาหารกลางวัน',
+        lunchVotingDesc: 'ร่วมโหวตธีมอาหารกลางวันครั้งต่อไป และช่วยตัดสินใจว่าเมนูอาหารกลางวันนานาชาติวันศุกร์จะเป็นอะไร',
+        lunchVotingButton: 'โหวตเลย →',
+        feedbackFormKicker: '💬 แบบฟอร์มความคิดเห็น',
+        feedbackFormDesc: 'มีไอเดีย คำขอ หรือสิ่งที่อยากบอกเราไหม? บอกเรามาเลย — ความคิดเห็นของคุณจะช่วยกำหนดทิศทางต่อไปของ EBS New Era',
+        feedbackFormButton: 'ส่งความคิดเห็น →',
+        esportsLabel: '🎮 เกมแข่งขัน',
+        esportsTitle: 'อีสปอร์ต',
+        launchWord: 'เริ่มต้น',
+        esportsDesc: 'ทุก <strong style="color:var(--accent)">วันจันทร์และวันพุธ</strong> — ส่งเสริมการทำงานเป็นทีม กลยุทธ์ ภาวะผู้นำ และการแข่งขันเชิงบวกผ่านเกมที่จัดอย่างเป็นระบบ นักเรียนต้องแสดงพฤติกรรมที่ดี การทำงานร่วมกัน และน้ำใจนักกีฬาในการแข่งขันประจำสัปดาห์และทัวร์นาเมนต์ของโรงเรียน',
+        ipadNote: '📱 โรงเรียนจัดเตรียม iPad สำหรับกิจกรรมอีสปอร์ตทั้งหมด',
+        weeklyMatches: 'แข่งขันรายสัปดาห์',
+        teamwork: '🤝 การทำงานเป็นทีม',
+        strategy: '🧠 กลยุทธ์',
+        leadershipPill: '🏅 ภาวะผู้นำ',
+        sportsmanship: '🎖️ น้ำใจนักกีฬา',
+        positiveCompetition: '🏆 การแข่งขันเชิงบวก',
+        teamLabel: '🤝 ทีมของเรา',
+        teamThanks: 'ขอขอบคุณ',
+        membersWord: 'สมาชิกของเรา',
+        leadershipTitle: 'ทีมผู้นำ',
+        leaderRole: '(หัวหน้า)',
+        coleadersRole: '(รองหัวหน้า)',
+        g6Student: 'นักเรียน G6',
+        g5Student: 'นักเรียน G5',
+        footerNote: '© 2026 – 2027 EBS · นโยบายทั้งหมดอยู่ภายใต้แนวทางของโรงเรียน',
+        scheduleButton: 'ตารางนโยบาย',
+        scheduleTitle: 'ตารางนโยบาย',
+        scheduleSubtitle: 'ไทม์ไลน์การดำเนินงาน EBS New Era',
+        scheduleMonWed: '📅 วันจันทร์และวันพุธ',
+        scheduleEsport: '📍 เปิดตัวอีสปอร์ต',
+        scheduleTue: '📅 วันอังคาร',
+        scheduleDanceTalent: '📍 EBS Dance Connect และ Talent Showcase',
+        scheduleTueMarket: '📅 เช้าวันอังคาร',
+        scheduleTueMarketItem: '📍 ตลาดวันอังคาร',
+        scheduleThu: '📅 วันพฤหัสบดี',
+        scheduleFootball: '📍 EBS Lunch Football',
+        scheduleFri: '📅 วันศุกร์',
+        scheduleLunch: '📍 โหวตอาหารกลางวันนานาชาติวันศุกร์',
+        scheduleFriAfternoon: '📅 บ่ายวันศุกร์',
+        scheduleMusicDay: '📍 วันแสดงดนตรี',
+        scheduleWeekly: '✨ รายสัปดาห์ / เปิดรับเสมอ',
+        scheduleWeeklyItems: '📍 Feedback QR, Subject Highlight, Music Choice'
       }
+    };
 
-      const li = document.createElement('li');
-      li.className = 'schedule-item';
-      li.innerHTML = `
-        <div class="schedule-date">📅 ${item.displayDate} ${tagHtml}</div>
-        <div class="schedule-loc">📍 ${item.location}</div>
-      `;
-      listEl.appendChild(li);
+    const langToggle = document.getElementById('langToggle');
+    const applyLanguage = (lang) => {
+      const nextLang = lang === 'th' ? 'th' : 'en';
+      document.documentElement.setAttribute('lang', nextLang);
+      document.querySelectorAll('[data-i18n]').forEach((el) => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[nextLang][key]) el.innerHTML = translations[nextLang][key];
+      });
+      langToggle.textContent = nextLang === 'th' ? 'EN' : 'TH';
+      langToggle.setAttribute('aria-label', nextLang === 'th' ? 'Switch to English' : 'Switch to Thai');
+      document.title = nextLang === 'th' ? '🎉 EBS NEW ERA โดย Jacob 🎉' : '🎉 EBS NEW ERA By Jacob 🎉';
+    };
+
+    applyLanguage('en');
+    langToggle.addEventListener('click', () => {
+      const currentLang = document.documentElement.getAttribute('lang') === 'th' ? 'th' : 'en';
+      applyLanguage(currentLang === 'th' ? 'en' : 'th');
+    });
+
+    // Theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    if (document.documentElement.getAttribute('data-theme') === 'light') {
+      themeToggle.textContent = '🌙';
+    } else {
+      themeToggle.textContent = '☀️';
+    }
+    themeToggle.addEventListener('click', () => {
+      if (document.documentElement.getAttribute('data-theme') === 'light') {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'dark');
+        themeToggle.textContent = '☀️';
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+        themeToggle.textContent = '🌙';
+      }
     });
 
     // Modal Logic
@@ -1541,16 +1481,6 @@
     closeSchedBtn.addEventListener('click', () => schedModal.classList.remove('open'));
     schedModal.addEventListener('click', (e) => {
       if (e.target === schedModal) schedModal.classList.remove('open');
-    });
-
-    const patchModal = document.getElementById('patchModal');
-    const openPatchBtn = document.getElementById('openPatchBtn');
-    const closePatchBtn = document.getElementById('closePatchBtn');
-
-    openPatchBtn.addEventListener('click', () => patchModal.classList.add('open'));
-    closePatchBtn.addEventListener('click', () => patchModal.classList.remove('open'));
-    patchModal.addEventListener('click', (e) => {
-      if (e.target === patchModal) patchModal.classList.remove('open');
     });
 
     // Auto open on page load
