@@ -539,6 +539,12 @@
       margin: 0 auto;
     }
 
+    .lunch-voting-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
     .lunch-voting-panel {
       position: relative;
       overflow: hidden;
@@ -547,11 +553,11 @@
       background:
         linear-gradient(135deg, rgba(245,200,66,0.13), rgba(79,163,255,0.08)),
         var(--card);
-      padding: clamp(28px, 5vw, 48px);
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 28px;
-      align-items: center;
+      padding: clamp(24px, 4vw, 36px);
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      align-items: flex-start;
       box-shadow: 0 24px 70px rgba(0,0,0,0.2);
     }
 
@@ -579,8 +585,8 @@
 
     .lunch-voting-title {
       font-family: 'Bebas Neue', Impact, 'Arial Narrow', sans-serif;
-      font-size: clamp(2.2rem, 5vw, 3.7rem);
-      line-height: 1;
+      font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+      line-height: 1.05;
       letter-spacing: 0.04em;
       color: var(--white);
       margin-bottom: 14px;
@@ -713,278 +719,13 @@
     }
 
     /* ─── RESPONSIVE ─── */
+    @media(max-width:768px){
+      .lunch-voting-row { grid-template-columns: 1fr; }
+    }
     @media(max-width:640px){
       .policy-grid { grid-template-columns: 1fr; }
       .games-grid { grid-template-columns: repeat(2,1fr); }
-      .lunch-voting-panel { grid-template-columns: 1fr; }
       .lunch-voting-btn { width: 100%; }
-    }
-
-    /* ─── FLOATING MUSIC PLAYER ─── */
-    .music-float {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid var(--float-border);
-      box-shadow: 0 8px 40px rgba(0,0,0,0.3), 0 0 30px rgba(245,200,66,0.05);
-      background: var(--float-bg);
-      color: var(--float-text);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      transition: transform 0.4s cubic-bezier(.4,0,.2,1), opacity 0.4s ease;
-      transform: translateY(0);
-      opacity: 1;
-      width: 320px;
-    }
-
-    .music-float.collapsed {
-      transform: translateY(calc(100% - 46px));
-    }
-
-    .music-float-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 14px;
-      background: rgba(245,200,66,0.08);
-      border-bottom: 1px solid var(--float-border);
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .music-float-header:hover {
-      background: rgba(245,200,66,0.14);
-    }
-
-    .music-float-title {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--gold);
-    }
-
-    .music-float-title .music-eq {
-      display: flex;
-      align-items: flex-end;
-      gap: 2px;
-      height: 14px;
-    }
-
-    .music-eq span {
-      display: block;
-      width: 3px;
-      background: var(--gold);
-      border-radius: 2px;
-      animation: eqBar 0.8s ease-in-out infinite alternate;
-    }
-    .music-eq span:nth-child(1) { height: 6px; animation-delay: 0s; }
-    .music-eq span:nth-child(2) { height: 12px; animation-delay: 0.15s; }
-    .music-eq span:nth-child(3) { height: 8px; animation-delay: 0.3s; }
-    .music-eq span:nth-child(4) { height: 14px; animation-delay: 0.1s; }
-
-    .music-eq.paused span {
-      animation: none;
-      height: 3px !important;
-    }
-
-    @keyframes eqBar {
-      0% { height: 4px; }
-      100% { height: 14px; }
-    }
-
-    .music-float-toggle {
-      background: none;
-      border: none;
-      color: var(--soft);
-      font-size: 1.1rem;
-      cursor: pointer;
-      padding: 2px 4px;
-      transition: transform 0.3s ease, color 0.2s;
-      line-height: 1;
-    }
-    .music-float-toggle:hover { color: var(--gold); }
-    .music-float.collapsed .music-float-toggle { transform: rotate(180deg); }
-
-    .music-float-body {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16/9;
-      overflow: hidden;
-      background: #000;
-    }
-
-    .music-float-body iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      pointer-events: none;
-    }
-
-    /* ─── CUSTOM CONTROLS ─── */
-    .music-controls {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 12px;
-      background: var(--float-bg);
-      border-top: 1px solid var(--float-border);
-    }
-
-    .music-btn {
-      background: none;
-      border: none;
-      color: var(--soft);
-      cursor: pointer;
-      padding: 6px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: color 0.2s, background 0.2s;
-      font-size: 1rem;
-      line-height: 1;
-    }
-    .music-btn:hover {
-      color: var(--gold);
-      background: rgba(245,200,66,0.1);
-    }
-    .music-btn.active {
-      color: var(--gold);
-    }
-
-    .music-btn svg {
-      width: 18px;
-      height: 18px;
-      fill: currentColor;
-    }
-
-    .music-play-btn svg {
-      width: 20px;
-      height: 20px;
-    }
-
-    .music-vol-wrap {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      flex: 1;
-      min-width: 0;
-    }
-
-    .music-vol-slider {
-      -webkit-appearance: none;
-      appearance: none;
-      flex: 1;
-      height: 4px;
-      border-radius: 4px;
-      background: var(--border);
-      outline: none;
-      cursor: pointer;
-      min-width: 50px;
-    }
-    .music-vol-slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--gold);
-      cursor: pointer;
-      box-shadow: 0 0 6px rgba(245,200,66,0.4);
-      transition: transform 0.15s;
-    }
-    .music-vol-slider::-webkit-slider-thumb:hover {
-      transform: scale(1.3);
-    }
-    .music-vol-slider::-moz-range-thumb {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--gold);
-      cursor: pointer;
-      border: none;
-      box-shadow: 0 0 6px rgba(245,200,66,0.4);
-    }
-
-    .music-status-text {
-      padding: 5px 12px;
-      font-size: 0.7rem;
-      color: var(--soft);
-      background: rgba(0,0,0,0.05);
-      text-align: center;
-      letter-spacing: 0.06em;
-      transition: color 0.3s;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      border-top: 1px solid var(--float-border);
-    }
-
-    [data-theme="light"] .music-status-text {
-      background: rgba(0,0,0,0.02);
-    }
-
-    .music-status-text.paused-by-video {
-      color: var(--red);
-    }
-
-    /* ─── FULLSCREEN MODE ─── */
-    .music-float:fullscreen,
-    .music-float:-webkit-full-screen {
-      width: 100vw;
-      height: 100vh;
-      border-radius: 0;
-      border: none;
-      bottom: 0;
-      right: 0;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .music-float:fullscreen .music-float-header,
-    .music-float:-webkit-full-screen .music-float-header {
-      border-radius: 0;
-    }
-
-    .music-float:fullscreen .music-float-body,
-    .music-float:-webkit-full-screen .music-float-body {
-      flex: 1;
-      aspect-ratio: unset;
-    }
-
-    .music-float:fullscreen .music-controls,
-    .music-float:-webkit-full-screen .music-controls {
-      padding: 12px 24px;
-      gap: 12px;
-    }
-
-    .music-float:fullscreen .music-controls .music-btn svg,
-    .music-float:-webkit-full-screen .music-controls .music-btn svg {
-      width: 24px;
-      height: 24px;
-    }
-
-    .music-float:fullscreen .music-controls .music-play-btn svg,
-    .music-float:-webkit-full-screen .music-controls .music-play-btn svg {
-      width: 28px;
-      height: 28px;
-    }
-
-    @media(max-width:480px){
-      .music-float {
-        width: 280px;
-        bottom: 12px;
-        right: 12px;
-      }
     }
 
     /* ─── SCHEDULE & PATCH MODALS ─── */
@@ -1193,11 +934,6 @@
         padding: 6px 12px;
         font-size: 0.75rem;
       }
-      .music-float {
-        width: 280px;
-        bottom: 12px;
-        right: 12px;
-      }
     }
   </style>
 </head>
@@ -1245,7 +981,7 @@
 
 <!-- VIDEO INTRODUCTION -->
 <div class="video-section">
-  <div class="video-label" data-i18n="introLabel">🎬 Introduction</div>
+  <div class="video-label" data-i18n="introLabel">🎬 The New Era Begins</div>
   <div class="video-wrapper">
     <video controls playsinline preload="metadata" poster="">
       <source src="https://drk.qzz.io/newera/introduction.mp4" type="video/mp4">
@@ -1337,15 +1073,26 @@
 
 <div class="gold-divider"></div>
 
-<!-- LUNCH VOTING -->
-<section class="lunch-voting-section" aria-labelledby="lunchVotingTitle">
-  <div class="lunch-voting-panel">
-    <div class="lunch-voting-copy">
-      <div class="lunch-voting-kicker" data-i18n="lunchVotingKicker">🍱 Lunch Voting</div>
-      <h2 class="lunch-voting-title" id="lunchVotingTitle">New Era Lunch Voting</h2>
-      <p class="lunch-voting-desc" data-i18n="lunchVotingDesc">Cast your vote for the next lunch theme and help decide what shows up on the Friday international lunch menu.</p>
+<!-- LUNCH VOTING + FEEDBACK FORM -->
+<section class="lunch-voting-section" aria-label="Lunch voting and feedback form">
+  <div class="lunch-voting-row">
+    <div class="lunch-voting-panel">
+      <div class="lunch-voting-copy">
+        <div class="lunch-voting-kicker" data-i18n="lunchVotingKicker">🍱 Lunch Voting</div>
+        <h2 class="lunch-voting-title" id="lunchVotingTitle">New Era Lunch Voting</h2>
+        <p class="lunch-voting-desc" data-i18n="lunchVotingDesc">Cast your vote for the next lunch theme and help decide what shows up on the Friday international lunch menu.</p>
+      </div>
+      <a class="lunch-voting-btn" href="https://drk.qzz.io/newera/voting.html" data-i18n="lunchVotingButton">Vote Now →</a>
     </div>
-    <a class="lunch-voting-btn" href="https://drk.qzz.io/newera/voting.html" data-i18n="lunchVotingButton">Vote Now →</a>
+
+    <div class="lunch-voting-panel">
+      <div class="lunch-voting-copy">
+        <div class="lunch-voting-kicker" data-i18n="feedbackFormKicker">💬 Feedback Form</div>
+        <h2 class="lunch-voting-title" id="feedbackFormTitle">New Era Feedback Form</h2>
+        <p class="lunch-voting-desc" data-i18n="feedbackFormDesc">Got an idea, a request, or something on your mind? Tell us — your feedback helps shape what's next for EBS New Era.</p>
+      </div>
+      <a class="lunch-voting-btn" href="https://drk.qzz.io/newera/feedback.html" data-i18n="feedbackFormButton">Give Feedback →</a>
+    </div>
   </div>
 </section>
 
@@ -1450,230 +1197,6 @@
   <p style="font-size:0.75rem;" data-i18n="footerNote">© 2026 – 2027 EBS · All Policies Subject to School Guidelines</p>
 </footer>
 
-<!-- FLOATING MUSIC PLAYER -->
-<div class="music-float" id="musicFloat">
-  <div class="music-float-header" id="musicHeader">
-    <div class="music-float-title">
-      <div class="music-eq" id="musicEq">
-        <span></span><span></span><span></span><span></span>
-      </div>
-      🎵 Background Music
-    </div>
-    <button class="music-float-toggle" id="musicToggle" aria-label="Toggle music player">▼</button>
-  </div>
-  <div class="music-float-body">
-    <iframe id="ytPlayer"
-      src="https://www.youtube.com/embed/32NgURSxXbU?enablejsapi=1&loop=1&playlist=32NgURSxXbU&rel=0&modestbranding=1&controls=0&showinfo=0&iv_load_policy=3&vq=hd1080"
-      allow="autoplay; encrypted-media; fullscreen"
-      allowfullscreen>
-    </iframe>
-  </div>
-  <div class="music-controls">
-    <!-- Play/Pause -->
-    <button class="music-btn music-play-btn" id="btnPlay" aria-label="Play">
-      <svg id="iconPlay" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-      <svg id="iconPause" viewBox="0 0 24 24" style="display:none"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg>
-    </button>
-    <!-- Volume -->
-    <div class="music-vol-wrap">
-      <button class="music-btn" id="btnMute" aria-label="Mute">
-        <svg id="iconVol" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path id="volWave" d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
-        <svg id="iconMute" viewBox="0 0 24 24" style="display:none"><path d="M3 9v6h4l5 5V4L7 9H3z"/><line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="2"/><line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="2"/></svg>
-      </button>
-      <input type="range" class="music-vol-slider" id="volSlider" min="0" max="100" value="80">
-    </div>
-    <!-- Fullscreen -->
-    <button class="music-btn" id="btnFullscreen" aria-label="Fullscreen">
-      <svg id="iconEnterFS" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
-      <svg id="iconExitFS" viewBox="0 0 24 24" style="display:none"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>
-    </button>
-  </div>
-  <div class="music-status-text" id="musicStatus">🎶 Click play to start the vibe</div>
-</div>
-
-<!-- YouTube IFrame API -->
-<script>
-  // Load YouTube IFrame API
-  var tag = document.createElement('script');
-  tag.src = 'https://www.youtube.com/iframe_api';
-  var firstScriptTag = document.getElementsByTagName('script')[0];
-  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-  var bgPlayer;
-  var bgWasPlaying = false;
-  var pausedByIntroVideo = false;
-  var isMuted = false;
-  var lastVolume = 80;
-
-  function onYouTubeIframeAPIReady() {
-    bgPlayer = new YT.Player('ytPlayer', {
-      events: {
-        'onReady': onBgPlayerReady,
-        'onStateChange': onBgPlayerStateChange
-      }
-    });
-  }
-
-  function onBgPlayerReady() {
-    bgPlayer.setVolume(80);
-    bgPlayer.setPlaybackQuality('hd1080');
-  }
-
-  function onBgPlayerStateChange(event) {
-    var eq = document.getElementById('musicEq');
-    var status = document.getElementById('musicStatus');
-    var iconPlay = document.getElementById('iconPlay');
-    var iconPause = document.getElementById('iconPause');
-
-    if (event.data === YT.PlayerState.PLAYING) {
-      eq.classList.remove('paused');
-      iconPlay.style.display = 'none';
-      iconPause.style.display = 'block';
-      if (!pausedByIntroVideo) {
-        status.textContent = '🎶 Now playing...';
-        status.classList.remove('paused-by-video');
-      }
-    } else {
-      eq.classList.add('paused');
-      iconPlay.style.display = 'block';
-      iconPause.style.display = 'none';
-      if (event.data === YT.PlayerState.PAUSED && !pausedByIntroVideo) {
-        status.textContent = '⏸ Paused';
-        status.classList.remove('paused-by-video');
-      }
-    }
-  }
-
-  // Play / Pause
-  document.getElementById('btnPlay').addEventListener('click', function(e) {
-    e.stopPropagation();
-    if (!bgPlayer || typeof bgPlayer.getPlayerState !== 'function') return;
-    var state = bgPlayer.getPlayerState();
-    if (state === YT.PlayerState.PLAYING) {
-      bgPlayer.pauseVideo();
-    } else {
-      bgPlayer.playVideo();
-    }
-  });
-
-  // Volume slider
-  document.getElementById('volSlider').addEventListener('input', function(e) {
-    e.stopPropagation();
-    if (!bgPlayer || typeof bgPlayer.setVolume !== 'function') return;
-    var vol = parseInt(this.value);
-    bgPlayer.setVolume(vol);
-    lastVolume = vol;
-    if (vol === 0) {
-      bgPlayer.mute();
-      isMuted = true;
-      document.getElementById('iconVol').style.display = 'none';
-      document.getElementById('iconMute').style.display = 'block';
-    } else {
-      if (isMuted) { bgPlayer.unMute(); isMuted = false; }
-      document.getElementById('iconVol').style.display = 'block';
-      document.getElementById('iconMute').style.display = 'none';
-    }
-  });
-
-  // Mute toggle
-  document.getElementById('btnMute').addEventListener('click', function(e) {
-    e.stopPropagation();
-    if (!bgPlayer || typeof bgPlayer.mute !== 'function') return;
-    if (isMuted) {
-      bgPlayer.unMute();
-      isMuted = false;
-      document.getElementById('iconVol').style.display = 'block';
-      document.getElementById('iconMute').style.display = 'none';
-      document.getElementById('volSlider').value = lastVolume || 80;
-      bgPlayer.setVolume(lastVolume || 80);
-    } else {
-      lastVolume = bgPlayer.getVolume();
-      bgPlayer.mute();
-      isMuted = true;
-      document.getElementById('iconVol').style.display = 'none';
-      document.getElementById('iconMute').style.display = 'block';
-      document.getElementById('volSlider').value = 0;
-    }
-  });
-
-  // Fullscreen - apply to the entire widget so controls stay visible
-  document.getElementById('btnFullscreen').addEventListener('click', function(e) {
-    e.stopPropagation();
-    var widget = document.getElementById('musicFloat');
-    if (document.fullscreenElement || document.webkitFullscreenElement) {
-      if (document.exitFullscreen) document.exitFullscreen();
-      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-    } else {
-      if (widget.requestFullscreen) widget.requestFullscreen();
-      else if (widget.webkitRequestFullscreen) widget.webkitRequestFullscreen();
-      else if (widget.msRequestFullscreen) widget.msRequestFullscreen();
-    }
-  });
-
-  // Update fullscreen icon on change
-  document.addEventListener('fullscreenchange', updateFSIcon);
-  document.addEventListener('webkitfullscreenchange', updateFSIcon);
-  function updateFSIcon() {
-    var isFS = !!(document.fullscreenElement || document.webkitFullscreenElement);
-    document.getElementById('iconEnterFS').style.display = isFS ? 'none' : 'block';
-    document.getElementById('iconExitFS').style.display = isFS ? 'block' : 'none';
-    if (isFS && bgPlayer && typeof bgPlayer.setPlaybackQuality === 'function') {
-      bgPlayer.setPlaybackQuality('hd1080');
-    }
-  }
-
-  // Toggle collapse
-  document.getElementById('musicHeader').addEventListener('click', function() {
-    document.getElementById('musicFloat').classList.toggle('collapsed');
-  });
-
-  // Prevent controls from triggering collapse
-  document.querySelector('.music-controls').addEventListener('click', function(e) {
-    e.stopPropagation();
-  });
-
-  // Introduction video integration
-  var introVideo = document.querySelector('.video-wrapper video');
-
-  if (introVideo) {
-    introVideo.addEventListener('play', function() {
-      if (bgPlayer && typeof bgPlayer.getPlayerState === 'function') {
-        var state = bgPlayer.getPlayerState();
-        if (state === YT.PlayerState.PLAYING) {
-          bgWasPlaying = true;
-          bgPlayer.pauseVideo();
-          pausedByIntroVideo = true;
-          var status = document.getElementById('musicStatus');
-          status.textContent = '⏸ Paused — intro video is playing';
-          status.classList.add('paused-by-video');
-        }
-      }
-    });
-
-    introVideo.addEventListener('pause', function() {
-      if (bgWasPlaying && pausedByIntroVideo && bgPlayer) {
-        bgPlayer.playVideo();
-        pausedByIntroVideo = false;
-        bgWasPlaying = false;
-        var status = document.getElementById('musicStatus');
-        status.textContent = '🎶 Now playing...';
-        status.classList.remove('paused-by-video');
-      }
-    });
-
-    introVideo.addEventListener('ended', function() {
-      if (bgWasPlaying && pausedByIntroVideo && bgPlayer) {
-        bgPlayer.playVideo();
-        pausedByIntroVideo = false;
-        bgWasPlaying = false;
-        var status = document.getElementById('musicStatus');
-        status.textContent = '🎶 Now playing...';
-        status.classList.remove('paused-by-video');
-      }
-    });
-  }
-</script>
-
 <!-- FLOATING LEFT ACTIONS -->
 <div class="floating-left">
   <!-- SCHEDULE SYSTEM -->
@@ -1698,12 +1221,20 @@
         <div class="schedule-loc">📍 EBS Dance Connect & Talent Showcase</div>
       </li>
       <li class="schedule-item">
+        <div class="schedule-date" data-i18n="scheduleTueMarket">📅 Tuesday Morning</div>
+        <div class="schedule-loc">📍 Tuesday Market</div>
+      </li>
+      <li class="schedule-item">
         <div class="schedule-date" data-i18n="scheduleThu">📅 Thursday</div>
         <div class="schedule-loc">📍 EBS Lunch Football</div>
       </li>
       <li class="schedule-item">
         <div class="schedule-date" data-i18n="scheduleFri">📅 Friday</div>
         <div class="schedule-loc">📍 Friday International Lunch Voting</div>
+      </li>
+      <li class="schedule-item">
+        <div class="schedule-date" data-i18n="scheduleFriAfternoon">📅 Friday Afternoon</div>
+        <div class="schedule-loc">📍 Music Day for Performing</div>
       </li>
       <li class="schedule-item">
         <div class="schedule-date" data-i18n="scheduleWeekly">✨ Weekly / Always Open</div>
@@ -1723,7 +1254,7 @@
         voteThanks: '🎉 Incredibly Grateful for Over 550+ Votes! 🎉',
         trustThanks: 'A heartfelt thank you to all teachers, students, and staff for placing your trust in us.',
         explorePolicies: 'Explore Policies',
-        introLabel: '🎬 Introduction',
+        introLabel: '🎬 The New Era Begins',
         videoUnsupported: 'Your browser does not support the video tag.',
         videoCaption: '— Official Introduction Video · 2026–2027',
         policiesLabel: '🎯 Student Engagement Policies',
@@ -1761,6 +1292,9 @@
         lunchVotingKicker: '🍱 Lunch Voting',
         lunchVotingDesc: 'Cast your vote for the next lunch theme and help decide what shows up on the Friday international lunch menu.',
         lunchVotingButton: 'Vote Now →',
+        feedbackFormKicker: '💬 Feedback Form',
+        feedbackFormDesc: "Got an idea, a request, or something on your mind? Tell us — your feedback helps shape what's next for EBS New Era.",
+        feedbackFormButton: 'Give Feedback →',
         esportsLabel: '🎮 Competitive Gaming',
         esportsTitle: 'E-Sport',
         launchWord: 'Launch',
@@ -1788,10 +1322,14 @@
         scheduleEsport: '📍 E-Sport Launch',
         scheduleTue: '📅 Tuesday',
         scheduleDanceTalent: '📍 EBS Dance Connect & Talent Showcase',
+        scheduleTueMarket: '📅 Tuesday Morning',
+        scheduleTueMarketItem: '📍 Tuesday Market',
         scheduleThu: '📅 Thursday',
         scheduleFootball: '📍 EBS Lunch Football',
         scheduleFri: '📅 Friday',
         scheduleLunch: '📍 Friday International Lunch Voting',
+        scheduleFriAfternoon: '📅 Friday Afternoon',
+        scheduleMusicDay: '📍 Music Day for Performing',
         scheduleWeekly: '✨ Weekly / Always Open',
         scheduleWeeklyItems: '📍 Feedback QR, Subject Highlight, Music Choice'
       },
@@ -1802,7 +1340,7 @@
         voteThanks: '🎉 ขอบคุณอย่างยิ่งสำหรับคะแนนโหวตกว่า 550 คะแนน! 🎉',
         trustThanks: 'ขอขอบคุณคุณครู นักเรียน และบุคลากรทุกคนจากใจจริงที่ไว้วางใจพวกเรา',
         explorePolicies: 'ดูนโยบาย',
-        introLabel: '🎬 วิดีโอแนะนำ',
+        introLabel: '🎬 The New Era Begins',
         videoUnsupported: 'เบราว์เซอร์ของคุณไม่รองรับวิดีโอ',
         videoCaption: '— วิดีโอแนะนำอย่างเป็นทางการ · 2026–2027',
         policiesLabel: '🎯 นโยบายส่งเสริมการมีส่วนร่วมของนักเรียน',
@@ -1840,6 +1378,9 @@
         lunchVotingKicker: '🍱 โหวตอาหารกลางวัน',
         lunchVotingDesc: 'ร่วมโหวตธีมอาหารกลางวันครั้งต่อไป และช่วยตัดสินใจว่าเมนูอาหารกลางวันนานาชาติวันศุกร์จะเป็นอะไร',
         lunchVotingButton: 'โหวตเลย →',
+        feedbackFormKicker: '💬 แบบฟอร์มความคิดเห็น',
+        feedbackFormDesc: 'มีไอเดีย คำขอ หรือสิ่งที่อยากบอกเราไหม? บอกเรามาเลย — ความคิดเห็นของคุณจะช่วยกำหนดทิศทางต่อไปของ EBS New Era',
+        feedbackFormButton: 'ส่งความคิดเห็น →',
         esportsLabel: '🎮 เกมแข่งขัน',
         esportsTitle: 'อีสปอร์ต',
         launchWord: 'เริ่มต้น',
@@ -1867,10 +1408,14 @@
         scheduleEsport: '📍 เปิดตัวอีสปอร์ต',
         scheduleTue: '📅 วันอังคาร',
         scheduleDanceTalent: '📍 EBS Dance Connect และ Talent Showcase',
+        scheduleTueMarket: '📅 เช้าวันอังคาร',
+        scheduleTueMarketItem: '📍 ตลาดวันอังคาร',
         scheduleThu: '📅 วันพฤหัสบดี',
         scheduleFootball: '📍 EBS Lunch Football',
         scheduleFri: '📅 วันศุกร์',
         scheduleLunch: '📍 โหวตอาหารกลางวันนานาชาติวันศุกร์',
+        scheduleFriAfternoon: '📅 บ่ายวันศุกร์',
+        scheduleMusicDay: '📍 วันแสดงดนตรี',
         scheduleWeekly: '✨ รายสัปดาห์ / เปิดรับเสมอ',
         scheduleWeeklyItems: '📍 Feedback QR, Subject Highlight, Music Choice'
       }
