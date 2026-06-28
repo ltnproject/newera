@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>New Era Lunch Voting</title>
+<title>New Era Feedback Form</title>
+<meta name="description" content="Share your ideas, requests, and feedback to help shape EBS New Era.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 *{
@@ -17,10 +18,26 @@
     font-family:'Poppins',sans-serif;
 }
 
+:root{
+    --navy:#0a0f2e;
+    --deep:#060b1f;
+    --gold:#f5c842;
+    --gold2:#e6b02a;
+    --white:#f0f4ff;
+    --soft:#c8d0f0;
+    --accent:#4fa3ff;
+    --card:rgba(255,255,255,0.04);
+    --border:rgba(245,200,66,0.18);
+}
+
 body{
     min-height:100vh;
-    background:linear-gradient(135deg,#2563eb,#1d4ed8);
-    padding:20px;
+    background:var(--deep);
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(245,200,66,0.08), transparent 45%),
+      radial-gradient(circle at 85% 90%, rgba(79,163,255,0.10), transparent 45%);
+    padding:40px 20px;
+    color:var(--white);
 }
 
 .container{
@@ -29,95 +46,127 @@ body{
 }
 
 .card{
-    background:#fff;
-    border-radius:30px;
+    background:linear-gradient(145deg, rgba(16,24,60,0.9), rgba(10,15,46,0.9));
+    border:1px solid var(--border);
+    border-radius:28px;
     overflow:hidden;
-    box-shadow:0 20px 60px rgba(0,0,0,.15);
+    box-shadow:0 30px 80px rgba(0,0,0,.45);
 }
 
 .header{
     text-align:center;
-    padding:40px 30px;
-    background:linear-gradient(135deg,#2563eb,#1e40af);
-    color:white;
+    padding:50px 30px 40px;
+    position:relative;
+    border-bottom:1px solid var(--border);
 }
 
 .logo{
-    width:220px;
-    max-width:90%;
-    margin-bottom:20px;
+    width:170px;
+    max-width:80%;
+    margin-bottom:22px;
+}
+
+.kicker{
+    display:inline-block;
+    font-size:0.78rem;
+    font-weight:700;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--gold);
+    background:rgba(245,200,66,0.1);
+    border:1px solid var(--border);
+    border-radius:30px;
+    padding:6px 16px;
+    margin-bottom:18px;
 }
 
 .header h1{
-    font-size:2.5rem;
-    margin-bottom:10px;
+    font-family:'Bebas Neue', Impact, sans-serif;
+    font-size:2.6rem;
+    letter-spacing:0.01em;
+    margin-bottom:14px;
+    color:var(--white);
 }
 
 .header p{
-    opacity:0.95;
-    font-size:1.1rem;
+    color:var(--soft);
+    font-size:1.05rem;
+    max-width:520px;
+    margin:0 auto;
+    line-height:1.6;
+    font-weight:300;
 }
 
 .info{
     display:flex;
-    gap:20px;
+    gap:18px;
     justify-content:center;
     flex-wrap:wrap;
-    padding:25px;
-    background:#f8fafc;
+    padding:30px 25px;
 }
 
 .info-box{
-    background:white;
-    border-radius:20px;
-    padding:18px 25px;
-    min-width:180px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:20px 26px;
+    min-width:190px;
     text-align:center;
-    box-shadow:0 4px 15px rgba(0,0,0,.08);
+    transition:transform 0.25s, border-color 0.25s;
+}
+
+.info-box:hover{
+    transform:translateY(-3px);
+    border-color:rgba(245,200,66,0.4);
 }
 
 .info-box h3{
-    color:#2563eb;
-    margin-bottom:5px;
+    color:var(--gold);
+    margin-bottom:6px;
+    font-size:1.05rem;
 }
 
 .info-box p{
-    color:#64748b;
-    font-size:14px;
+    color:var(--soft);
+    font-size:13.5px;
+    font-weight:300;
+    line-height:1.5;
 }
 
 .form-section{
-    padding:25px;
+    padding:10px 25px 30px;
+}
+
+.form-frame-wrap{
+    background:#fff;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 10px 40px rgba(0,0,0,.3);
 }
 
 iframe{
     width:100%;
-    height:950px;
+    height:1500px;
     border:none;
-    border-radius:20px;
+    display:block;
 }
 
 .footer{
     text-align:center;
-    padding:20px;
-    background:#f8fafc;
-    color:#64748b;
+    padding:24px;
+    border-top:1px solid var(--border);
+    color:var(--soft);
+    font-size:13.5px;
+    font-weight:300;
 }
 
 @media(max-width:768px){
-
-.header h1{
-    font-size:2rem;
-}
-
-.logo{
-    width:180px;
-}
-
-iframe{
-    height:1200px;
-}
-
+    .header h1{
+        font-size:2.1rem;
+    }
+    .logo{
+        width:140px;
+    }
 }
 </style>
 </head>
@@ -135,11 +184,13 @@ src="https://drk.qzz.io/newera/logo.png"
 alt="New Era Logo"
 class="logo">
 
-<h1>🍱 New Era Lunch Voting</h1>
+<div class="kicker">Open Always</div>
+
+<h1>💬 New Era Feedback Form</h1>
 
 <p>
-Help us choose better meals for students.
-Every vote matters.
+Got an idea, a request, or something on your mind?
+Tell us — your feedback helps shape what's next for EBS New Era.
 </p>
 
 </div>
@@ -147,34 +198,34 @@ Every vote matters.
 <div class="info">
 
 <div class="info-box">
-<h3>🍱 Vote</h3>
-<p>Choose your favorite lunch option</p>
-</div>
-
-<div class="info-box">
 <h3>💡 Suggest</h3>
-<p>Share new menu ideas</p>
+<p>Share ideas for events, policies, or activities</p>
 </div>
 
 <div class="info-box">
-<h3>📊 Results</h3>
-<p>Responses are collected automatically</p>
+<h3>🗣️ Speak Up</h3>
+<p>Tell us what's working and what isn't</p>
+</div>
+
+<div class="info-box">
+<h3>🔒 Anytime</h3>
+<p>Responses are collected automatically, anytime</p>
 </div>
 
 </div>
 
 <div class="form-section">
-
+<div class="form-frame-wrap">
 <iframe
-src="https://docs.google.com/forms/d/e/1FAIpQLSd46p3DWXbx8tejeIXYa-9z3UWJdPdqzrLw7wIz-yHxBBQ14A/viewform?embedded=true">
-Loading...
+src="https://docs.google.com/forms/d/e/1FAIpQLSdSEi4E5mxWOhAY9l3OJXDZYuEMvPo6B6Kw-Ah5lqDG5hrFow/viewform?embedded=true">
+Loading…
 </iframe>
-
+</div>
 </div>
 
 <div class="footer">
 <p>
-© 2026 New Era Student Council • Building a Better School Together
+© 2026 – 2027 EBS New Era Student Council • Building a Better School Together
 </p>
 </div>
 
