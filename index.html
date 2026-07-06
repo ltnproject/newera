@@ -547,7 +547,7 @@
 
     .lunch-voting-row {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 24px;
     }
 
@@ -1100,6 +1100,15 @@
 
     <div class="lunch-voting-panel">
       <div class="lunch-voting-copy">
+        <div class="lunch-voting-kicker" data-i18n="songVotingKicker">🎵 Song Voting</div>
+        <h2 class="lunch-voting-title" id="songVotingTitle">New Era Song Voting</h2>
+        <p class="lunch-voting-desc" data-i18n="songVotingDesc">Vote for your favorite music tracks and help shape the school's playlist for lunch breaks, events, and activities.</p>
+      </div>
+      <a class="lunch-voting-btn" href="song.html" data-i18n="songVotingButton">Vote Songs →</a>
+    </div>
+
+    <div class="lunch-voting-panel">
+      <div class="lunch-voting-copy">
         <div class="lunch-voting-kicker" data-i18n="feedbackFormKicker">💬 Feedback Form</div>
         <h2 class="lunch-voting-title" id="feedbackFormTitle">New Era Feedback Form</h2>
         <p class="lunch-voting-desc" data-i18n="feedbackFormDesc">Got an idea, a request, or something on your mind? Tell us — your feedback helps shape what's next for EBS New Era.</p>
@@ -1312,6 +1321,9 @@
         lunchVotingKicker: '🍱 Lunch Voting',
         lunchVotingDesc: 'Cast your vote for the next lunch theme and help decide what shows up on the Friday international lunch menu.',
         lunchVotingButton: 'Vote Now →',
+        songVotingKicker: '🎵 Song Voting',
+        songVotingDesc: "Vote for your favorite music tracks and help shape the school's playlist for lunch breaks, events, and activities.",
+        songVotingButton: 'Vote Songs →',
         feedbackFormKicker: '💬 Feedback Form',
         feedbackFormDesc: "Got an idea, a request, or something on your mind? Tell us — your feedback helps shape what's next for EBS New Era.",
         feedbackFormButton: 'Give Feedback →',
@@ -1400,6 +1412,9 @@
         lunchVotingKicker: '🍱 โหวตอาหารกลางวัน',
         lunchVotingDesc: 'ร่วมโหวตธีมอาหารกลางวันครั้งต่อไป และช่วยตัดสินใจว่าเมนูอาหารกลางวันนานาชาติวันศุกร์จะเป็นอะไร',
         lunchVotingButton: 'โหวตเลย →',
+        songVotingKicker: '🎵 โหวตเพลง',
+        songVotingDesc: 'ร่วมโหวตเพลงที่คุณชื่นชอบและช่วยกำหนดเพลย์ลิสต์ของโรงเรียนสำหรับช่วงพักกลางวัน กิจกรรม และการแข่งขันกีฬา',
+        songVotingButton: 'โหวตเพลง →',
         feedbackFormKicker: '💬 แบบฟอร์มความคิดเห็น',
         feedbackFormDesc: 'มีไอเดีย คำขอ หรือสิ่งที่อยากบอกเราไหม? บอกเรามาเลย — ความคิดเห็นของคุณจะช่วยกำหนดทิศทางต่อไปของ EBS New Era',
         feedbackFormButton: 'ส่งความคิดเห็น →',
