@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>New Era Admin</title>
+
+<style>
+* {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;
+}
+
+body {
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+
+    background:
+    linear-gradient(135deg,#020617,#0f172a,#1e3a8a);
+
+    color:white;
+}
+
+
+body::before {
+    content:"";
+    position:absolute;
+    width:500px;
+    height:500px;
+    background:#2563eb;
+    filter:blur(180px);
+    top:-200px;
+    left:-150px;
+    opacity:.6;
+}
+
+
+body::after {
+    content:"";
+    position:absolute;
+    width:400px;
+    height:400px;
+    background:#06b6d4;
+    filter:blur(160px);
+    bottom:-200px;
+    right:-100px;
+    opacity:.5;
+}
+
+
+.card {
+
+    position:relative;
+    z-index:2;
+
+    width:90%;
+    max-width:450px;
+
+    padding:45px 35px;
+
+    text-align:center;
+
+    background:
+    rgba(255,255,255,.09);
+
+    backdrop-filter:blur(30px);
+
+    border-radius:35px;
+
+    border:
+    1px solid rgba(255,255,255,.18);
+
+    box-shadow:
+    0 40px 100px rgba(0,0,0,.55);
+
+    animation:
+    appear .7s ease;
+
+}
+
+
+@keyframes appear {
+    from {
+        opacity:0;
+        transform:translateY(30px);
+    }
+
+    to {
+        opacity:1;
+        transform:none;
+    }
+}
+
+
+
+.logo {
+
+    width:120px;
+    height:120px;
+
+    margin:auto;
+
+    border-radius:32px;
+
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+
+    font-size:48px;
+    font-weight:900;
+
+
+    background:
+    linear-gradient(
+        135deg,
+        #3b82f6,
+        #06b6d4
+    );
+
+
+    box-shadow:
+    0 20px 50px rgba(6,182,212,.5);
+
+    animation:
+    float 3s infinite ease-in-out;
+
+}
+
+
+@keyframes float {
+
+50% {
+transform:translateY(-10px);
+}
+
+}
+
+
+
+h1 {
+
+    margin-top:30px;
+
+    font-size:36px;
+
+    letter-spacing:-1px;
+
+}
+
+
+.subtitle {
+
+    color:#cbd5e1;
+
+    margin-top:8px;
+
+    font-size:16px;
+
+}
+
+
+
+.badges {
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:10px;
+
+    margin-top:25px;
+
+}
+
+
+
+.badge {
+
+    padding:8px 14px;
+
+    border-radius:999px;
+
+    background:
+    rgba(255,255,255,.12);
+
+    font-size:13px;
+
+    color:#e2e8f0;
+
+}
+
+
+
+.description {
+
+    margin-top:30px;
+
+    line-height:1.6;
+
+    color:#dbeafe;
+
+}
+
+
+
+.install {
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:10px;
+
+
+    margin-top:35px;
+
+    padding:18px;
+
+
+    border-radius:20px;
+
+
+    background:
+
+    linear-gradient(
+    135deg,
+    #2563eb,
+    #06b6d4
+    );
+
+
+    color:white;
+
+    text-decoration:none;
+
+
+    font-size:19px;
+
+    font-weight:700;
+
+
+    box-shadow:
+
+    0 15px 35px rgba(37,99,235,.45);
+
+
+    transition:.25s;
+
+}
+
+
+
+.install:hover {
+
+    transform:translateY(-5px);
+
+}
+
+
+
+.info {
+
+    margin-top:25px;
+
+    padding:18px;
+
+    border-radius:20px;
+
+
+    background:
+    rgba(0,0,0,.25);
+
+
+    color:#94a3b8;
+
+    font-size:14px;
+
+}
+
+
+
+.footer {
+
+    margin-top:30px;
+
+    color:#64748b;
+
+    font-size:13px;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="card">
+
+
+<div class="logo">
+NE
+</div>
+
+
+<h1>
+New Era Admin
+</h1>
+
+
+<div class="subtitle">
+Administration Suite
+</div>
+
+
+<div class="badges">
+
+<div class="badge">
+📱 iOS
+</div>
+
+<div class="badge">
+⚡ v1.0
+</div>
+
+<div class="badge">
+✅ Signed
+</div>
+
+</div>
+
+
+
+<div class="description">
+
+The official New Era administration
+application.
+
+Manage your system anywhere from
+your Apple device.
+
+</div>
+
+
+
+<a class="install"
+
+href="itms-services://?action=download-manifest&url=https://drk.qzz.io/newera/manifest.plist">
+
+⬇️ Install App
+
+</a>
+
+
+
+<div class="info">
+
+Open this page with Safari on iPhone/iPad.
+
+<br><br>
+
+Compatible with latest iOS & iPadOS.
+
+</div>
+
+
+
+<div class="footer">
+
+© 2026 New Era
+<br>
+Built by LtnProject
+
+</div>
+
+
+
+</div>
+
+
+</body>
+</html>
