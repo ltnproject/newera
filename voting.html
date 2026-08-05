@@ -1,186 +1,506 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>New Era Lunch Voting</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New Era – Lunch Vote</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    :root {
+      --glass-bg: rgba(255,255,255,0.12);
+      --glass-border: rgba(255,255,255,0.22);
+      --glass-blur: 18px;
+      --accent: #f5c842;
+      --accent2: #ff7043;
+      --text: #fff;
+      --text-sub: rgba(255,255,255,0.7);
+      --card-radius: 20px;
+    }
 
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
-}
+    body {
+      min-height: 100vh;
+      font-family: 'Sarabun', 'Inter', sans-serif;
+      background: linear-gradient(135deg, #1a0533 0%, #2d1b69 35%, #0d3b6e 70%, #0a2a4a 100%);
+      color: var(--text);
+      overflow-x: hidden;
+      position: relative;
+    }
 
-body{
-    min-height:100vh;
-    background:linear-gradient(135deg,#2563eb,#1d4ed8);
-    padding:20px;
-}
+    /* Ambient blobs */
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::before {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, #7c3aed, transparent 70%);
+      top: -150px; left: -150px;
+    }
+    body::after {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, #f5c842, transparent 70%);
+      bottom: -100px; right: -100px;
+    }
 
-.container{
-    max-width:1000px;
-    margin:auto;
-}
+    /* Header */
+    header {
+      position: relative; z-index: 10;
+      display: flex; align-items: center; gap: 16px;
+      padding: 24px 32px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border-bottom: 1px solid var(--glass-border);
+    }
+    header img { height: 48px; object-fit: contain; }
+    header .brand { display: flex; flex-direction: column; }
+    header .brand .name { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.04em; }
+    header .brand .sub { font-size: 0.78rem; color: var(--text-sub); letter-spacing: 0.08em; }
 
-.card{
-    background:#fff;
-    border-radius:30px;
-    overflow:hidden;
-    box-shadow:0 20px 60px rgba(0,0,0,.15);
-}
+    /* Main layout */
+    main {
+      position: relative; z-index: 5;
+      max-width: 680px; margin: 0 auto;
+      padding: 48px 20px 80px;
+    }
 
-.header{
-    text-align:center;
-    padding:40px 30px;
-    background:linear-gradient(135deg,#2563eb,#1e40af);
-    color:white;
-}
+    /* Title card */
+    .title-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid var(--glass-border);
+      border-radius: var(--card-radius);
+      padding: 32px 28px 24px;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    .title-card .week-label {
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .title-card h1 {
+      font-size: 1.9rem; font-weight: 700; line-height: 1.2;
+      margin-bottom: 6px;
+    }
+    .title-card p {
+      font-size: 0.9rem; color: var(--text-sub);
+    }
 
-.logo{
-    width:220px;
-    max-width:90%;
-    margin-bottom:20px;
-}
+    /* Vote card */
+    .vote-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid var(--glass-border);
+      border-radius: var(--card-radius);
+      padding: 28px;
+      margin-bottom: 20px;
+    }
 
-.header h1{
-    font-size:2.5rem;
-    margin-bottom:10px;
-}
+    /* Name input */
+    .field-label {
+      font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+      display: block;
+    }
+    .name-input {
+      width: 100%;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 12px 16px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      margin-bottom: 24px;
+    }
+    .name-input::placeholder { color: rgba(255,255,255,0.35); }
+    .name-input:focus {
+      border-color: var(--accent);
+      background: rgba(255,255,255,0.13);
+    }
 
-.header p{
-    opacity:0.95;
-    font-size:1.1rem;
-}
+    /* Options */
+    .options-label {
+      font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+      display: block;
+    }
 
-.info{
-    display:flex;
-    gap:20px;
-    justify-content:center;
-    flex-wrap:wrap;
-    padding:25px;
-    background:#f8fafc;
-}
+    .option-list { display: flex; flex-direction: column; gap: 10px; }
 
-.info-box{
-    background:white;
-    border-radius:20px;
-    padding:18px 25px;
-    min-width:180px;
-    text-align:center;
-    box-shadow:0 4px 15px rgba(0,0,0,.08);
-}
+    .option-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 18px;
+      border-radius: 14px;
+      border: 1.5px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      cursor: pointer;
+      transition: border-color 0.18s, background 0.18s, transform 0.12s;
+      user-select: none;
+    }
+    .option-item:hover {
+      border-color: rgba(245,200,66,0.5);
+      background: rgba(245,200,66,0.08);
+      transform: translateX(3px);
+    }
+    .option-item.selected {
+      border-color: var(--accent);
+      background: rgba(245,200,66,0.15);
+    }
+    .option-item input[type="radio"] { display: none; }
 
-.info-box h3{
-    color:#2563eb;
-    margin-bottom:5px;
-}
+    .radio-circle {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.35);
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.18s;
+    }
+    .option-item.selected .radio-circle {
+      border-color: var(--accent);
+    }
+    .radio-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0;
+      transform: scale(0.5);
+      transition: opacity 0.18s, transform 0.18s;
+    }
+    .option-item.selected .radio-dot {
+      opacity: 1; transform: scale(1);
+    }
 
-.info-box p{
-    color:#64748b;
-    font-size:14px;
-}
+    .option-names { display: flex; flex-direction: column; }
+    .option-en { font-size: 0.98rem; font-weight: 600; }
+    .option-th { font-size: 0.78rem; color: var(--text-sub); }
 
-.form-section{
-    padding:25px;
-}
+    /* Submit button */
+    .submit-btn {
+      width: 100%; margin-top: 26px;
+      padding: 16px;
+      border: none; border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #1a0533;
+      font-family: inherit;
+      font-size: 1rem; font-weight: 700;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.12s, box-shadow 0.2s;
+      box-shadow: 0 4px 24px rgba(245,200,66,0.3);
+    }
+    .submit-btn:hover { opacity: 0.92; transform: translateY(-1px); box-shadow: 0 8px 32px rgba(245,200,66,0.4); }
+    .submit-btn:active { transform: translateY(0); }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-iframe{
-    width:100%;
-    height:950px;
-    border:none;
-    border-radius:20px;
-}
+    /* Status message */
+    .status-msg {
+      text-align: center; margin-top: 14px;
+      font-size: 0.88rem; min-height: 22px;
+      color: var(--accent);
+      transition: opacity 0.3s;
+    }
+    .status-msg.error { color: #ff7043; }
 
-.footer{
-    text-align:center;
-    padding:20px;
-    background:#f8fafc;
-    color:#64748b;
-}
+    /* Results card */
+    .results-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid var(--glass-border);
+      border-radius: var(--card-radius);
+      padding: 28px;
+    }
+    .results-card h2 {
+      font-size: 1rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
 
-@media(max-width:768px){
+    .result-row { margin-bottom: 14px; }
+    .result-meta {
+      display: flex; justify-content: space-between;
+      font-size: 0.88rem; margin-bottom: 5px;
+    }
+    .result-name { font-weight: 600; }
+    .result-count { color: var(--text-sub); }
+    .bar-track {
+      height: 7px; border-radius: 99px;
+      background: rgba(255,255,255,0.1);
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%; border-radius: 99px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width 0.5s cubic-bezier(.4,0,.2,1);
+    }
 
-.header h1{
-    font-size:2rem;
-}
+    .total-badge {
+      margin-top: 20px; text-align: center;
+      font-size: 0.78rem; color: var(--text-sub);
+      letter-spacing: 0.06em;
+    }
 
-.logo{
-    width:180px;
-}
+    /* Voters list */
+    .voters-section { margin-top: 20px; }
+    .voters-title {
+      font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-sub); margin-bottom: 10px;
+    }
+    .voters-grid {
+      display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    .voter-chip {
+      padding: 4px 12px;
+      border-radius: 99px;
+      border: 1px solid var(--glass-border);
+      background: rgba(255,255,255,0.06);
+      font-size: 0.78rem; color: var(--text-sub);
+    }
+    .voter-chip strong { color: #fff; font-weight: 600; }
 
-iframe{
-    height:1200px;
-}
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: var(--accent); color: #1a0533;
+      padding: 12px 24px; border-radius: 12px;
+      font-weight: 700; font-size: 0.9rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      transition: transform 0.35s cubic-bezier(.4,0,.2,1), opacity 0.35s;
+      opacity: 0; z-index: 999;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-}
-</style>
+    @media (max-width: 480px) {
+      header { padding: 16px 18px; }
+      main { padding: 28px 14px 60px; }
+      .title-card h1 { font-size: 1.4rem; }
+      .vote-card, .results-card { padding: 20px 16px; }
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="container">
+<header>
+  <img src="https://drk.qzz.io/newera/logo.png" alt="New Era Logo" onerror="this.style.display='none'" />
+  <div class="brand">
+    <span class="name">NEW ERA</span>
+    <span class="sub">LUNCH VOTING · โหวตเมนูกลางวัน</span>
+  </div>
+</header>
 
-<div class="card">
+<main>
+  <!-- Title -->
+  <div class="title-card">
+    <div class="week-label">This Week · สัปดาห์นี้</div>
+    <h1>🍽 โหวตเมนูกลางวัน<br/><span style="font-size:1.2rem;font-weight:400;color:rgba(255,255,255,0.75)">What are we eating?</span></h1>
+    <p>เลือก 1 เมนูที่อยากกิน · Pick your favourite lunch</p>
+  </div>
 
-<div class="header">
+  <!-- Vote form -->
+  <div class="vote-card">
+    <label class="field-label" for="voterName">ชื่อของคุณ / Your Name</label>
+    <input class="name-input" id="voterName" type="text" placeholder="กรอกชื่อ / Enter your name" maxlength="40" />
 
-<img
-src="https://drk.qzz.io/newera/logo.png"
-alt="New Era Logo"
-class="logo">
+    <span class="options-label">เมนู / Options</span>
+    <div class="option-list" id="optionList"></div>
 
-<h1>🍱 New Era Lunch Voting</h1>
+    <button class="submit-btn" id="submitBtn" onclick="submitVote()">
+      ✅ ส่งโหวต · Submit Vote
+    </button>
+    <div class="status-msg" id="statusMsg"></div>
+  </div>
 
-<p>
-Help us choose better meals for students.
-Every vote matters.
-</p>
+  <!-- Results -->
+  <div class="results-card">
+    <h2>📊 ผลโหวต · Live Results</h2>
+    <div id="resultsContainer"><p style="color:var(--text-sub);font-size:.9rem">กำลังโหลด… Loading…</p></div>
+    <div class="total-badge" id="totalBadge"></div>
+    <div class="voters-section" id="votersSection" style="display:none">
+      <div class="voters-title">ผู้ร่วมโหวตทั้งหมด · All Voters</div>
+      <div class="voters-grid" id="votersGrid"></div>
+    </div>
+  </div>
+</main>
 
-</div>
+<div class="toast" id="toast"></div>
 
-<div class="info">
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+  import { getDatabase, ref, set, onValue, get } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-database.js";
 
-<div class="info-box">
-<h3>🍱 Vote</h3>
-<p>Choose your favorite lunch option</p>
-</div>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBqMo574RMGOwE3HKo4sek6vdmSvjcU06M",
+    authDomain: "neweraproject-by-jacob.firebaseapp.com",
+    databaseURL: "https://neweraproject-by-jacob-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "neweraproject-by-jacob",
+    storageBucket: "neweraproject-by-jacob.firebasestorage.app",
+    messagingSenderId: "318348962332",
+    appId: "1:318348962332:web:49f2844becc47647be8dd9",
+    measurementId: "G-RNHTC555T9"
+  };
 
-<div class="info-box">
-<h3>💡 Suggest</h3>
-<p>Share new menu ideas</p>
-</div>
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
 
-<div class="info-box">
-<h3>📊 Results</h3>
-<p>Responses are collected automatically</p>
-</div>
+  const MENUS = [
+    { en: "Spaghetti Carbonara", th: "สปาเก็ตตี้คาร์โบนาร่า" },
+    { en: "Ramen", th: "ราเมง" },
+    { en: "Pad Thai", th: "ผัดไทย" },
+    { en: "Lasagne", th: "ลาซานญ่า" },
+    { en: "Som Tam", th: "ส้มตำ" },
+    { en: "Fish & Chips", th: "ปลาทอดเฟรนช์ฟราย" },
+    { en: "American Fried Rice", th: "ข้าวผัดอเมริกัน" },
+    { en: "Papaya Salad with Sticky Rice & Fried Chicken", th: "ตำ+ข้าวเหนียวไก่ทอด" },
+    { en: "Chicken Teriyaki", th: "ไก่เทริยากิ" },
+  ];
 
-</div>
+  // Render options
+  const optionList = document.getElementById('optionList');
+  let selectedOption = null;
 
-<div class="form-section">
+  MENUS.forEach((m, i) => {
+    const div = document.createElement('label');
+    div.className = 'option-item';
+    div.dataset.index = i;
+    div.innerHTML = `
+      <input type="radio" name="menu" value="${i}" />
+      <div class="radio-circle"><div class="radio-dot"></div></div>
+      <div class="option-names">
+        <span class="option-en">${m.en}</span>
+        <span class="option-th">${m.th}</span>
+      </div>
+    `;
+    div.addEventListener('click', () => {
+      document.querySelectorAll('.option-item').forEach(el => el.classList.remove('selected'));
+      div.classList.add('selected');
+      selectedOption = i;
+    });
+    optionList.appendChild(div);
+  });
 
-<iframe
-src="https://docs.google.com/forms/d/e/1FAIpQLSd46p3DWXbx8tejeIXYa-9z3UWJdPdqzrLw7wIz-yHxBBQ14A/viewform?embedded=true">
-Loading...
-</iframe>
+  // Listen for real-time results
+  const votesRef = ref(db, 'lunchvote/votes');
+  onValue(votesRef, (snap) => {
+    const data = snap.val() || {};
+    renderResults(data);
+  });
 
-</div>
+  function renderResults(data) {
+    const counts = {};
+    MENUS.forEach((_, i) => counts[i] = 0);
+    const voters = [];
 
-<div class="footer">
-<p>
-© 2026 New Era Student Council • Building a Better School Together
-</p>
-</div>
+    Object.values(data).forEach(v => {
+      if (v.choice !== undefined) counts[v.choice] = (counts[v.choice] || 0) + 1;
+      if (v.name) voters.push({ name: v.name, choice: v.choice });
+    });
 
-</div>
+    const total = Object.values(counts).reduce((a, b) => a + b, 0);
+    const max = Math.max(...Object.values(counts), 1);
 
-</div>
+    const container = document.getElementById('resultsContainer');
+    container.innerHTML = MENUS.map((m, i) => `
+      <div class="result-row">
+        <div class="result-meta">
+          <span class="result-name">${m.en}</span>
+          <span class="result-count">${counts[i]} votes</span>
+        </div>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:${(counts[i]/max)*100}%"></div>
+        </div>
+      </div>
+    `).join('');
 
+    document.getElementById('totalBadge').textContent = `ผู้ร่วมโหวตทั้งหมด ${total} คน · ${total} total vote${total!==1?'s':''}`;
+
+    // Voters grid
+    const votersSection = document.getElementById('votersSection');
+    const votersGrid = document.getElementById('votersGrid');
+    if (voters.length > 0) {
+      votersSection.style.display = 'block';
+      votersGrid.innerHTML = voters.map(v => `
+        <div class="voter-chip"><strong>${escHtml(v.name)}</strong> → ${MENUS[v.choice]?.en || '?'}</div>
+      `).join('');
+    } else {
+      votersSection.style.display = 'none';
+    }
+  }
+
+  function escHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // Submit
+  window.submitVote = async function() {
+    const name = document.getElementById('voterName').value.trim();
+    const btn = document.getElementById('submitBtn');
+    const status = document.getElementById('statusMsg');
+
+    if (!name) { showStatus('กรุณากรอกชื่อก่อน · Please enter your name', true); return; }
+    if (selectedOption === null) { showStatus('กรุณาเลือกเมนู · Please pick a menu', true); return; }
+
+    btn.disabled = true;
+    showStatus('กำลังส่ง… · Submitting…');
+
+    // Check if name already voted
+    const snap = await get(votesRef);
+    const existing = snap.val() || {};
+    const alreadyVoted = Object.values(existing).find(v => v.name?.toLowerCase() === name.toLowerCase());
+    if (alreadyVoted) {
+      showStatus('คุณโหวตไปแล้ว · You already voted!', true);
+      btn.disabled = false;
+      return;
+    }
+
+    const key = name.replace(/[^a-zA-Z0-9ก-๙]/g, '_').substring(0,30) + '_' + Date.now();
+    await set(ref(db, `lunchvote/votes/${key}`), {
+      name,
+      choice: selectedOption,
+      timestamp: Date.now()
+    });
+
+    showStatus('');
+    showToast(`✅ โหวตสำเร็จ! · Voted for ${MENUS[selectedOption].en}`);
+    btn.disabled = false;
+    document.getElementById('voterName').value = '';
+    document.querySelectorAll('.option-item').forEach(el => el.classList.remove('selected'));
+    selectedOption = null;
+  };
+
+  function showStatus(msg, isError=false) {
+    const el = document.getElementById('statusMsg');
+    el.textContent = msg;
+    el.className = 'status-msg' + (isError ? ' error' : '');
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+</script>
 </body>
 </html>
