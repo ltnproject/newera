@@ -1,836 +1,564 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Era Lunch Voting Results</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New Era – Admin Results</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --glass-bg: rgba(255,255,255,0.10);
+      --glass-border: rgba(255,255,255,0.20);
+      --glass-blur: 20px;
+      --accent: #f5c842;
+      --accent2: #ff7043;
+      --text: #fff;
+      --text-sub: rgba(255,255,255,0.65);
+      --card-radius: 20px;
+      --danger: #ff4d4d;
+    }
+    body {
+      min-height: 100vh;
+      font-family: 'Sarabun', 'Inter', sans-serif;
+      background: linear-gradient(135deg, #1a0533 0%, #2d1b69 35%, #0d3b6e 70%, #0a2a4a 100%);
+      color: var(--text);
+      overflow-x: hidden;
+      position: relative;
+    }
+    body::before, body::after {
+      content: ''; position: fixed; border-radius: 50%;
+      filter: blur(90px); opacity: 0.3; pointer-events: none; z-index: 0;
+    }
+    body::before {
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, #7c3aed, transparent 70%);
+      top: -200px; left: -200px;
+    }
+    body::after {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, #f5c842, transparent 70%);
+      bottom: -150px; right: -150px;
+    }
 
-        :root {
-            --primary-blue: #1a2a4a;
-            --secondary-blue: #2d3f5f;
-            --accent-orange: #ff8c00;
-            --accent-orange-light: #ffb84d;
-            --text-light: #f0f4f8;
-            --text-muted: #b0c4de;
-            --glass-bg: rgba(45, 63, 95, 0.4);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --success: #4ade80;
-            --warning: #fbbf24;
-            --error: #f87171;
-        }
+    /* ─── LOGIN SCREEN ─── */
+    #loginScreen {
+      position: fixed; inset: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+      background: linear-gradient(135deg, #1a0533 0%, #2d1b69 35%, #0d3b6e 70%, #0a2a4a 100%);
+    }
+    #loginScreen::before {
+      content: ''; position: absolute; inset: 0;
+      background: rgba(0,0,0,0.35);
+    }
+    .login-card {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 400px;
+      background: rgba(255,255,255,0.10);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 24px;
+      padding: 40px 36px;
+      text-align: center;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+    }
+    .login-card img { height: 56px; object-fit: contain; margin-bottom: 20px; }
+    .login-card .lock-icon { font-size: 2.4rem; margin-bottom: 8px; }
+    .login-card h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 4px; }
+    .login-card .sub { font-size: 0.82rem; color: var(--text-sub); margin-bottom: 28px; }
+    .login-field {
+      width: 100%;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 12px; padding: 13px 16px;
+      color: #fff; font-family: inherit; font-size: 0.95rem;
+      outline: none; transition: border-color 0.2s, background 0.2s;
+      margin-bottom: 12px; display: block;
+    }
+    .login-field::placeholder { color: rgba(255,255,255,0.3); }
+    .login-field:focus { border-color: var(--accent); background: rgba(255,255,255,0.13); }
+    .login-btn {
+      width: 100%; padding: 14px;
+      border: none; border-radius: 13px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #1a0533; font-family: inherit;
+      font-size: 1rem; font-weight: 700;
+      cursor: pointer; margin-top: 6px;
+      transition: opacity 0.2s, transform 0.12s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(245,200,66,0.35);
+    }
+    .login-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .login-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .login-error {
+      margin-top: 12px; font-size: 0.83rem;
+      color: var(--danger); min-height: 18px;
+    }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--primary-blue) 0%, #0f1a2e 100%);
-            color: var(--text-light);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
+    /* ─── ADMIN PAGE ─── */
+    #adminPage { display: none; position: relative; z-index: 5; }
 
-        /* ==================== LOGIN PAGE ==================== */
-        .login-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
-            animation: fadeIn 0.6s ease-out;
-        }
+    header {
+      position: relative; z-index: 10;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; padding: 20px 32px;
+      background: rgba(255,255,255,0.10);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .header-left { display: flex; align-items: center; gap: 14px; }
+    header img { height: 44px; object-fit: contain; }
+    .brand .name { font-size: 1.2rem; font-weight: 700; letter-spacing: 0.04em; }
+    .brand .sub { font-size: 0.72rem; color: var(--text-sub); letter-spacing: 0.08em; }
+    .admin-badge {
+      background: rgba(245,200,66,0.15);
+      border: 1px solid rgba(245,200,66,0.4);
+      color: var(--accent);
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 99px;
+    }
+    .header-right { display: flex; align-items: center; gap: 12px; }
+    .user-label { font-size: 0.8rem; color: var(--text-sub); }
+    .logout-btn {
+      padding: 8px 16px; border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.08);
+      color: #fff; font-family: inherit;
+      font-size: 0.82rem; cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .logout-btn:hover { background: rgba(255,77,77,0.18); border-color: rgba(255,77,77,0.4); }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+    main {
+      max-width: 860px; margin: 0 auto;
+      padding: 44px 20px 80px;
+    }
 
-        .login-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 60px 40px;
-            width: 100%;
-            max-width: 420px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            animation: slideUp 0.8s ease-out;
-        }
+    /* Summary row */
+    .summary-row {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 14px; margin-bottom: 28px;
+    }
+    .stat-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid var(--glass-border);
+      border-radius: var(--card-radius);
+      padding: 22px 20px; text-align: center;
+    }
+    .stat-card .val { font-size: 2.4rem; font-weight: 700; color: var(--accent); line-height: 1; }
+    .stat-card .lbl { font-size: 0.75rem; color: var(--text-sub); letter-spacing: 0.08em; margin-top: 6px; }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    /* Results card */
+    .results-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid var(--glass-border);
+      border-radius: var(--card-radius);
+      padding: 28px; margin-bottom: 22px;
+    }
+    .section-title {
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 22px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .live-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #4ade80;
+      box-shadow: 0 0 0 0 rgba(74,222,128,0.6);
+      animation: pulse-dot 1.8s infinite;
+    }
+    @keyframes pulse-dot {
+      0%   { box-shadow: 0 0 0 0 rgba(74,222,128,0.6); }
+      70%  { box-shadow: 0 0 0 8px rgba(74,222,128,0); }
+      100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); }
+    }
 
-        .login-logo {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+    .result-row { margin-bottom: 18px; }
+    .result-meta {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-bottom: 6px;
+    }
+    .result-names { display: flex; flex-direction: column; }
+    .result-en { font-size: 0.95rem; font-weight: 600; }
+    .result-th { font-size: 0.75rem; color: var(--text-sub); }
+    .result-right { display: flex; align-items: center; gap: 10px; }
+    .result-count { font-size: 0.9rem; color: var(--text-sub); white-space: nowrap; }
+    .result-pct {
+      font-size: 0.82rem; font-weight: 700;
+      color: var(--accent); min-width: 38px; text-align: right;
+    }
+    .bar-track {
+      height: 8px; border-radius: 99px;
+      background: rgba(255,255,255,0.09); overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%; border-radius: 99px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width 0.6s cubic-bezier(.4,0,.2,1);
+    }
+    .bar-fill.leading { background: linear-gradient(90deg, #4ade80, #22c55e); }
 
-        .login-logo img {
-            max-width: 100px;
-            height: auto;
-            filter: drop-shadow(0 4px 8px rgba(255, 140, 0, 0.2));
-        }
+    /* Voters table */
+    .voters-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid var(--glass-border);
+      border-radius: var(--card-radius);
+      padding: 28px; margin-bottom: 22px;
+    }
+    .voters-table { width: 100%; border-collapse: collapse; }
+    .voters-table th {
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-sub); padding: 0 10px 12px 0;
+      text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .voters-table td {
+      padding: 11px 10px 11px 0;
+      font-size: 0.88rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      vertical-align: middle;
+    }
+    .voters-table tr:last-child td { border-bottom: none; }
+    .voter-name { font-weight: 600; }
+    .voter-menu-en { font-size: 0.85rem; }
+    .voter-menu-th { font-size: 0.72rem; color: var(--text-sub); }
+    .voter-time { font-size: 0.75rem; color: var(--text-sub); }
 
-        .login-title {
-            font-size: 28px;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, var(--accent-orange) 0%, var(--accent-orange-light) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+    /* Reset section */
+    .danger-card {
+      background: rgba(255,77,77,0.07);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid rgba(255,77,77,0.25);
+      border-radius: var(--card-radius);
+      padding: 24px 28px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .danger-card .danger-text h3 { font-size: 0.95rem; font-weight: 700; color: #ff6b6b; }
+    .danger-card .danger-text p { font-size: 0.8rem; color: var(--text-sub); margin-top: 3px; }
+    .reset-btn {
+      padding: 10px 22px; border-radius: 11px;
+      border: 1px solid rgba(255,77,77,0.5);
+      background: rgba(255,77,77,0.12);
+      color: #ff6b6b; font-family: inherit;
+      font-size: 0.85rem; font-weight: 700;
+      cursor: pointer; white-space: nowrap;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .reset-btn:hover { background: rgba(255,77,77,0.25); border-color: rgba(255,77,77,0.7); }
 
-        .login-subtitle {
-            font-size: 14px;
-            color: var(--text-muted);
-            text-align: center;
-            margin-bottom: 40px;
-        }
+    /* Modal */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(6px);
+      display: none; align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: rgba(30,15,60,0.95);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 20px; padding: 36px 32px;
+      max-width: 380px; width: 100%; text-align: center;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+    }
+    .modal .modal-icon { font-size: 2.5rem; margin-bottom: 12px; }
+    .modal h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+    .modal p { font-size: 0.85rem; color: var(--text-sub); margin-bottom: 24px; line-height: 1.5; }
+    .modal-actions { display: flex; gap: 10px; }
+    .modal-cancel {
+      flex: 1; padding: 12px;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 11px; background: rgba(255,255,255,0.07);
+      color: #fff; font-family: inherit; font-size: 0.9rem;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .modal-cancel:hover { background: rgba(255,255,255,0.13); }
+    .modal-confirm {
+      flex: 1; padding: 12px;
+      border: none; border-radius: 11px;
+      background: var(--danger); color: #fff;
+      font-family: inherit; font-size: 0.9rem; font-weight: 700;
+      cursor: pointer; transition: opacity 0.2s;
+    }
+    .modal-confirm:hover { opacity: 0.85; }
 
-        .form-group {
-            margin-bottom: 24px;
-        }
-
-        .form-label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--text-light);
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 14px 16px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            color: var(--text-light);
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .form-input:focus {
-            outline: none;
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--accent-orange);
-            box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, var(--accent-orange) 0%, #ff7a00 100%);
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(255, 140, 0, 0.3);
-        }
-
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 28px rgba(255, 140, 0, 0.4);
-        }
-
-        .error-message {
-            display: none;
-            padding: 12px 16px;
-            background: rgba(248, 113, 113, 0.1);
-            border: 1px solid rgba(248, 113, 113, 0.3);
-            border-radius: 8px;
-            color: #fca5a5;
-            font-size: 14px;
-            margin-bottom: 20px;
-            animation: shake 0.5s ease;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-
-        /* ==================== DASHBOARD ==================== */
-        .dashboard {
-            display: none;
-            padding: 20px;
-            animation: fadeIn 0.6s ease-out;
-        }
-
-        .dashboard.active {
-            display: block;
-        }
-
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .header-logo {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .header-logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .header-info h1 {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 4px;
-            background: linear-gradient(135deg, var(--accent-orange) 0%, var(--accent-orange-light) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .header-info p {
-            font-size: 14px;
-            color: var(--text-muted);
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .timestamp {
-            text-align: right;
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-
-        .logout-btn {
-            padding: 10px 24px;
-            background: linear-gradient(135deg, var(--accent-orange) 0%, #ff7a00 100%);
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 14px;
-        }
-
-        .logout-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(255, 140, 0, 0.3);
-        }
-
-        /* ==================== STATS CARDS ==================== */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .stat-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            animation: slideUp 0.6s ease-out;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent-orange);
-            box-shadow: 0 12px 32px rgba(255, 140, 0, 0.15);
-        }
-
-        .stat-label {
-            font-size: 13px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-            font-weight: 600;
-        }
-
-        .stat-value {
-            font-size: 36px;
-            font-weight: 700;
-            color: var(--text-light);
-            margin-bottom: 8px;
-        }
-
-        .stat-subtitle {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        /* ==================== CHARTS SECTION ==================== */
-        .charts-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .chart-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            animation: slideUp 0.6s ease-out;
-        }
-
-        .chart-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--text-light);
-        }
-
-        .chart-container {
-            position: relative;
-            height: 300px;
-        }
-
-        /* ==================== LEADERBOARD ==================== */
-        .leaderboard-section {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            animation: slideUp 0.6s ease-out;
-            margin-bottom: 40px;
-        }
-
-        .leaderboard-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 24px;
-            color: var(--text-light);
-        }
-
-        .leaderboard-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .leaderboard-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .leaderboard-item:hover {
-            background: rgba(255, 255, 255, 0.06);
-            border-color: var(--accent-orange);
-        }
-
-        .leaderboard-rank {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            flex: 1;
-        }
-
-        .rank-badge {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-orange) 0%, #ff7a00 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 16px;
-            color: white;
-            min-width: 40px;
-        }
-
-        .rank-badge.gold { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); }
-        .rank-badge.silver { background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%); color: #374151; }
-        .rank-badge.bronze { background: linear-gradient(135deg, #fb923c 0%, #f97316 100%); }
-
-        .rank-info h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
-        .rank-info p { font-size: 13px; color: var(--text-muted); }
-        .rank-votes { font-size: 18px; font-weight: 700; color: var(--accent-orange); min-width: 60px; text-align: right; }
-        .rank-percentage { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-
-        /* ==================== LOADING STATE ==================== */
-        .loading { display: flex; align-items: center; justify-content: center; min-height: 200px; gap: 12px; }
-        .spinner { width: 24px; height: 24px; border: 3px solid rgba(255, 140, 0, 0.2); border-top-color: var(--accent-orange); border-radius: 50%; animation: spin 0.8s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* ==================== ERROR STATE ==================== */
-        .error-state { background: rgba(248, 113, 113, 0.1); border: 1px solid rgba(248, 113, 113, 0.3); border-radius: 12px; padding: 20px; color: #fca5a5; text-align: center; line-height: 1.6; }
-        .error-state a { color: var(--accent-orange); text-decoration: none; font-weight: 600; }
-        .error-state a:hover { text-decoration: underline; }
-
-        /* ==================== TABS ==================== */
-        .tab-bar {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 32px;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 14px;
-            padding: 6px;
-            width: fit-content;
-        }
-
-        .tab-btn {
-            padding: 10px 28px;
-            border: none;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            color: var(--text-muted);
-            background: transparent;
-        }
-
-        .tab-btn.active {
-            background: linear-gradient(135deg, var(--accent-orange) 0%, #ff7a00 100%);
-            color: white;
-            box-shadow: 0 4px 14px rgba(255, 140, 0, 0.35);
-        }
-
-        .tab-btn:not(.active):hover {
-            background: rgba(255,255,255,0.07);
-            color: var(--text-light);
-        }
-
-        .tab-panel { display: none; }
-        .tab-panel.active { display: block; }
-
-        /* ==================== IFRAME PANEL ==================== */
-        .sheet-iframe-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            animation: slideUp 0.6s ease-out;
-        }
-
-        .sheet-iframe-card h2 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--text-light);
-        }
-
-        .sheet-iframe-card iframe {
-            width: 100%;
-            height: 600px;
-            border: none;
-            border-radius: 10px;
-            background: white;
-        }
-
-        /* ==================== RESPONSIVE ==================== */
-        @media (max-width: 768px) {
-            .header { flex-direction: column; align-items: flex-start; }
-            .header-right { width: 100%; justify-content: space-between; }
-            .header-info h1 { font-size: 24px; }
-            .stats-grid, .charts-section { grid-template-columns: 1fr; }
-            .chart-container { height: 250px; }
-            .login-card { padding: 40px 24px; }
-            .sheet-iframe-card iframe { height: 400px; }
-        }
-    </style>
+    @media (max-width: 560px) {
+      header { padding: 14px 16px; flex-wrap: wrap; }
+      .summary-row { grid-template-columns: repeat(2, 1fr); }
+      .stat-card:last-child { grid-column: 1 / -1; }
+      .danger-card { flex-direction: column; align-items: flex-start; }
+      main { padding: 24px 14px 60px; }
+    }
+  </style>
 </head>
 <body>
-    <!-- LOGIN PAGE -->
-    <div class="login-container" id="loginContainer">
-        <div class="login-card">
-            <div class="login-logo">
-                <img src="https://drk.qzz.io/newera/logo.png" alt="New Era Logo">
-            </div>
-            <h2 class="login-title">New Era Lunch Voting Results</h2>
-            <p class="login-subtitle">Enter your password to view results</p>
-            <div class="error-message" id="errorMessage"></div>
-            <form onsubmit="handleLogin(event)">
-                <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="form-input" id="passwordInput" placeholder="Enter password" autocomplete="off">
-                </div>
-                <button type="submit" class="login-btn">Login</button>
-            </form>
-        </div>
+
+<!-- ── LOGIN SCREEN ── -->
+<div id="loginScreen">
+  <div class="login-card">
+    <img src="https://drk.qzz.io/newera/logo.png" alt="New Era" onerror="this.style.display='none'" />
+    <div class="lock-icon">🔒</div>
+    <h2>Admin Access</h2>
+    <p class="sub">ผู้ดูแลระบบเท่านั้น · Authorised personnel only</p>
+    <input class="login-field" id="loginEmail" type="email" placeholder="Email" autocomplete="username" />
+    <input class="login-field" id="loginPassword" type="password" placeholder="Password" autocomplete="current-password" />
+    <button class="login-btn" id="loginBtn" onclick="doLogin()">เข้าสู่ระบบ · Sign In</button>
+    <div class="login-error" id="loginError"></div>
+  </div>
+</div>
+
+<!-- ── ADMIN PAGE ── -->
+<div id="adminPage">
+  <header>
+    <div class="header-left">
+      <img src="https://drk.qzz.io/newera/logo.png" alt="New Era" onerror="this.style.display='none'" />
+      <div class="brand">
+        <span class="name">NEW ERA</span>
+        <span class="sub">ADMIN DASHBOARD</span>
+      </div>
+      <span class="admin-badge">Admin</span>
+    </div>
+    <div class="header-right">
+      <span class="user-label" id="userLabel"></span>
+      <button class="logout-btn" onclick="doLogout()">Sign Out</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Stats -->
+    <div class="summary-row">
+      <div class="stat-card">
+        <div class="val" id="statTotal">–</div>
+        <div class="lbl">TOTAL VOTES · โหวตทั้งหมด</div>
+      </div>
+      <div class="stat-card">
+        <div class="val" id="statLeader" style="font-size:1rem;padding-top:8px">–</div>
+        <div class="lbl">LEADING · อันดับ 1</div>
+      </div>
+      <div class="stat-card">
+        <div class="val" id="statMenus">9</div>
+        <div class="lbl">MENU OPTIONS · เมนูทั้งหมด</div>
+      </div>
     </div>
 
-    <!-- DASHBOARD -->
-    <div class="dashboard" id="dashboard">
-        <div class="header">
-            <div class="header-left">
-                <div class="header-logo">
-                    <img src="https://drk.qzz.io/newera/logo.png" alt="New Era Logo">
-                </div>
-                <div class="header-info">
-                    <h1>Lunch Voting Results</h1>
-                    <p>New Era Student Council</p>
-                </div>
-            </div>
-            <div class="header-right">
-                <div class="timestamp">
-                    <p>Last Updated</p>
-                    <p id="lastUpdated">--:--:--</p>
-                </div>
-                <button class="logout-btn" onclick="handleLogout()">Logout</button>
-            </div>
-        </div>
-
-        <!-- TAB BAR -->
-        <div class="tab-bar">
-            <button class="tab-btn active" id="tabBtnCharts" onclick="switchTab('charts')">📊 Dashboard</button>
-            <button class="tab-btn" id="tabBtnSheet" onclick="switchTab('sheet')">📋 Raw Sheet</button>
-        </div>
-
-        <!-- TAB: CHARTS / DASHBOARD -->
-        <div class="tab-panel active" id="tabCharts">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-label">Total Votes</div>
-                    <div class="stat-value" id="totalVotes">0</div>
-                    <div class="stat-subtitle">responses collected</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Lunch Choices</div>
-                    <div class="stat-value" id="choiceCount">0</div>
-                    <div class="stat-subtitle">options available</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Most Popular</div>
-                    <div class="stat-value" id="mostPopular" style="font-size: 20px;">--</div>
-                    <div class="stat-subtitle" id="mostPopularVotes">-- votes</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Participation</div>
-                    <div class="stat-value" id="participation">--</div>
-                    <div class="stat-subtitle">engagement status</div>
-                </div>
-            </div>
-
-            <div class="charts-section">
-                <div class="chart-card">
-                    <h3 class="chart-title">Vote Distribution</h3>
-                    <div class="chart-container">
-                        <canvas id="barChart"></canvas>
-                    </div>
-                </div>
-                <div class="chart-card">
-                    <h3 class="chart-title">Vote Breakdown</h3>
-                    <div class="chart-container">
-                        <canvas id="pieChart"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <div class="leaderboard-section">
-                <h2 class="leaderboard-title">🏆 Lunch Ranking</h2>
-                <div class="leaderboard-list" id="leaderboardList">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                        <span>Loading real-time results...</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB: RAW SHEET -->
-        <div class="tab-panel" id="tabSheet">
-            <div class="sheet-iframe-card">
-                <h2>📋 Raw Voting Data</h2>
-                <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTWXCbBcF1GvozreA4fHEyCgOhVywRMatW0kY324kDU3YwtGik9IcLstpf9Fi1pFaCn2C0caAmCeRdM/pubhtml?widget=true&amp;headers=false" title="New Era Lunch Voting Raw Data"></iframe>
-            </div>
-        </div>
+    <!-- Live chart -->
+    <div class="results-card">
+      <div class="section-title">
+        <div class="live-dot"></div>
+        Live Results · ผลโหวตแบบเรียลไทม์
+      </div>
+      <div id="chartContainer"><p style="color:var(--text-sub);font-size:.9rem">กำลังโหลด…</p></div>
     </div>
 
-    <script>
-        const CORRECT_PASSWORD = 'NewEraLunchVoting';
-        // Google Sheet published CSV URL (works on GitHub Pages / any HTTPS host)
-        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTWXCbBcF1GvozreA4fHEyCgOhVywRMatW0kY324kDU3YwtGik9IcLstpf9Fi1pFaCn2C0caAmCeRdM/pub?output=csv';
+    <!-- Voters table -->
+    <div class="voters-card">
+      <div class="section-title">👥 All Voters · รายชื่อผู้โหวต</div>
+      <div id="votersTableWrap"><p style="color:var(--text-sub);font-size:.9rem">กำลังโหลด…</p></div>
+    </div>
 
-        let chartInstances = { bar: null, pie: null };
+    <!-- Danger zone -->
+    <div class="danger-card">
+      <div class="danger-text">
+        <h3>🗑 Reset All Votes</h3>
+        <p>ลบโหวตทั้งหมดและเริ่มใหม่ · Wipes every vote — cannot be undone</p>
+      </div>
+      <button class="reset-btn" onclick="openResetModal()">Reset Votes</button>
+    </div>
+  </main>
+</div>
 
-        document.addEventListener('DOMContentLoaded', () => {
-            checkAuthentication();
-        });
+<!-- Confirm modal -->
+<div class="modal-overlay" id="resetModal">
+  <div class="modal">
+    <div class="modal-icon">⚠️</div>
+    <h3>ยืนยันการลบโหวตทั้งหมด?</h3>
+    <p>การกระทำนี้ไม่สามารถย้อนกลับได้<br/>This will permanently delete all votes.</p>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeResetModal()">Cancel</button>
+      <button class="modal-confirm" onclick="confirmReset()">Delete All</button>
+    </div>
+  </div>
+</div>
 
-        function checkAuthentication() {
-            if (localStorage.getItem('newEraLunchVotingAuth') === 'true') {
-                showDashboard();
-                startDataRefresh();
-            } else {
-                showLoginPage();
-            }
-        }
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
+    from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+  import { getDatabase, ref, onValue, remove }
+    from "https://www.gstatic.com/firebasejs/12.17.1/firebase-database.js";
 
-        function handleLogin(event) {
-            event.preventDefault();
-            const password = document.getElementById('passwordInput').value;
-            const errorMessage = document.getElementById('errorMessage');
-            if (password === CORRECT_PASSWORD) {
-                localStorage.setItem('newEraLunchVotingAuth', 'true');
-                errorMessage.style.display = 'none';
-                showDashboard();
-                startDataRefresh();
-            } else {
-                errorMessage.textContent = 'Incorrect password.';
-                errorMessage.style.display = 'block';
-                document.getElementById('passwordInput').value = '';
-            }
-        }
+  const firebaseConfig = {
+    apiKey: "AIzaSyBqMo574RMGOwE3HKo4sek6vdmSvjcU06M",
+    authDomain: "neweraproject-by-jacob.firebaseapp.com",
+    databaseURL: "https://neweraproject-by-jacob-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "neweraproject-by-jacob",
+    storageBucket: "neweraproject-by-jacob.firebasestorage.app",
+    messagingSenderId: "318348962332",
+    appId: "1:318348962332:web:49f2844becc47647be8dd9",
+    measurementId: "G-RNHTC555T9"
+  };
 
-        function handleLogout() {
-            localStorage.removeItem('newEraLunchVotingAuth');
-            clearInterval(window.refreshInterval);
-            showLoginPage();
-        }
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getDatabase(app);
 
-        function showLoginPage() {
-            document.getElementById('loginContainer').style.display = 'flex';
-            document.getElementById('dashboard').classList.remove('active');
-            document.getElementById('passwordInput').focus();
-        }
+  const MENUS = [
+    { en: "Spaghetti Carbonara",                        th: "สปาเก็ตตี้คาร์โบนาร่า" },
+    { en: "Ramen",                                      th: "ราเมง" },
+    { en: "Pad Thai",                                   th: "ผัดไทย" },
+    { en: "Lasagne",                                    th: "ลาซานญ่า" },
+    { en: "Fish & Chips",                               th: "ปลาทอดเฟรนช์ฟราย" },
+    { en: "American Fried Rice",                        th: "ข้าวผัดอเมริกัน" },
+    { en: "Papaya Salad with Sticky Rice & Fried Chicken", th: "ตำ+ข้าวเหนียวไก่ทอด" },
+    { en: "Chicken Teriyaki",                           th: "ไก่เทริยากิ" },
+  ];
 
-        function showDashboard() {
-            document.getElementById('loginContainer').style.display = 'none';
-            document.getElementById('dashboard').classList.add('active');
-            fetchVotingData();
-        }
+  // ── Auth state ──
+  onAuthStateChanged(auth, user => {
+    if (user && user.email === 'admin@newera.com') {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('adminPage').style.display = 'block';
+      document.getElementById('userLabel').textContent = user.email;
+      startListening();
+    } else {
+      document.getElementById('loginScreen').style.display = 'flex';
+      document.getElementById('adminPage').style.display = 'none';
+    }
+  });
 
-        function startDataRefresh() {
-            fetchVotingData();
-            window.refreshInterval = setInterval(fetchVotingData, 30000);
-        }
+  // ── Login ──
+  window.doLogin = async function() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const pw    = document.getElementById('loginPassword').value;
+    const btn   = document.getElementById('loginBtn');
+    const errEl = document.getElementById('loginError');
+    errEl.textContent = '';
+    btn.disabled = true;
+    btn.textContent = 'กำลังเข้า… Signing in…';
+    try {
+      await signInWithEmailAndPassword(auth, email, pw);
+    } catch(e) {
+      errEl.textContent = 'อีเมลหรือรหัสผ่านไม่ถูกต้อง · Invalid email or password';
+      btn.disabled = false;
+      btn.textContent = 'เข้าสู่ระบบ · Sign In';
+    }
+  };
 
-        // Minimal CSV parser — handles quoted fields with embedded commas/newlines
-        function parseCSV(text) {
-            const rows = [];
-            let row = [], field = '', inQuotes = false;
-            for (let i = 0; i < text.length; i++) {
-                const ch = text[i], next = text[i + 1];
-                if (inQuotes) {
-                    if (ch === '"' && next === '"') { field += '"'; i++; }
-                    else if (ch === '"') { inQuotes = false; }
-                    else { field += ch; }
-                } else {
-                    if (ch === '"') { inQuotes = true; }
-                    else if (ch === ',') { row.push(field); field = ''; }
-                    else if (ch === '\n' || (ch === '\r' && next === '\n')) {
-                        row.push(field); field = '';
-                        rows.push(row); row = [];
-                        if (ch === '\r') i++;
-                    } else { field += ch; }
-                }
-            }
-            if (field || row.length) { row.push(field); rows.push(row); }
-            return rows;
-        }
+  // Enter key on password field
+  document.getElementById('loginPassword').addEventListener('keydown', e => {
+    if (e.key === 'Enter') window.doLogin();
+  });
 
-        async function fetchVotingData() {
-            try {
-                const response = await fetch(SHEET_CSV_URL + '&_=' + Date.now());
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                const text = await response.text();
+  // ── Logout ──
+  window.doLogout = () => signOut(auth);
 
-                const rows = parseCSV(text);
-                if (rows.length < 2) {
-                    showError('No data available yet. Please ensure votes have been submitted.');
-                    return;
-                }
+  // ── Live data ──
+  function startListening() {
+    onValue(ref(db, 'lunchvote/votes'), snap => {
+      const data = snap.val() || {};
+      renderDashboard(data);
+    });
+  }
 
-                // Row 0 = headers — find the vote/lunch column, fallback to column 1
-                const headers = rows[0].map(h => h.trim().toLowerCase());
-                let voteColIndex = headers.findIndex(h => h.includes('lunch') || h.includes('vote'));
-                if (voteColIndex === -1) voteColIndex = 1;
+  function renderDashboard(data) {
+    const counts = {};
+    MENUS.forEach((_, i) => counts[i] = 0);
+    const voters = [];
 
-                const voteCounts = {};
-                let totalVotes = 0;
+    Object.values(data).forEach(v => {
+      if (v.choice !== undefined) counts[v.choice] = (counts[v.choice] || 0) + 1;
+      voters.push(v);
+    });
+    voters.sort((a,b) => b.timestamp - a.timestamp);
 
-                for (let i = 1; i < rows.length; i++) {
-                    const vote = rows[i][voteColIndex] ? rows[i][voteColIndex].trim() : '';
-                    if (vote) {
-                        voteCounts[vote] = (voteCounts[vote] || 0) + 1;
-                        totalVotes++;
-                    }
-                }
+    const total = Object.values(counts).reduce((a,b) => a+b, 0);
+    const maxCount = Math.max(...Object.values(counts), 1);
+    const leadingIdx = Object.entries(counts).sort((a,b) => b[1]-a[1])[0][0];
 
-                const sortedOptions = Object.entries(voteCounts)
-                    .map(([name, votes]) => ({ name, votes }))
-                    .sort((a, b) => b.votes - a.votes);
+    // Stats
+    document.getElementById('statTotal').textContent = total;
+    document.getElementById('statLeader').textContent =
+      total > 0 ? MENUS[leadingIdx].en : '–';
 
-                if (sortedOptions.length === 0) {
-                    showError('No votes recorded yet. Check back soon!');
-                    return;
-                }
+    // Chart
+    const chart = document.getElementById('chartContainer');
+    const sorted = Object.entries(counts)
+      .map(([i, c]) => ({ i: +i, c }))
+      .sort((a,b) => b.c - a.c);
 
-                updateDashboard(sortedOptions, totalVotes);
-                updateTimestamp();
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                showError(`Unable to load data: ${error.message}`);
-            }
-        }
+    chart.innerHTML = sorted.map(({i, c}) => {
+      const pct = total > 0 ? Math.round((c/total)*100) : 0;
+      const isLeading = c === maxCount && c > 0;
+      return `
+        <div class="result-row">
+          <div class="result-meta">
+            <div class="result-names">
+              <span class="result-en">${MENUS[i].en}</span>
+              <span class="result-th">${MENUS[i].th}</span>
+            </div>
+            <div class="result-right">
+              <span class="result-count">${c} vote${c!==1?'s':''}</span>
+              <span class="result-pct">${pct}%</span>
+            </div>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill ${isLeading?'leading':''}" style="width:${(c/maxCount)*100}%"></div>
+          </div>
+        </div>`;
+    }).join('');
 
-        function updateDashboard(options, totalVotes) {
-            document.getElementById('totalVotes').textContent = totalVotes;
-            document.getElementById('choiceCount').textContent = options.length;
+    // Voters table
+    const wrap = document.getElementById('votersTableWrap');
+    if (voters.length === 0) {
+      wrap.innerHTML = '<p style="color:var(--text-sub);font-size:.88rem">ยังไม่มีผู้โหวต · No votes yet</p>';
+      return;
+    }
+    wrap.innerHTML = `
+      <table class="voters-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>ชื่อ / Name</th>
+            <th>เมนูที่เลือก / Menu</th>
+            <th>เวลา / Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${voters.map((v,idx) => `
+            <tr>
+              <td style="color:var(--text-sub)">${idx+1}</td>
+              <td class="voter-name">${esc(v.name || '–')}</td>
+              <td>
+                <div class="voter-menu-en">${v.choice !== undefined ? MENUS[v.choice]?.en || '?' : '?'}</div>
+                <div class="voter-menu-th">${v.choice !== undefined ? MENUS[v.choice]?.th || '' : ''}</div>
+              </td>
+              <td class="voter-time">${v.timestamp ? new Date(v.timestamp).toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'}) : '–'}</td>
+            </tr>`).join('')}
+        </tbody>
+      </table>`;
+  }
 
-            if (options.length > 0) {
-                const mostPopular = options[0];
-                document.getElementById('mostPopular').textContent = mostPopular.name;
-                document.getElementById('mostPopularVotes').textContent = `${mostPopular.votes} votes`;
-                document.getElementById('participation').textContent = totalVotes > 0 ? 'Active ✓' : 'Pending';
-            }
+  // ── Reset ──
+  window.openResetModal  = () => document.getElementById('resetModal').classList.add('open');
+  window.closeResetModal = () => document.getElementById('resetModal').classList.remove('open');
+  window.confirmReset    = async () => {
+    await remove(ref(db, 'lunchvote/votes'));
+    closeResetModal();
+  };
 
-            updateCharts(options, totalVotes);
-            updateLeaderboard(options, totalVotes);
-        }
-
-        function updateCharts(options, totalVotes) {
-            const labels = options.map(opt => opt.name);
-            const votes = options.map(opt => opt.votes);
-            const colors = ['#ff8c00', '#ffb84d', '#ff7a00', '#ffa500', '#ff9500', '#ffd700', '#ff4500'];
-
-            const barCtx = document.getElementById('barChart').getContext('2d');
-            if (chartInstances.bar) chartInstances.bar.destroy();
-            chartInstances.bar = new Chart(barCtx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Votes',
-                        data: votes,
-                        backgroundColor: colors,
-                        borderRadius: 8
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { beginAtZero: true, grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: 'rgba(255, 255, 255, 0.7)' } },
-                        x: { grid: { display: false }, ticks: { color: 'rgba(255, 255, 255, 0.7)' } }
-                    }
-                }
-            });
-
-            const pieCtx = document.getElementById('pieChart').getContext('2d');
-            if (chartInstances.pie) chartInstances.pie.destroy();
-            chartInstances.pie = new Chart(pieCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        data: votes,
-                        backgroundColor: colors,
-                        borderColor: 'rgba(26, 42, 74, 0.8)',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom', labels: { color: 'rgba(255, 255, 255, 0.8)', usePointStyle: true } }
-                    }
-                }
-            });
-        }
-
-        function updateLeaderboard(options, totalVotes) {
-            const list = document.getElementById('leaderboardList');
-            list.innerHTML = '';
-            const medals = ['🥇', '🥈', '🥉'];
-            options.forEach((option, index) => {
-                const percentage = totalVotes > 0 ? ((option.votes / totalVotes) * 100).toFixed(1) : 0;
-                const item = document.createElement('div');
-                item.className = 'leaderboard-item';
-                let badgeClass = index === 0 ? 'gold' : index === 1 ? 'silver' : index === 2 ? 'bronze' : '';
-                const medal = index < 3 ? medals[index] : (index + 1);
-                item.innerHTML = `
-                    <div class="leaderboard-rank">
-                        <div class="rank-badge ${badgeClass}">${medal}</div>
-                        <div class="rank-info">
-                            <h3>${option.name}</h3>
-                            <p>Rank #${index + 1}</p>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="rank-votes">${option.votes}</div>
-                        <div class="rank-percentage">${percentage}%</div>
-                    </div>
-                `;
-                list.appendChild(item);
-            });
-        }
-
-        function updateTimestamp() {
-            const now = new Date();
-            document.getElementById('lastUpdated').textContent = now.toLocaleTimeString();
-        }
-
-        function showError(message) {
-            document.getElementById('leaderboardList').innerHTML = `<div class="error-state">${message}</div>`;
-        }
-
-        function switchTab(tab) {
-            const tabs = ['charts', 'sheet'];
-            tabs.forEach(t => {
-                document.getElementById(`tab${t.charAt(0).toUpperCase() + t.slice(1)}`).classList.remove('active');
-                document.getElementById(`tabBtn${t.charAt(0).toUpperCase() + t.slice(1)}`).classList.remove('active');
-            });
-            document.getElementById(`tab${tab.charAt(0).toUpperCase() + tab.slice(1)}`).classList.add('active');
-            document.getElementById(`tabBtn${tab.charAt(0).toUpperCase() + tab.slice(1)}`).classList.add('active');
-        }
-    </script>
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+</script>
 </body>
 </html>
