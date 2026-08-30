@@ -89,6 +89,49 @@
       gap: 10px;
     }
 
+    .quick-nav {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      z-index: 101;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      max-width: calc(100% - 180px);
+      padding: 5px;
+      overflow-x: auto;
+      transform: translateX(-50%);
+      background: rgba(10,15,46,0.78);
+      border: 1px solid rgba(245,200,66,0.2);
+      border-radius: 999px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+      backdrop-filter: blur(10px);
+      scrollbar-width: none;
+      white-space: nowrap;
+    }
+    .quick-nav::-webkit-scrollbar { display: none; }
+    .quick-nav a {
+      flex: 0 0 auto;
+      padding: 7px 10px;
+      color: var(--soft);
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+    .quick-nav a:hover,
+    .quick-nav a:focus-visible {
+      color: var(--gold);
+      background: rgba(245,200,66,0.12);
+      outline: none;
+    }
+    [data-theme="light"] .quick-nav {
+      background: rgba(255,255,255,0.86);
+      border-color: rgba(15,23,42,0.12);
+    }
+    section[id] { scroll-margin-top: 80px; }
+
     .theme-toggle,
     .lang-toggle {
       background: var(--float-bg);
@@ -1222,6 +1265,16 @@
       color: var(--white);
     }
 
+    @media(max-width:700px){
+      .quick-nav {
+        top: 76px;
+        right: 14px;
+        left: 14px;
+        max-width: none;
+        transform: none;
+      }
+      section[id] { scroll-margin-top: 120px; }
+    }
     @media(max-width:480px){
       .cal-day { font-size: 0.7rem; }
       .today-panel { padding: 12px 14px; }
@@ -1256,6 +1309,12 @@
     <button id="langToggle" class="lang-toggle" aria-label="Switch language">TH</button>
     <button id="themeToggle" class="theme-toggle" aria-label="Toggle Light/Dark Mode">☀️</button>
   </div>
+  <nav class="quick-nav" aria-label="Quick navigation">
+    <a href="#policies">Policies</a>
+    <a href="#links">Links</a>
+    <a href="#swis">SWIS</a>
+    <a href="#team">Team</a>
+  </nav>
   <div class="hero-glow"></div>
   <div class="hero-ring"></div>
   <div class="hero-ring"></div>
@@ -1303,7 +1362,7 @@
 </div>
 
 <!-- POLICIES -->
-<section>
+<section id="policies">
   <div class="section-label" data-i18n="policiesLabel">🎯 Student Engagement Policies</div>
   <h2 class="section-title"><span data-i18n="whats">What's</span> <span data-i18n="newWord">New</span> <span data-i18n="atEbs">at EBS</span></h2>
 
@@ -1484,7 +1543,7 @@
 </div>
 
 <!-- USEFUL LINKS -->
-<section class="links-section">
+<section id="links" class="links-section">
   <div class="links-inner">
     <div class="section-label" data-i18n="linksLabel">🔗 School Links</div>
     <h2 class="section-title"><span data-i18n="linksTitle">Useful</span> <span data-i18n="linksWord">Links</span></h2>
@@ -1530,7 +1589,7 @@
 </section>
 <div class="gold-divider"></div>
 <!-- SWIS APP GUIDE SECTION -->
-<section class="swis-section">
+<section id="swis" class="swis-section">
   <div class="section-label" data-i18n="swisLabel">📱 App Setup</div>
   <h2 class="section-title" style="margin-bottom:36px;"><span data-i18n="swisTitle">Get Started with</span> <span data-i18n="swisApps">SWIS</span></h2>
 
@@ -1548,7 +1607,7 @@
 </section>
 
 <!-- MEMBERS SECTION -->
-<section style="padding:60px 20px; text-align:center;">
+<section id="team" style="padding:60px 20px; text-align:center;">
   <div class="section-label" style="justify-content:center;" data-i18n="teamLabel">🤝 Our Team</div>
   <h2 class="section-title"><span data-i18n="teamThanks">Thank You To Our</span> <span data-i18n="membersWord">Members</span></h2>
   
