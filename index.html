@@ -926,7 +926,262 @@
       border: 1px solid rgba(245,200,66,0.4);
     }
 
+    /* ─── CALENDAR ─── */
+    .today-panel {
+      background: linear-gradient(135deg, rgba(61,220,151,0.12), rgba(61,220,151,0.03));
+      border: 1px solid rgba(61,220,151,0.3);
+      border-radius: 16px;
+      padding: 16px 18px;
+      margin-bottom: 18px;
+    }
+    .today-panel-title {
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .today-event {
+      font-size: 0.92rem;
+      color: var(--white);
+      line-height: 1.5;
+      margin-bottom: 8px;
+      padding-left: 4px;
+      border-left: 2px solid rgba(61,220,151,0.5);
+      padding-left: 10px;
+    }
+    .today-event:last-child { margin-bottom: 0; }
+    .today-event .rmk {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--soft);
+      margin-top: 2px;
+    }
+    .today-empty {
+      font-size: 0.88rem;
+      color: var(--soft);
+      font-style: italic;
+    }
+    .cal-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .cal-nav-btn {
+      background: var(--schedule-card);
+      border: 1px solid var(--schedule-card-border);
+      color: var(--white);
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s;
+    }
+    .cal-nav-btn:hover {
+      background: rgba(245,200,66,0.15);
+      border-color: rgba(245,200,66,0.35);
+    }
+    .cal-nav-btn:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+    .cal-month-label {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--gold);
+      letter-spacing: 0.03em;
+    }
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      margin-bottom: 16px;
+    }
+    .cal-dow {
+      text-align: center;
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: var(--soft);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding-bottom: 4px;
+    }
+    .cal-day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      color: var(--white);
+      position: relative;
+      cursor: default;
+      background: var(--schedule-card);
+      border: 1px solid transparent;
+    }
+    .cal-day.empty {
+      background: transparent;
+    }
+    .cal-day.has-event {
+      cursor: pointer;
+      border-color: rgba(245,200,66,0.25);
+    }
+    .cal-day.has-event:hover {
+      background: rgba(245,200,66,0.15);
+    }
+    .cal-day.has-event::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+    .cal-day.is-today {
+      background: rgba(61,220,151,0.25);
+      border-color: var(--green);
+      font-weight: 800;
+      color: var(--green);
+    }
+    .cal-day.is-today::after {
+      background: var(--green);
+    }
+    .cal-detail {
+      background: var(--schedule-card);
+      border: 1px solid var(--schedule-card-border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: none;
+      font-size: 0.85rem;
+      color: var(--white);
+      line-height: 1.5;
+      margin-top: 4px;
+    }
+    .cal-detail.open { display: block; }
+    .cal-detail-date {
+      font-weight: 700;
+      color: var(--gold);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+    .cal-detail .rmk {
+      display: block;
+      color: var(--soft);
+      font-size: 0.78rem;
+      margin-top: 3px;
+    }
+
+    /* ─── SWIS APP GUIDE ─── */
+    .swis-section {
+      padding: 60px 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .swis-guide-block {
+      margin-bottom: 40px;
+    }
+    .swis-guide-img {
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      display: block;
+    }
+    .swis-notice {
+      background: linear-gradient(135deg, rgba(245,200,66,0.14), rgba(245,200,66,0.04));
+      border: 1px solid rgba(245,200,66,0.35);
+      border-radius: 16px;
+      padding: 22px 24px;
+      margin-top: 32px;
+      text-align: center;
+    }
+    .swis-notice p {
+      color: var(--white);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+    .swis-notice strong { color: var(--gold); }
+    .swis-change-btn {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      padding: 12px 28px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      letter-spacing: 0.03em;
+      transition: 0.2s;
+      box-shadow: 0 4px 16px rgba(29,78,216,0.35);
+    }
+    .swis-change-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(29,78,216,0.45);
+    }
+
+    /* ─── SWIS ONE-TIME POPUP ─── */
+    .swis-popup-content {
+      max-width: 420px;
+      padding: 32px 26px;
+      text-align: center;
+    }
+    .swis-popup-icon {
+      font-size: 2.2rem;
+      margin-bottom: 6px;
+    }
+    .swis-popup-mini-imgs {
+      display: flex;
+      gap: 8px;
+      margin: 16px 0;
+    }
+    .swis-popup-mini-imgs img {
+      width: 50%;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      display: block;
+    }
+    .swis-popup-content p {
+      font-size: 0.88rem;
+      color: var(--white);
+      line-height: 1.55;
+      margin-bottom: 18px;
+    }
+    .swis-popup-content strong { color: var(--gold); }
+    .swis-popup-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .swis-popup-secondary {
+      background: transparent;
+      border: 1px solid var(--schedule-card-border);
+      color: var(--soft);
+      font-size: 0.82rem;
+      padding: 10px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .swis-popup-secondary:hover {
+      background: var(--schedule-card);
+      color: var(--white);
+    }
+
     @media(max-width:480px){
+      .cal-day { font-size: 0.7rem; }
+      .today-panel { padding: 12px 14px; }
       .floating-left {
         bottom: 12px;
         left: 12px;
@@ -1185,6 +1440,24 @@
   </div>
 </div>
 
+<!-- SWIS APP GUIDE SECTION -->
+<section class="swis-section">
+  <div class="section-label" data-i18n="swisLabel">📱 App Setup</div>
+  <h2 class="section-title" style="margin-bottom:36px;"><span data-i18n="swisTitle">Get Started with</span> <span data-i18n="swisApps">SWIS</span></h2>
+
+  <div class="swis-guide-block">
+    <img src="swis-student-guide.jpg" alt="SWIS App for Student setup steps" class="swis-guide-img">
+  </div>
+  <div class="swis-guide-block">
+    <img src="swis-parent-guide.jpg" alt="SWIS Parent app setup steps" class="swis-guide-img">
+  </div>
+
+  <div class="swis-notice">
+    <p data-i18n="swisNoticeText">Your <strong>Student ID</strong> and <strong>password</strong> will be sent to your parents through your teacher's LINE. For your safety, please change your password as soon as you log in for the first time.</p>
+    <a href="https://ebs.swisplus.net/student/change_password.php" target="_blank" rel="noopener" class="swis-change-btn" data-i18n="swisChangeBtn">🔒 Change My Password</a>
+  </div>
+</section>
+
 <!-- MEMBERS SECTION -->
 <section style="padding:60px 20px; text-align:center;">
   <div class="section-label" style="justify-content:center;" data-i18n="teamLabel">🤝 Our Team</div>
@@ -1240,36 +1513,39 @@
     <button class="schedule-close" id="closeScheduleBtn">×</button>
     <div class="schedule-title" data-i18n="scheduleTitle">Policy Schedule</div>
     <div class="schedule-subtitle" data-i18n="scheduleSubtitle">EBS New Era Implementation Timeline</div>
-    <ul class="schedule-list" id="scheduleList">
-      <li class="schedule-item">
-        <div class="schedule-date" data-i18n="scheduleMonWed">📅 Monday & Wednesday</div>
-        <div class="schedule-loc">📍 E-Sport Launch</div>
-      </li>
-      <li class="schedule-item">
-        <div class="schedule-date" data-i18n="scheduleTue">📅 Tuesday</div>
-        <div class="schedule-loc">📍 EBS Dance Connect & Talent Showcase</div>
-      </li>
-      <li class="schedule-item">
-        <div class="schedule-date" data-i18n="scheduleTueMarket">📅 Tuesday Morning</div>
-        <div class="schedule-loc">📍 Tuesday Market</div>
-      </li>
-      <li class="schedule-item">
-        <div class="schedule-date" data-i18n="scheduleThu">📅 Thursday</div>
-        <div class="schedule-loc">📍 EBS Lunch Football</div>
-      </li>
-      <li class="schedule-item">
-        <div class="schedule-date" data-i18n="scheduleFri">📅 Friday</div>
-        <div class="schedule-loc">📍 Friday International Lunch Voting</div>
-      </li>
-      <li class="schedule-item">
-        <div class="schedule-date" data-i18n="scheduleFriAfternoon">📅 Friday Afternoon</div>
-        <div class="schedule-loc">📍 Music Day for Performing</div>
-      </li>
-      <li class="schedule-item">
-        <div class="schedule-date" data-i18n="scheduleWeekly">✨ Weekly / Always Open</div>
-        <div class="schedule-loc">📍 Feedback QR, Subject Highlight, Music Choice</div>
-      </li>
-    </ul>
+    <!-- TODAY PANEL -->
+    <div class="today-panel">
+      <div class="today-panel-title"><span id="todayIcon">📌</span> <span id="todayLabel">Today</span></div>
+      <div id="todayContent"></div>
+    </div>
+
+    <!-- CALENDAR NAV -->
+    <div class="cal-nav">
+      <button class="cal-nav-btn" id="calPrevBtn" aria-label="Previous month">‹</button>
+      <div class="cal-month-label" id="calMonthLabel">July 2026</div>
+      <button class="cal-nav-btn" id="calNextBtn" aria-label="Next month">›</button>
+    </div>
+    <div class="cal-grid" id="calDowRow"></div>
+    <div class="cal-grid" id="calGrid"></div>
+    <div class="cal-detail" id="calDetail"></div>
+  </div>
+</div>
+
+<!-- SWIS ONE-TIME POPUP (shown once per device, dismissible forever) -->
+<div class="schedule-modal" id="swisPopupModal">
+  <div class="schedule-content swis-popup-content">
+    <button class="schedule-close" id="closeSwisPopupBtn">×</button>
+    <div class="swis-popup-icon">📱</div>
+    <div class="schedule-title" style="font-size:1.6rem;" data-i18n="swisPopupTitle">Set Up Your SWIS App</div>
+    <div class="swis-popup-mini-imgs">
+      <img src="swis-student-guide.jpg" alt="SWIS App for Student setup steps">
+      <img src="swis-parent-guide.jpg" alt="SWIS Parent app setup steps">
+    </div>
+    <p data-i18n="swisPopupText">Your <strong>Student ID</strong> and <strong>password</strong> will be sent to your parents via your teacher's LINE. Please change your password right after your first login for safety.</p>
+    <div class="swis-popup-btns">
+      <a href="https://ebs.swisplus.net/student/change_password.php" target="_blank" rel="noopener" class="swis-change-btn" data-i18n="swisChangeBtn">🔒 Change My Password</a>
+      <button class="swis-popup-secondary" id="dismissSwisPopupBtn" data-i18n="swisPopupDismiss">Got it, don't show again</button>
+    </div>
   </div>
 </div>
 
@@ -1330,6 +1606,14 @@
         esportsLabel: '🎮 Competitive Gaming',
         esportsTitle: 'E-Sport',
         launchWord: 'Launch',
+        swisLabel: '📱 App Setup',
+        swisTitle: 'Get Started with',
+        swisApps: 'SWIS',
+        swisNoticeText: 'Your <strong>Student ID</strong> and <strong>password</strong> will be sent to your parents through your teacher\'s LINE. For your safety, please change your password as soon as you log in for the first time.',
+        swisChangeBtn: '🔒 Change My Password',
+        swisPopupTitle: 'Set Up Your SWIS App',
+        swisPopupText: 'Your <strong>Student ID</strong> and <strong>password</strong> will be sent to your parents via your teacher\'s LINE. Please change your password right after your first login for safety.',
+        swisPopupDismiss: 'Got it, don\'t show again',
         esportsDesc: 'Every <strong style="color:var(--accent)">Monday &amp; Wednesday</strong> — promoting teamwork, strategy, leadership, and positive competition through organised gaming. Students must demonstrate good behaviour, teamwork, and sportsmanship in weekly matches and school tournaments.',
         ipadNote: '📱 School provides iPads for all E-Sport activities',
         weeklyMatches: 'Weekly matches',
@@ -1352,20 +1636,20 @@
         scheduleButton: 'Policy Schedule',
         scheduleTitle: 'Policy Schedule',
         scheduleSubtitle: 'EBS New Era Implementation Timeline',
-        scheduleMonWed: '📅 Monday & Wednesday',
-        scheduleEsport: '📍 E-Sport Launch',
+        scheduleMonWed: '📅 Thursday',
+        scheduleEsport: '📍 E-Sport Launch – iPad Room, 12:20–12:35, 2 Weeks/Month',
         scheduleTue: '📅 Tuesday',
-        scheduleDanceTalent: '📍 EBS Dance Connect & Talent Showcase',
+        scheduleDanceTalent: '📍 EBS Dance Connect (Library) & Talent Showcase (Monthly)',
         scheduleTueMarket: '📅 Tuesday Morning',
-        scheduleTueMarketItem: '📍 Tuesday Market',
-        scheduleThu: '📅 Thursday',
-        scheduleFootball: '📍 EBS Lunch Football',
+        scheduleTueMarketItem: '📍 Tuesday Market – Kindergarten Building, Ground Floor',
+        scheduleThu: '📅 Wed–Fri (Rotating)',
+        scheduleFootball: '📍 EBS Lunch Football – G1-3: 1x/2mo, G4-6: 2x/2mo (Not Friday)',
         scheduleFri: '📅 Friday',
-        scheduleLunch: '📍 Friday International Lunch Voting',
-        scheduleFriAfternoon: '📅 Friday Afternoon',
-        scheduleMusicDay: '📍 Music Day for Performing',
+        scheduleLunch: '📍 Friday International Lunch Voting (Monthly)',
+        scheduleFriAfternoon: '📅 Friday Lunch',
+        scheduleMusicDay: '📍 Board Game – Genius Zone',
         scheduleWeekly: '✨ Weekly / Always Open',
-        scheduleWeeklyItems: '📍 Feedback QR, Subject Highlight, Music Choice'
+        scheduleWeeklyItems: '📍 Feedback QR · Subject Progress Highlight (1 Student/Month/Class) · Music Choice (Lunch/Events)'
       },
       th: {
         eraBadge: 'ปีการศึกษา 2026 – 2027',
@@ -1421,6 +1705,14 @@
         esportsLabel: '🎮 เกมแข่งขัน',
         esportsTitle: 'อีสปอร์ต',
         launchWord: 'เริ่มต้น',
+        swisLabel: '📱 ตั้งค่าแอปพลิเคชัน',
+        swisTitle: 'เริ่มต้นใช้งาน',
+        swisApps: 'SWIS',
+        swisNoticeText: '<strong>รหัสประจำตัวนักเรียน</strong>และ<strong>รหัสผ่าน</strong>ของคุณจะถูกส่งให้ผู้ปกครองผ่านทางไลน์ของคุณครู เพื่อความปลอดภัย กรุณาเปลี่ยนรหัสผ่านทันทีหลังจากเข้าสู่ระบบครั้งแรก',
+        swisChangeBtn: '🔒 เปลี่ยนรหัสผ่านของฉัน',
+        swisPopupTitle: 'ตั้งค่าแอป SWIS ของคุณ',
+        swisPopupText: '<strong>รหัสประจำตัวนักเรียน</strong>และ<strong>รหัสผ่าน</strong>ของคุณจะถูกส่งให้ผู้ปกครองผ่านไลน์ของคุณครู กรุณาเปลี่ยนรหัสผ่านทันทีหลังเข้าสู่ระบบครั้งแรกเพื่อความปลอดภัย',
+        swisPopupDismiss: 'รับทราบ ไม่ต้องแสดงอีก',
         esportsDesc: 'ทุก <strong style="color:var(--accent)">วันจันทร์และวันพุธ</strong> — ส่งเสริมการทำงานเป็นทีม กลยุทธ์ ภาวะผู้นำ และการแข่งขันเชิงบวกผ่านเกมที่จัดอย่างเป็นระบบ นักเรียนต้องแสดงพฤติกรรมที่ดี การทำงานร่วมกัน และน้ำใจนักกีฬาในการแข่งขันประจำสัปดาห์และทัวร์นาเมนต์ของโรงเรียน',
         ipadNote: '📱 โรงเรียนจัดเตรียม iPad สำหรับกิจกรรมอีสปอร์ตทั้งหมด',
         weeklyMatches: 'แข่งขันรายสัปดาห์',
@@ -1443,20 +1735,20 @@
         scheduleButton: 'ตารางนโยบาย',
         scheduleTitle: 'ตารางนโยบาย',
         scheduleSubtitle: 'ไทม์ไลน์การดำเนินงาน EBS New Era',
-        scheduleMonWed: '📅 วันจันทร์และวันพุธ',
-        scheduleEsport: '📍 เปิดตัวอีสปอร์ต',
+        scheduleMonWed: '📅 วันพฤหัสบดี',
+        scheduleEsport: '📍 อีสปอร์ต – ห้องไอแพด 12.20–12.35 น. (2 สัปดาห์/เดือน)',
         scheduleTue: '📅 วันอังคาร',
-        scheduleDanceTalent: '📍 EBS Dance Connect และ Talent Showcase',
+        scheduleDanceTalent: '📍 EBS Dance Connect (ห้องสมุด) และ Talent Showcase (รายเดือน)',
         scheduleTueMarket: '📅 เช้าวันอังคาร',
-        scheduleTueMarketItem: '📍 ตลาดวันอังคาร',
-        scheduleThu: '📅 วันพฤหัสบดี',
-        scheduleFootball: '📍 EBS Lunch Football',
+        scheduleTueMarketItem: '📍 ตลาดวันอังคาร – ใต้อาคารอนุบาล',
+        scheduleThu: '📅 พุธ–ศุกร์ (สลับ)',
+        scheduleFootball: '📍 EBS Lunch Football – ป.1-3: 1 ครั้ง/2 เดือน, ป.4-6: 2 ครั้ง/2 เดือน (ไม่ใช่วันศุกร์)',
         scheduleFri: '📅 วันศุกร์',
-        scheduleLunch: '📍 โหวตอาหารกลางวันนานาชาติวันศุกร์',
-        scheduleFriAfternoon: '📅 บ่ายวันศุกร์',
-        scheduleMusicDay: '📍 วันแสดงดนตรี',
+        scheduleLunch: '📍 โหวตอาหารกลางวันนานาชาติวันศุกร์ (รายเดือน)',
+        scheduleFriAfternoon: '📅 พักกลางวันวันศุกร์',
+        scheduleMusicDay: '📍 บอร์ดเกม – Genius Zone',
         scheduleWeekly: '✨ รายสัปดาห์ / เปิดรับเสมอ',
-        scheduleWeeklyItems: '📍 Feedback QR, Subject Highlight, Music Choice'
+        scheduleWeeklyItems: '📍 Feedback QR · ไฮไลต์ความก้าวหน้าวิชาการ (1 คน/เดือน/ห้อง) · เลือกเพลง อีบีเอส (พักกลางวัน/กิจกรรม)'
       }
     };
 
@@ -1509,10 +1801,175 @@
       if (e.target === schedModal) schedModal.classList.remove('open');
     });
 
+
+    // ─── CALENDAR SYSTEM (student-facing activities only, based on the EBS New Era timeline) ───
+    const calEvents = {"2026-07-07":[{"title_en":"Vote for the next international lunch menu","title_th":"ร่วมโหวตเมนูอาหารกลางวันนานาชาติรอบต่อไป","hint_en":"Lunch time","hint_th":"ช่วงพักกลางวัน"}],"2026-07-09":[{"title_en":"E-Sports Club meets in the iPad room","title_th":"ชมรมอีสปอร์ตนัดรวมตัวที่ห้องไอแพด","hint_en":"iPad Room · 12:20–12:35 PM","hint_th":"ห้องไอแพด · 12:20–12:35 น."}],"2026-07-10":[{"title_en":"Board Game hangout in the Genius Zone","title_th":"มาเล่นบอร์ดเกมกันที่ Genius Zone","hint_en":"Genius Zone · Lunch break","hint_th":"Genius Zone · ช่วงพักกลางวัน"}],"2026-07-14":[{"title_en":"Pick the soundtrack for this week with EBS Music Choice","title_th":"ช่วยเลือกเพลงประจำสัปดาห์กับ EBS Music Choice","hint_en":"During lunch & events","hint_th":"ช่วงพักกลางวันและกิจกรรม"}],"2026-07-16":[{"title_en":"E-Sports Club meets in the iPad room","title_th":"ชมรมอีสปอร์ตนัดรวมตัวที่ห้องไอแพด","hint_en":"iPad Room · 12:20–12:35 PM","hint_th":"ห้องไอแพด · 12:20–12:35 น."}],"2026-07-17":[{"title_en":"Board Game hangout in the Genius Zone","title_th":"มาเล่นบอร์ดเกมกันที่ Genius Zone","hint_en":"Genius Zone · Lunch break","hint_th":"Genius Zone · ช่วงพักกลางวัน"}],"2026-07-20":[{"title_en":"Midterm exams — study hard!","title_th":"ช่วงสอบกลางภาค ตั้งใจอ่านหนังสือกันนะ","hint_en":"","hint_th":""}],"2026-07-28":[{"title_en":"School holiday — no classes today","title_th":"วันหยุดโรงเรียน งดการเรียนการสอน","hint_en":"","hint_th":""}],"2026-08-04":[{"title_en":"Vote for the next international lunch menu","title_th":"ร่วมโหวตเมนูอาหารกลางวันนานาชาติรอบต่อไป","hint_en":"Lunch time","hint_th":"ช่วงพักกลางวัน"}],"2026-08-06":[{"title_en":"E-Sports Club meets in the iPad room","title_th":"ชมรมอีสปอร์ตนัดรวมตัวที่ห้องไอแพด","hint_en":"iPad Room · 12:20–12:35 PM","hint_th":"ห้องไอแพด · 12:20–12:35 น."}],"2026-08-07":[{"title_en":"Board Game hangout in the Genius Zone","title_th":"มาเล่นบอร์ดเกมกันที่ Genius Zone","hint_en":"Genius Zone · Lunch break","hint_th":"Genius Zone · ช่วงพักกลางวัน"}],"2026-08-11":[{"title_en":"Pick the soundtrack for this week with EBS Music Choice","title_th":"ช่วยเลือกเพลงประจำสัปดาห์กับ EBS Music Choice","hint_en":"During lunch & events","hint_th":"ช่วงพักกลางวันและกิจกรรม"}],"2026-08-12":[{"title_en":"School holiday — no classes today","title_th":"วันหยุดโรงเรียน งดการเรียนการสอน","hint_en":"","hint_th":""}],"2026-08-13":[{"title_en":"E-Sports Club meets in the iPad room","title_th":"ชมรมอีสปอร์ตนัดรวมตัวที่ห้องไอแพด","hint_en":"iPad Room · 12:20–12:35 PM","hint_th":"ห้องไอแพด · 12:20–12:35 น."}],"2026-08-14":[{"title_en":"Board Game hangout in the Genius Zone","title_th":"มาเล่นบอร์ดเกมกันที่ Genius Zone","hint_en":"Genius Zone · Lunch break","hint_th":"Genius Zone · ช่วงพักกลางวัน"}],"2026-08-18":[{"title_en":"Pick the soundtrack for this week with EBS Music Choice","title_th":"ช่วยเลือกเพลงประจำสัปดาห์กับ EBS Music Choice","hint_en":"During lunch & events","hint_th":"ช่วงพักกลางวันและกิจกรรม"}],"2026-08-20":[{"title_en":"E-Sports Club meets in the iPad room","title_th":"ชมรมอีสปอร์ตนัดรวมตัวที่ห้องไอแพด","hint_en":"iPad Room · 12:20–12:35 PM","hint_th":"ห้องไอแพด · 12:20–12:35 น."}],"2026-08-21":[{"title_en":"Board Game hangout in the Genius Zone","title_th":"มาเล่นบอร์ดเกมกันที่ Genius Zone","hint_en":"Genius Zone · Lunch break","hint_th":"Genius Zone · ช่วงพักกลางวัน"}],"2026-08-25":[{"title_en":"Pick the soundtrack for this week with EBS Music Choice","title_th":"ช่วยเลือกเพลงประจำสัปดาห์กับ EBS Music Choice","hint_en":"During lunch & events","hint_th":"ช่วงพักกลางวันและกิจกรรม"}],"2026-08-27":[{"title_en":"E-Sports Club meets in the iPad room","title_th":"ชมรมอีสปอร์ตนัดรวมตัวที่ห้องไอแพด","hint_en":"iPad Room · 12:20–12:35 PM","hint_th":"ห้องไอแพด · 12:20–12:35 น."}],"2026-08-28":[{"title_en":"Board Game hangout in the Genius Zone","title_th":"มาเล่นบอร์ดเกมกันที่ Genius Zone","hint_en":"Genius Zone · Lunch break","hint_th":"Genius Zone · ช่วงพักกลางวัน"}],"2026-09-01":[{"title_en":"Vote for the next international lunch menu","title_th":"ร่วมโหวตเมนูอาหารกลางวันนานาชาติรอบต่อไป","hint_en":"Lunch time","hint_th":"ช่วงพักกลางวัน"}],"2026-09-03":[{"title_en":"E-Sports Club meets in the iPad room","title_th":"ชมรมอีสปอร์ตนัดรวมตัวที่ห้องไอแพด","hint_en":"iPad Room · 12:20–12:35 PM","hint_th":"ห้องไอแพด · 12:20–12:35 น."}],"2026-09-04":[{"title_en":"Board Game hangout in the Genius Zone","title_th":"มาเล่นบอร์ดเกมกันที่ Genius Zone","hint_en":"Genius Zone · Lunch break","hint_th":"Genius Zone · ช่วงพักกลางวัน"}],"2026-09-08":[{"title_en":"Pick the soundtrack for this week with EBS Music Choice","title_th":"ช่วยเลือกเพลงประจำสัปดาห์กับ EBS Music Choice","hint_en":"During lunch & events","hint_th":"ช่วงพักกลางวันและกิจกรรม"}],"2026-09-10":[{"title_en":"E-Sports Club meets in the iPad room","title_th":"ชมรมอีสปอร์ตนัดรวมตัวที่ห้องไอแพด","hint_en":"iPad Room · 12:20–12:35 PM","hint_th":"ห้องไอแพด · 12:20–12:35 น."}],"2026-09-11":[{"title_en":"Board Game hangout in the Genius Zone","title_th":"มาเล่นบอร์ดเกมกันที่ Genius Zone","hint_en":"Genius Zone · Lunch break","hint_th":"Genius Zone · ช่วงพักกลางวัน"}],"2026-11-03":[{"title_en":"Vote for the next international lunch menu","title_th":"ร่วมโหวตเมนูอาหารกลางวันนานาชาติรอบต่อไป","hint_en":"Lunch time","hint_th":"ช่วงพักกลางวัน"}],"2026-11-05":[{"title_en":"Browse the student-run EBS Market","title_th":"เดินเล่นชม EBS Market ที่นักเรียนจัดขึ้นเอง","hint_en":"Kindergarten Building · 7:20–8:00 AM","hint_th":"ใต้อาคารอนุบาล · 7:20–8:00 น."}],"2026-11-06":[{"title_en":"Browse the student-run EBS Market","title_th":"เดินเล่นชม EBS Market ที่นักเรียนจัดขึ้นเอง","hint_en":"Kindergarten Building · 7:20–8:00 AM","hint_th":"ใต้อาคารอนุบาล · 7:20–8:00 น."}],"2026-11-10":[{"title_en":"Pick the soundtrack for this week with EBS Music Choice","title_th":"ช่วยเลือกเพลงประจำสัปดาห์กับ EBS Music Choice","hint_en":"During lunch & events","hint_th":"ช่วงพักกลางวันและกิจกรรม"}],"2026-11-11":[{"title_en":"School holiday — no classes today","title_th":"วันหยุดโรงเรียน งดการเรียนการสอน","hint_en":"","hint_th":""}],"2026-11-12":[{"title_en":"Browse the student-run EBS Market","title_th":"เดินเล่นชม EBS Market ที่นักเรียนจัดขึ้นเอง","hint_en":"Kindergarten Building · 7:20–8:00 AM","hint_th":"ใต้อาคารอนุบาล · 7:20–8:00 น."}],"2026-11-13":[{"title_en":"Browse the student-run EBS Market","title_th":"เดินเล่นชม EBS Market ที่นักเรียนจัดขึ้นเอง","hint_en":"Kindergarten Building · 7:20–8:00 AM","hint_th":"ใต้อาคารอนุบาล · 7:20–8:00 น."}],"2026-11-17":[{"title_en":"Pick the soundtrack for this week with EBS Music Choice","title_th":"ช่วยเลือกเพลงประจำสัปดาห์กับ EBS Music Choice","hint_en":"During lunch & events","hint_th":"ช่วงพักกลางวันและกิจกรรม"}],"2026-11-18":[{"title_en":"Join EBS Lunch Football on the field","title_th":"มาเตะบอลด้วยกันที่ EBS Lunch Football","hint_en":"Football Field · 12:10–12:35 PM","hint_th":"สนามฟุตบอล · 12:10–12:35 น."}],"2026-11-19":[{"title_en":"Join EBS Lunch Football on the field","title_th":"มาเตะบอลด้วยกันที่ EBS Lunch Football","hint_en":"Football Field · 12:10–12:35 PM","hint_th":"สนามฟุตบอล · 12:10–12:35 น."}],"2026-11-20":[{"title_en":"Join EBS Lunch Football on the field","title_th":"มาเตะบอลด้วยกันที่ EBS Lunch Football","hint_en":"Football Field · 12:10–12:35 PM","hint_th":"สนามฟุตบอล · 12:10–12:35 น."}],"2026-11-24":[{"title_en":"Pick the soundtrack for this week with EBS Music Choice","title_th":"ช่วยเลือกเพลงประจำสัปดาห์กับ EBS Music Choice","hint_en":"During lunch & events","hint_th":"ช่วงพักกลางวันและกิจกรรม"}],"2026-11-25":[{"title_en":"Join EBS Lunch Football on the field","title_th":"มาเตะบอลด้วยกันที่ EBS Lunch Football","hint_en":"Football Field · 12:10–12:35 PM","hint_th":"สนามฟุตบอล · 12:10–12:35 น."}],"2026-11-26":[{"title_en":"Join EBS Lunch Football on the field","title_th":"มาเตะบอลด้วยกันที่ EBS Lunch Football","hint_en":"Football Field · 12:10–12:35 PM","hint_th":"สนามฟุตบอล · 12:10–12:35 น."}],"2026-11-27":[{"title_en":"Join EBS Lunch Football on the field","title_th":"มาเตะบอลด้วยกันที่ EBS Lunch Football","hint_en":"Football Field · 12:10–12:35 PM","hint_th":"สนามฟุตบอล · 12:10–12:35 น."}],"2026-12-01":[{"title_en":"Vote for the next international lunch menu","title_th":"ร่วมโหวตเมนูอาหารกลางวันนานาชาติรอบต่อไป","hint_en":"Lunch time","hint_th":"ช่วงพักกลางวัน"}],"2026-12-03":[{"title_en":"Join EBS Lunch Football on the field","title_th":"มาเตะบอลด้วยกันที่ EBS Lunch Football","hint_en":"Football Field · 12:10–12:35 PM","hint_th":"สนามฟุตบอล · 12:10–12:35 น."}],"2026-12-04":[{"title_en":"Join EBS Lunch Football on the field","title_th":"มาเตะบอลด้วยกันที่ EBS Lunch Football","hint_en":"Football Field · 12:10–12:35 PM","hint_th":"สนามฟุตบอล · 12:10–12:35 น."}],"2026-12-07":[{"title_en":"School holiday — no classes today","title_th":"วันหยุดโรงเรียน งดการเรียนการสอน","hint_en":"","hint_th":""}],"2026-12-10":[{"title_en":"School holiday — no classes today","title_th":"วันหยุดโรงเรียน งดการเรียนการสอน","hint_en":"","hint_th":""}],"2026-12-15":[{"title_en":"Pick the soundtrack for this week with EBS Music Choice","title_th":"ช่วยเลือกเพลงประจำสัปดาห์กับ EBS Music Choice","hint_en":"During lunch & events","hint_th":"ช่วงพักกลางวันและกิจกรรม"}],"2026-12-17":[{"title_en":"Join EBS Lunch Football on the field","title_th":"มาเตะบอลด้วยกันที่ EBS Lunch Football","hint_en":"Football Field · 12:10–12:35 PM","hint_th":"สนามฟุตบอล · 12:10–12:35 น."}],"2026-12-18":[{"title_en":"Join EBS Lunch Football on the field","title_th":"มาเตะบอลด้วยกันที่ EBS Lunch Football","hint_en":"Football Field · 12:10–12:35 PM","hint_th":"สนามฟุตบอล · 12:10–12:35 น."}],"2026-12-21":[{"title_en":"Midterm exams — study hard!","title_th":"ช่วงสอบกลางภาค ตั้งใจอ่านหนังสือกันนะ","hint_en":"","hint_th":""}]};
+
+    const calMonthNames = {
+      en: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+      th: ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม']
+    };
+    const calDowNames = {
+      en: ['Su','Mo','Tu','We','Th','Fr','Sa'],
+      th: ['อา','จ','อ','พ','พฤ','ศ','ส']
+    };
+    const calTodayLabels = {
+      en: { today: "Happening Today", empty: 'Nothing on the calendar today — enjoy your day!' },
+      th: { today: 'วันนี้มีอะไรบ้าง', empty: 'วันนี้ไม่มีกิจกรรมพิเศษ พักผ่อนได้เต็มที่!' }
+    };
+
+    function calLang() {
+      return document.documentElement.getAttribute('lang') === 'th' ? 'th' : 'en';
+    }
+
+    function calISO(y, m, d) {
+      return y + '-' + String(m + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+    }
+
+    // Real "today" — falls back gracefully outside the timeline range
+    const calRealToday = new Date();
+    const calMinDate = new Date(2026, 6, 1);   // July 2026
+    const calMaxDate = new Date(2026, 11, 31); // Dec 2026
+
+    let calViewDate = (calRealToday >= calMinDate && calRealToday <= calMaxDate)
+      ? new Date(calRealToday.getFullYear(), calRealToday.getMonth(), 1)
+      : new Date(2026, 6, 1);
+
+    const calTodayISO = calISO(calRealToday.getFullYear(), calRealToday.getMonth(), calRealToday.getDate());
+
+    function calEventLine(ev, lang) {
+      const title = lang === 'th' ? ev.title_th : ev.title_en;
+      const hint = lang === 'th' ? ev.hint_th : ev.hint_en;
+      return { title, hint };
+    }
+
+    function renderTodayPanel() {
+      const lang = calLang();
+      const label = document.getElementById('todayLabel');
+      const content = document.getElementById('todayContent');
+      const dayEvents = calEvents[calTodayISO];
+
+      label.textContent = calTodayLabels[lang].today;
+
+      if (dayEvents && dayEvents.length) {
+        content.innerHTML = dayEvents.map(ev => {
+          const { title, hint } = calEventLine(ev, lang);
+          return `<div class="today-event">${title}${hint ? `<span class="rmk">🕐 ${hint}</span>` : ''}</div>`;
+        }).join('');
+      } else {
+        content.innerHTML = `<div class="today-empty">${calTodayLabels[lang].empty}</div>`;
+      }
+    }
+
+    function renderCalDow() {
+      const lang = calLang();
+      const row = document.getElementById('calDowRow');
+      row.innerHTML = calDowNames[lang].map(d => `<div class="cal-dow">${d}</div>`).join('');
+    }
+
+    function renderCalGrid() {
+      const lang = calLang();
+      const y = calViewDate.getFullYear();
+      const m = calViewDate.getMonth();
+      document.getElementById('calMonthLabel').textContent = calMonthNames[lang][m] + ' ' + y;
+
+      const firstDow = new Date(y, m, 1).getDay();
+      const daysInMonth = new Date(y, m + 1, 0).getDate();
+      const grid = document.getElementById('calGrid');
+      let html = '';
+
+      for (let i = 0; i < firstDow; i++) {
+        html += '<div class="cal-day empty"></div>';
+      }
+      for (let d = 1; d <= daysInMonth; d++) {
+        const iso = calISO(y, m, d);
+        const hasEvent = !!calEvents[iso];
+        const isToday = iso === calTodayISO;
+        html += `<div class="cal-day${hasEvent ? ' has-event' : ''}${isToday ? ' is-today' : ''}" data-date="${iso}">${d}</div>`;
+      }
+      grid.innerHTML = html;
+
+      grid.querySelectorAll('.cal-day.has-event').forEach(el => {
+        el.addEventListener('click', () => showCalDetail(el.dataset.date));
+      });
+
+      // Disable nav past data range
+      document.getElementById('calPrevBtn').disabled = (y === 2026 && m === 6);
+      document.getElementById('calNextBtn').disabled = (y === 2026 && m === 11);
+
+      // collapse detail on month change
+      const detail = document.getElementById('calDetail');
+      detail.classList.remove('open');
+      detail.innerHTML = '';
+    }
+
+    function showCalDetail(iso) {
+      const detail = document.getElementById('calDetail');
+      const evs = calEvents[iso];
+      if (!evs) return;
+      const dateObj = new Date(iso + 'T00:00:00');
+      const lang = calLang();
+      const dateLabel = dateObj.toLocaleDateString(lang === 'th' ? 'th-TH' : 'en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+      detail.innerHTML = `<div class="cal-detail-date">📅 ${dateLabel}</div>` +
+        evs.map(ev => {
+          const { title, hint } = calEventLine(ev, lang);
+          return `<div style="margin-bottom:8px;">${title}${hint ? `<span class="rmk">🕐 ${hint}</span>` : ''}</div>`;
+        }).join('');
+      detail.classList.add('open');
+    }
+
+    document.getElementById('calPrevBtn').addEventListener('click', () => {
+      calViewDate = new Date(calViewDate.getFullYear(), calViewDate.getMonth() - 1, 1);
+      renderCalGrid();
+    });
+    document.getElementById('calNextBtn').addEventListener('click', () => {
+      calViewDate = new Date(calViewDate.getFullYear(), calViewDate.getMonth() + 1, 1);
+      renderCalGrid();
+    });
+
+    renderTodayPanel();
+    renderCalDow();
+    renderCalGrid();
+
+    // Re-render calendar text when language toggles
+    const calLangObserver = new MutationObserver(() => {
+      renderTodayPanel();
+      renderCalDow();
+      renderCalGrid();
+    });
+    calLangObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+
+
     // Auto open on page load
     setTimeout(() => {
       schedModal.classList.add('open');
     }, 800);
+
+    // ─── SWIS ONE-TIME POPUP (per-device, via localStorage) ───
+    const SWIS_POPUP_KEY = 'swisPopupDismissed';
+    const swisPopupModal = document.getElementById('swisPopupModal');
+    const closeSwisPopupBtn = document.getElementById('closeSwisPopupBtn');
+    const dismissSwisPopupBtn = document.getElementById('dismissSwisPopupBtn');
+
+    function dismissSwisPopupForever() {
+      try { localStorage.setItem(SWIS_POPUP_KEY, '1'); } catch (e) {}
+      swisPopupModal.classList.remove('open');
+    }
+
+    let swisPopupAlreadySeen = false;
+    try { swisPopupAlreadySeen = localStorage.getItem(SWIS_POPUP_KEY) === '1'; } catch (e) {}
+
+    if (!swisPopupAlreadySeen) {
+      setTimeout(() => {
+        swisPopupModal.classList.add('open');
+      }, 1600); // shows shortly after the schedule modal
+    }
+
+    closeSwisPopupBtn.addEventListener('click', dismissSwisPopupForever);
+    dismissSwisPopupBtn.addEventListener('click', dismissSwisPopupForever);
+    swisPopupModal.addEventListener('click', (e) => {
+      if (e.target === swisPopupModal) dismissSwisPopupForever();
+    });
   })();
 </script>
 
