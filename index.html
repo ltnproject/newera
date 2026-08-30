@@ -926,6 +926,49 @@
       border: 1px solid rgba(245,200,66,0.4);
     }
 
+    /* ─── USEFUL LINKS ─── */
+    .links-section {
+      padding: 72px 20px;
+      background: linear-gradient(180deg, transparent, rgba(79,163,255,0.04), transparent);
+    }
+    .links-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 28px;
+    }
+    .link-card {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      min-height: 142px;
+      padding: 22px;
+      color: var(--white);
+      text-decoration: none;
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+    .link-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(245,200,66,0.45);
+      background: rgba(245,200,66,0.08);
+    }
+    .link-icon { font-size: 1.7rem; line-height: 1; }
+    .link-title { color: var(--gold); font-size: 1.08rem; font-weight: 700; }
+    .link-description { color: var(--soft); font-size: 0.88rem; line-height: 1.45; }
+    .link-arrow { margin-top: auto; color: var(--accent); font-size: 0.85rem; font-weight: 700; }
+    @media(max-width:760px){
+      .links-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media(max-width:480px){
+      .links-grid { grid-template-columns: 1fr; }
+    }
     /* ─── CALENDAR ─── */
     .today-panel {
       background: linear-gradient(135deg, rgba(61,220,151,0.12), rgba(61,220,151,0.03));
@@ -1440,6 +1483,52 @@
   </div>
 </div>
 
+<!-- USEFUL LINKS -->
+<section class="links-section">
+  <div class="links-inner">
+    <div class="section-label" data-i18n="linksLabel">🔗 School Links</div>
+    <h2 class="section-title"><span data-i18n="linksTitle">Useful</span> <span data-i18n="linksWord">Links</span></h2>
+    <div class="links-grid">
+      <a class="link-card" href="https://www.ekburapa.ac.th/homework/" target="_blank" rel="noopener">
+        <span class="link-icon" aria-hidden="true">📚</span>
+        <span class="link-title">Homework</span>
+        <span class="link-description">View the latest homework and assignments.</span>
+        <span class="link-arrow">Open link →</span>
+      </a>
+      <a class="link-card" href="https://www.ekburapa.ac.th/lunch-menu/" target="_blank" rel="noopener">
+        <span class="link-icon" aria-hidden="true">🍽️</span>
+        <span class="link-title">Lunch Menu</span>
+        <span class="link-description">Check the school lunch menu.</span>
+        <span class="link-arrow">Open link →</span>
+      </a>
+      <a class="link-card" href="https://www.ekburapa.ac.th/ปฏิทินการศึกษา-ปีการศึก/" target="_blank" rel="noopener">
+        <span class="link-icon" aria-hidden="true">🗓️</span>
+        <span class="link-title">School Calendar</span>
+        <span class="link-description">See important academic dates and events.</span>
+        <span class="link-arrow">Open link →</span>
+      </a>
+      <a class="link-card" href="https://ebs.swisplus.net/student/index.php" target="_blank" rel="noopener">
+        <span class="link-icon" aria-hidden="true">🎓</span>
+        <span class="link-title">SWIS for Student</span>
+        <span class="link-description">Log in to the SWIS student portal.</span>
+        <span class="link-arrow">Open link →</span>
+      </a>
+      <a class="link-card" href="https://apps.apple.com/th/app/swis-parent/id6754533146" target="_blank" rel="noopener">
+        <span class="link-icon" aria-hidden="true">📱</span>
+        <span class="link-title">SWIS Parent for iOS</span>
+        <span class="link-description">Download SWIS Parent from the App Store.</span>
+        <span class="link-arrow">Open link →</span>
+      </a>
+      <a class="link-card" href="https://play.google.com/store/apps/details?id=com.swisplus.parents&pcampaignid=newera-website" target="_blank" rel="noopener">
+        <span class="link-icon" aria-hidden="true">📲</span>
+        <span class="link-title">SWIS Parent for Android</span>
+        <span class="link-description">Download SWIS Parent from Google Play.</span>
+        <span class="link-arrow">Open link →</span>
+      </a>
+    </div>
+  </div>
+</section>
+<div class="gold-divider"></div>
 <!-- SWIS APP GUIDE SECTION -->
 <section class="swis-section">
   <div class="section-label" data-i18n="swisLabel">📱 App Setup</div>
