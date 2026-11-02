@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New Era – Teacher Lunch Count</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --glass-bg: rgba(255,255,255,0.12);
+      --glass-border: rgba(255,255,255,0.22);
+      --glass-blur: 18px;
+      --accent: #f5c842;
+      --accent2: #ff7043;
+      --text: #fff;
+      --text-sub: rgba(255,255,255,0.7);
+      --card-radius: 20px;
+    }
+    body {
+      min-height: 100vh;
+      font-family: 'Sarabun', 'Inter', sans-serif;
+      background: linear-gradient(135deg, #1a0533 0%, #2d1b69 35%, #0d3b6e 70%, #0a2a4a 100%);
+      color: var(--text);
+      overflow-x: hidden;
+      position: relative;
+    }
+    body::before, body::after {
+      content: ''; position: fixed; border-radius: 50%;
+      filter: blur(80px); opacity: 0.35; pointer-events: none; z-index: 0;
+    }
+    body::before { width: 600px; height: 600px; background: radial-gradient(circle, #7c3aed, transparent 70%); top: -150px; left: -150px; }
+    body::after { width: 500px; height: 500px; background: radial-gradient(circle, #f5c842, transparent 70%); bottom: -100px; right: -100px; }
+    header {
+      position: relative; z-index: 10;
+      display: flex; align-items: center; gap: 16px;
+      padding: 24px 32px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border-bottom: 1px solid var(--glass-border);
+    }
+    header img { height: 48px; object-fit: contain; }
+    header .brand { display: flex; flex-direction: column; }
+    header .brand .name { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.04em; }
+    header .brand .sub { font-size: 0.78rem; color: var(--text-sub); letter-spacing: 0.08em; }
+    main { position: relative; z-index: 5; max-width: 680px; margin: 0 auto; padding: 48px 20px 80px; }
+    .glass-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid var(--glass-border);
+      border-radius: var(--card-radius);
+    }
+    .title-card { padding: 32px 28px 24px; margin-bottom: 24px; text-align: center; }
+    .week-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+    .title-card h1 { font-size: 1.9rem; font-weight: 700; line-height: 1.2; margin-bottom: 6px; }
+    .title-card p { font-size: 0.9rem; color: var(--text-sub); }
+    .card { padding: 28px; margin-bottom: 20px; }
+    .field-label {
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 10px; display: block;
+    }
+    .field-label:not(:first-child) { margin-top: 22px; }
+
+    /* Pill pickers */
+    .pills { display: flex; flex-wrap: wrap; gap: 10px; }
+    .pill {
+      flex: 1 1 0; min-width: 52px;
+      padding: 12px 0; text-align: center;
+      font-family: inherit; font-size: 1rem; font-weight: 700; color: #fff;
+      border-radius: 12px; border: 1.5px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.06);
+      cursor: pointer; transition: border-color .18s, background .18s, transform .12s;
+    }
+    .pill:hover { border-color: rgba(245,200,66,0.5); background: rgba(245,200,66,0.08); }
+    .pill.selected { border-color: var(--accent); background: rgba(245,200,66,0.2); color: var(--accent); }
+    .pill.big { padding: 16px 0; font-size: 1.1rem; }
+    .pill small { display: block; font-size: 0.7rem; font-weight: 400; color: var(--text-sub); }
+
+    .class-badge {
+      display: none; margin-top: 22px; padding: 12px 16px; border-radius: 12px;
+      background: rgba(245,200,66,0.12); border: 1px solid rgba(245,200,66,0.4);
+      font-weight: 700; text-align: center; color: var(--accent);
+    }
+
+    /* Menu rows */
+    .menu-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 12px 14px; border-radius: 14px;
+      border: 1.5px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      margin-bottom: 10px;
+    }
+    .menu-row.has { border-color: rgba(245,200,66,0.55); background: rgba(245,200,66,0.1); }
+    .menu-names { display: flex; flex-direction: column; min-width: 0; }
+    .menu-en { font-size: 0.95rem; font-weight: 600; }
+    .menu-th { font-size: 0.78rem; color: var(--text-sub); }
+    .stepper { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+    .step-btn {
+      width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--glass-border);
+      background: rgba(255,255,255,0.1); color: #fff; font-size: 1.25rem; font-weight: 700;
+      cursor: pointer; font-family: inherit; line-height: 1; transition: background .15s;
+    }
+    .step-btn:hover { background: rgba(245,200,66,0.25); }
+    .num-input {
+      width: 54px; height: 36px; text-align: center;
+      background: rgba(255,255,255,0.08); border: 1px solid var(--glass-border);
+      border-radius: 10px; color: #fff; font-family: inherit; font-size: 1.05rem; font-weight: 700;
+      outline: none; -moz-appearance: textfield;
+    }
+    .num-input::-webkit-outer-spin-button, .num-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    .num-input:focus { border-color: var(--accent); background: rgba(255,255,255,0.14); }
+
+    .total-bar {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 16px; padding: 14px 18px; border-radius: 14px;
+      background: rgba(255,255,255,0.08); border: 1px solid var(--glass-border);
+      font-weight: 600;
+    }
+    .total-bar .total-num { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+
+    .submit-btn {
+      width: 100%; margin-top: 22px; padding: 16px;
+      border: none; border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #1a0533; font-family: inherit; font-size: 1rem; font-weight: 700; letter-spacing: 0.06em;
+      cursor: pointer; transition: opacity .2s, transform .12s, box-shadow .2s;
+      box-shadow: 0 4px 24px rgba(245,200,66,0.3);
+    }
+    .submit-btn:hover { opacity: 0.92; transform: translateY(-1px); box-shadow: 0 8px 32px rgba(245,200,66,0.4); }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .status-msg { text-align: center; margin-top: 14px; font-size: 0.88rem; min-height: 22px; color: var(--accent); }
+    .status-msg.error { color: #ff7043; }
+
+    .success-banner { display: none; padding: 28px; text-align: center; }
+    .success-banner .emoji { font-size: 3rem; margin-bottom: 12px; }
+    .success-banner h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; }
+    .success-banner p { color: var(--text-sub); font-size: 0.9rem; margin-bottom: 18px; }
+    .ghost-btn {
+      padding: 12px 24px; border-radius: 12px; border: 1px solid var(--glass-border);
+      background: rgba(255,255,255,0.1); color: #fff; font-family: inherit; font-weight: 600;
+      font-size: 0.95rem; cursor: pointer;
+    }
+    .ghost-btn:hover { background: rgba(255,255,255,0.18); }
+
+    @media (max-width: 480px) {
+      header { padding: 16px 18px; }
+      main { padding: 28px 14px 60px; }
+      .title-card h1 { font-size: 1.4rem; }
+      .card { padding: 20px 14px; }
+      .menu-row { padding: 10px; }
+      .step-btn { width: 34px; }
+      .num-input { width: 46px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="https://drk.qzz.io/newera/logo.png" alt="New Era Logo" onerror="this.style.display='none'" />
+  <div class="brand">
+    <span class="name">NEW ERA</span>
+    <span class="sub">TEACHER LUNCH COUNT · สรุปยอดเมนูกลางวัน</span>
+  </div>
+</header>
+
+<main>
+  <div class="glass-card title-card">
+    <div class="week-label">Teacher · คุณครู</div>
+    <h1>📋 กรอกจำนวนเมนูกลางวัน<br/><span style="font-size:1.2rem;font-weight:400;color:rgba(255,255,255,0.75)">Lunch count by class</span></h1>
+    <p>เลือกห้องเรียน แล้วใส่จำนวนนักเรียนในแต่ละเมนู · Pick your class, then enter the number for each menu</p>
+  </div>
+
+  <div id="formSection">
+    <div class="glass-card card">
+      <span class="field-label">ระดับ / Level</span>
+      <div class="pills" id="levelPills">
+        <button class="pill big" data-level="K" type="button">K<small>Kindergarten</small></button>
+        <button class="pill big" data-level="G" type="button">G<small>Grade</small></button>
+      </div>
+
+      <span class="field-label">ชั้น / Year (1–6)</span>
+      <div class="pills" id="yearPills"></div>
+
+      <span class="field-label">ห้อง / Room (1–6)</span>
+      <div class="pills" id="roomPills"></div>
+
+      <div class="class-badge" id="classBadge"></div>
+    </div>
+
+    <div class="glass-card card" id="menuCard">
+      <span class="field-label">จำนวนต่อเมนู / Number per menu</span>
+      <div id="menuList"></div>
+      <div class="total-bar">
+        <span>รวมทั้งหมด · Total</span>
+        <span class="total-num" id="totalNum">0</span>
+      </div>
+      <button class="submit-btn" id="submitBtn" type="button">✅ ส่งข้อมูล · Submit</button>
+      <div class="status-msg" id="statusMsg"></div>
+    </div>
+  </div>
+
+  <div class="glass-card success-banner" id="successBanner">
+    <div class="emoji">🎉</div>
+    <h2>ส่งข้อมูลสำเร็จ! · Submitted!</h2>
+    <p id="successText"></p>
+    <button class="ghost-btn" id="againBtn" type="button">กรอกห้องอื่น · Submit another class</button>
+  </div>
+</main>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+  import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBqMo574RMGOwE3HKo4sek6vdmSvjcU06M",
+    authDomain: "neweraproject-by-jacob.firebaseapp.com",
+    databaseURL: "https://neweraproject-by-jacob-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "neweraproject-by-jacob",
+    storageBucket: "neweraproject-by-jacob.firebasestorage.app",
+    messagingSenderId: "318348962332",
+    appId: "1:318348962332:web:49f2844becc47647be8dd9",
+    measurementId: "G-RNHTC555T9"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  // Keep this list in the same order as the student vote page
+  const MENUS = [
+    { en: "Spaghetti Carbonara", th: "สปาเก็ตตี้คาร์โบนาร่า" },
+    { en: "Ramen", th: "ราเมง" },
+    { en: "Pad Thai", th: "ผัดไทย" },
+    { en: "Lasagne", th: "ลาซานญ่า" },
+    { en: "Fish & Chips", th: "ปลาทอดเฟรนช์ฟราย" },
+    { en: "American Fried Rice", th: "ข้าวผัดอเมริกัน" },
+    { en: "Papaya Salad with Sticky Rice & Fried Chicken", th: "ตำ+ข้าวเหนียวไก่ทอด" },
+    { en: "Chicken Teriyaki", th: "ไก่เทริยากิ" },
+    { en: "Fried Chicken Drumsticks & Thai Spicy Fried Egg Salad", th: "น่องไก่ทอด + ยำไข่ดาว" },
+  ];
+
+  const sel = { level: null, year: null, room: null };
+  const counts = MENUS.map(() => 0);
+
+  const $ = id => document.getElementById(id);
+  const statusEl = $('statusMsg');
+
+  function showStatus(msg, isError = false) {
+    statusEl.textContent = msg;
+    statusEl.className = 'status-msg' + (isError ? ' error' : '');
+  }
+
+  // ---- Pickers ----
+  function buildNumberPills(containerId, key) {
+    const box = $(containerId);
+    for (let n = 1; n <= 6; n++) {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'pill'; b.textContent = n; b.dataset.val = n;
+      b.addEventListener('click', () => { sel[key] = n; refreshPills(); onClassChange(); });
+      box.appendChild(b);
+    }
+  }
+  buildNumberPills('yearPills', 'year');
+  buildNumberPills('roomPills', 'room');
+
+  document.querySelectorAll('#levelPills .pill').forEach(b => {
+    b.addEventListener('click', () => { sel.level = b.dataset.level; refreshPills(); onClassChange(); });
+  });
+
+  function refreshPills() {
+    document.querySelectorAll('#levelPills .pill').forEach(b => b.classList.toggle('selected', b.dataset.level === sel.level));
+    document.querySelectorAll('#yearPills .pill').forEach(b => b.classList.toggle('selected', +b.dataset.val === sel.year));
+    document.querySelectorAll('#roomPills .pill').forEach(b => b.classList.toggle('selected', +b.dataset.val === sel.room));
+  }
+
+  const classReady = () => sel.level && sel.year && sel.room;
+  const classKey = () => `${sel.level}${sel.year}-${sel.room}`;
+  const classLabel = () => `${sel.level}${sel.year}/${sel.room}`;
+
+  // ---- Menu rows ----
+  const menuList = $('menuList');
+  const inputs = [];
+
+  MENUS.forEach((m, i) => {
+    const row = document.createElement('div');
+    row.className = 'menu-row';
+
+    const names = document.createElement('div');
+    names.className = 'menu-names';
+    const en = document.createElement('span'); en.className = 'menu-en'; en.textContent = m.en;
+    const th = document.createElement('span'); th.className = 'menu-th'; th.textContent = m.th;
+    names.append(en, th);
+
+    const stepper = document.createElement('div');
+    stepper.className = 'stepper';
+    const minus = document.createElement('button'); minus.type = 'button'; minus.className = 'step-btn'; minus.textContent = '−';
+    const input = document.createElement('input');
+    input.type = 'number'; input.className = 'num-input'; input.min = 0; input.max = 999; input.inputMode = 'numeric'; input.value = 0;
+    const plus = document.createElement('button'); plus.type = 'button'; plus.className = 'step-btn'; plus.textContent = '+';
+    stepper.append(minus, input, plus);
+
+    const set_ = v => {
+      v = Math.max(0, Math.min(999, parseInt(v, 10) || 0));
+      counts[i] = v; input.value = v;
+      row.classList.toggle('has', v > 0);
+      updateTotal();
+    };
+    minus.addEventListener('click', () => set_(counts[i] - 1));
+    plus.addEventListener('click', () => set_(counts[i] + 1));
+    input.addEventListener('input', () => {
+      const v = Math.max(0, Math.min(999, parseInt(input.value, 10) || 0));
+      counts[i] = v; row.classList.toggle('has', v > 0); updateTotal();
+    });
+    input.addEventListener('blur', () => set_(input.value));
+    input.addEventListener('focus', () => input.select());
+
+    row.append(names, stepper);
+    menuList.appendChild(row);
+    inputs.push({ set: set_ });
+  });
+
+  function updateTotal() {
+    $('totalNum').textContent = counts.reduce((a, b) => a + b, 0);
+  }
+
+  function resetCounts() { inputs.forEach(x => x.set(0)); }
+
+  // ---- Class change: show badge, prefill if this class already submitted ----
+  async function onClassChange() {
+    const badge = $('classBadge');
+    if (!classReady()) { badge.style.display = 'none'; return; }
+    badge.style.display = 'block';
+    badge.textContent = `ห้อง · Class ${classLabel()}`;
+    showStatus('');
+    try {
+      const snap = await get(ref(db, `lunchvote/classes/${classKey()}`));
+      const data = snap.val();
+      if (data && data.counts) {
+        MENUS.forEach((_, i) => inputs[i].set(data.counts[i] || 0));
+        showStatus('มีข้อมูลเดิมของห้องนี้ · Loaded the previous entry (submitting will replace it)');
+      } else {
+        resetCounts();
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  // ---- Submit ----
+  $('submitBtn').addEventListener('click', async () => {
+    if (!classReady()) { showStatus('กรุณาเลือกระดับ ชั้น และห้อง · Please pick level, year and room', true); return; }
+    const total = counts.reduce((a, b) => a + b, 0);
+    if (total === 0) { showStatus('กรุณาใส่จำนวนอย่างน้อย 1 เมนู · Enter at least one number', true); return; }
+
+    const btn = $('submitBtn');
+    btn.disabled = true;
+    showStatus('กำลังส่ง… · Submitting…');
+    try {
+      await set(ref(db, `lunchvote/classes/${classKey()}`), {
+        level: sel.level,
+        year: sel.year,
+        room: sel.room,
+        label: classLabel(),
+        counts: [...counts],
+        total,
+        timestamp: Date.now()
+      });
+      $('formSection').style.display = 'none';
+      $('successBanner').style.display = 'block';
+      $('successText').textContent = `ห้อง ${classLabel()} · รวม ${total} จาน · Total ${total} meals`;
+    } catch (e) {
+      console.error(e);
+      showStatus('ส่งไม่สำเร็จ ลองใหม่อีกครั้ง · Submit failed, please try again', true);
+    }
+    btn.disabled = false;
+  });
+
+  $('againBtn').addEventListener('click', () => {
+    sel.level = sel.year = sel.room = null;
+    refreshPills(); resetCounts(); showStatus('');
+    $('classBadge').style.display = 'none';
+    $('successBanner').style.display = 'none';
+    $('formSection').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+</body>
+</html>
