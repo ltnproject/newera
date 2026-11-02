@@ -292,7 +292,6 @@
     }
     .modal-confirm:hover { opacity: 0.85; }
 
-
     /* ─── ADD VOTE CARD ─── */
     .addvote-card {
       background: var(--glass-bg);
@@ -487,7 +486,7 @@
     <div class="danger-card">
       <div class="danger-text">
         <h3>🗑 Reset All Votes</h3>
-        <p>ลบโหวตทั้งหมดและเริ่มใหม่ · Wipes every vote — cannot be undone</p>
+        <p>ลบโหวตทั้งหมดและเริ่มใหม่ · Wipes every vote and class count — cannot be undone</p>
       </div>
       <button class="reset-btn" onclick="openResetModal()">Reset Votes</button>
     </div>
@@ -529,6 +528,7 @@
   const auth = getAuth(app);
   const db   = getDatabase(app);
 
+  // Keep in the same order as the student and teacher pages
   const MENUS = [
     { en: "Spaghetti Carbonara",                        th: "สปาเก็ตตี้คาร์โบนาร่า" },
     { en: "Ramen",                                      th: "ราเมง" },
@@ -538,7 +538,10 @@
     { en: "American Fried Rice",                        th: "ข้าวผัดอเมริกัน" },
     { en: "Papaya Salad with Sticky Rice & Fried Chicken", th: "ตำ+ข้าวเหนียวไก่ทอด" },
     { en: "Chicken Teriyaki",                           th: "ไก่เทริยากิ" },
+    { en: "Fried Chicken Drumsticks & Thai Spicy Fried Egg Salad", th: "น่องไก่ทอด + ยำไข่ดาว" },
   ];
+
+  document.getElementById('statMenus').textContent = MENUS.length;
 
   // ── Auth state ──
   onAuthStateChanged(auth, user => {
@@ -580,10 +583,22 @@
   window.doLogout = () => signOut(auth);
 
   // ── Live data ──
+  let listening = false;
   function startListening() {
+    if (listening) return;
+    listening = true;
     onValue(ref(db, 'lunchvote/votes'), snap => {
-      const data = snap.val() || {};
-      renderDashboard(data);
+      try {
+        renderDashboard(snap.val() || {});
+      } catch (e) {
+        console.error(e);
+        document.getElementById('chartContainer').innerHTML =
+          '<p style="color:#ff6b6b;font-size:.9rem">แสดงผลไม่ได้ · Display error: ' + esc(e.message) + '</p>';
+      }
+    }, err => {
+      document.getElementById('chartContainer').innerHTML =
+        '<p style="color:#ff6b6b;font-size:.9rem">อ่านผลไม่ได้ · Cannot read votes: ' + esc(err.code || err.message) + '</p>';
+      document.getElementById('votersTableWrap').innerHTML = '';
     });
   }
 
@@ -593,10 +608,12 @@
     const voters = [];
 
     Object.values(data).forEach(v => {
-      if (v.choice !== undefined) counts[v.choice] = (counts[v.choice] || 0) + 1;
+      if (!v) return;
+      // Ignore records with a menu number this page doesn't know
+      if (MENUS[v.choice]) counts[v.choice]++;
       voters.push(v);
     });
-    voters.sort((a,b) => b.timestamp - a.timestamp);
+    voters.sort((a,b) => (b.timestamp || 0) - (a.timestamp || 0));
 
     const total = Object.values(counts).reduce((a,b) => a+b, 0);
     const maxCount = Math.max(...Object.values(counts), 1);
@@ -656,15 +673,14 @@
               <td style="color:var(--text-sub)">${idx+1}</td>
               <td class="voter-name">${esc(v.name || '–')}</td>
               <td>
-                <div class="voter-menu-en">${v.choice !== undefined ? MENUS[v.choice]?.en || '?' : '?'}</div>
-                <div class="voter-menu-th">${v.choice !== undefined ? MENUS[v.choice]?.th || '' : ''}</div>
+                <div class="voter-menu-en">${MENUS[v.choice] ? MENUS[v.choice].en : '?'}</div>
+                <div class="voter-menu-th">${MENUS[v.choice] ? MENUS[v.choice].th : ''}</div>
               </td>
               <td class="voter-time">${v.timestamp ? new Date(v.timestamp).toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'}) : '–'}</td>
             </tr>`).join('')}
         </tbody>
       </table>`;
   }
-
 
   // ── Populate menu select ──
   const avMenuEl = document.getElementById('avMenu');
@@ -749,7 +765,7 @@
       document.getElementById('avName').value = '';
       document.getElementById('avMenu').value = '';
     } catch(e) {
-      avSetStatus('ชื่อนี้โหวตไปแล้ว · Name already voted', true);
+      avSetStatus('ส่งไม่สำเร็จ · Failed: ' + (e.code || e.message), true);
     }
     btn.disabled = false;
   };
@@ -771,7 +787,7 @@
     }
     batchQueue = [];
     avRenderQueue();
-    avSetStatus(`✅ ส่งสำเร็จ ${ok} · ${fail > 0 ? '❌ ซ้ำ/ล้มเหลว ' + fail : ''}`);
+    avSetStatus(`✅ ส่งสำเร็จ ${ok} · ${fail > 0 ? '❌ ล้มเหลว ' + fail : ''}`);
     btn.disabled = false;
     btn.textContent = '🚀 Submit All Votes';
   };
@@ -780,7 +796,12 @@
   window.openResetModal  = () => document.getElementById('resetModal').classList.add('open');
   window.closeResetModal = () => document.getElementById('resetModal').classList.remove('open');
   window.confirmReset    = async () => {
-    await remove(ref(db, 'lunchvote/votes'));
+    try {
+      await remove(ref(db, 'lunchvote/votes'));
+      await remove(ref(db, 'lunchvote/classes'));
+    } catch (e) {
+      alert('ลบไม่สำเร็จ · Delete failed: ' + (e.code || e.message));
+    }
     closeResetModal();
   };
 
