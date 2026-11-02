@@ -211,7 +211,7 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
-  import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-database.js";
+  import { getDatabase, ref, set, get, update } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-database.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyBqMo574RMGOwE3HKo4sek6vdmSvjcU06M",
@@ -357,21 +357,38 @@
     btn.disabled = true;
     showStatus('กำลังส่ง… · Submitting…');
     try {
-      await set(ref(db, `lunchvote/classes/${classKey()}`), {
-        level: sel.level,
-        year: sel.year,
-        room: sel.room,
-        label: classLabel(),
-        counts: [...counts],
-        total,
-        timestamp: Date.now()
+      const key = classKey();
+      const label = classLabel();
+      const now = Date.now();
+
+      // previous counts for this class (so a re-submit can remove extra old votes)
+      let prev = [];
+      try {
+        const snap = await get(ref(db, `lunchvote/classes/${key}/counts`));
+        prev = snap.val() || [];
+      } catch (e) { /* no previous entry */ }
+
+      // One vote record per student, so the admin page counts the real number.
+      const updates = {};
+      MENUS.forEach((_, i) => {
+        const c = counts[i];
+        const top = Math.max(c, prev[i] || 0);
+        for (let k = 1; k <= top; k++) {
+          updates[`lunchvote/votes/cls_${key}_m${i}_${k}`] =
+            k <= c ? { name: label, choice: i, timestamp: now, cls: key } : null;
+        }
       });
+      updates[`lunchvote/classes/${key}`] = {
+        level: sel.level, year: sel.year, room: sel.room, label,
+        counts: [...counts], total, timestamp: now
+      };
+      await update(ref(db), updates);
       $('formSection').style.display = 'none';
       $('successBanner').style.display = 'block';
       $('successText').textContent = `ห้อง ${classLabel()} · รวม ${total} จาน · Total ${total} meals`;
     } catch (e) {
       console.error(e);
-      showStatus('ส่งไม่สำเร็จ ลองใหม่อีกครั้ง · Submit failed, please try again', true);
+      showStatus('ส่งไม่สำเร็จ · Submit failed: ' + (e.code || e.message || e), true);
     }
     btn.disabled = false;
   });
